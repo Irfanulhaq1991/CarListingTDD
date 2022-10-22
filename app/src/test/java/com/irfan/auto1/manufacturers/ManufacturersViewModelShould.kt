@@ -17,12 +17,12 @@ class ManufacturersViewModelShould : BaseTest() {
     @Before
     override fun setup() {
         super.setup()
-        viewModel = ManufacturersViewModel()
+        viewModel = ManufacturersViewModel(fetchManufactureUseCase)
     }
 
     @Test
     fun fetchManufacturers() {
         viewModel.fetchManufacturers()
-        verify { fetchManufactureUseCase }
+        verify { fetchManufactureUseCase() }
     }
 }

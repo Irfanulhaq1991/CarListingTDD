@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class ManufacturersViewModel : ViewModel() {
+class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) : ViewModel() {
     private val _uiState = MutableLiveData<String>()
     val uiState: LiveData<String> = _uiState
 
     fun fetchManufacturers() {
-        TODO("Not yet implemented")
+        fetchManufacturersUseCase()
     }
 
 }

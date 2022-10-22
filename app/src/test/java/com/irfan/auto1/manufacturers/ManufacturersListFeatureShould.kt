@@ -23,7 +23,8 @@ class ManufacturersListFeatureShould {
 
     @Before
    fun setup(){
-        val manufacturersViewModel = ManufacturersViewModel()
+        val fetchManufacturersUseCase = FetchManufacturersUseCase()
+        val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)
        uiController = ManufacturersSpyUiController().apply { viewModel = manufacturersViewModel }
        uiController.onCreate()
    }
