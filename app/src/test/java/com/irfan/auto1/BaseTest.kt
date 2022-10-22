@@ -1,5 +1,4 @@
-package com.example.citysearch.common
-
+package com.irfan.auto1
 import com.google.common.truth.Truth
 import com.ibm.icu.impl.number.PatternStringUtils
 import io.mockk.MockKAnnotations
