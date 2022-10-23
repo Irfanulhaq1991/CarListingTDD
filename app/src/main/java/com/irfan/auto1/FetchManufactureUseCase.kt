@@ -1,9 +1,9 @@
 package com.irfan.auto1
 
-class FetchManufacturersUseCase {
+class FetchManufacturersUseCase(private val  manufacturersRepo: ManufacturersRepo) {
 
     operator fun invoke(){
-        TODO("Not yet implemented ")
+        manufacturersRepo.fetchManufacturers()
     }
 
 }
