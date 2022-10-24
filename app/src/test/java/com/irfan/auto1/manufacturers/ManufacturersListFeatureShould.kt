@@ -24,7 +24,7 @@ class ManufacturersListFeatureShould {
     @Before
    fun setup(){
         val remoteService = ManufacturersRemoteService()
-        val manufacturersRepo = ManufacturersRepo(remoteService,Mapper())
+        val manufacturersRepo = ManufacturersRepo(remoteService,JsonToDomainManufacturersMapper())
         val fetchManufacturersUseCase = FetchManufacturersUseCase(manufacturersRepo)
         val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)
        uiController = ManufacturersSpyUiController().apply { viewModel = manufacturersViewModel }
