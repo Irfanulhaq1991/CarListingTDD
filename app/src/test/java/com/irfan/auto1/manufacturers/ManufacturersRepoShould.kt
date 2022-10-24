@@ -14,23 +14,23 @@ class ManufacturersRepoShould : BaseTest() {
 
 
     @RelaxedMockK
-    private lateinit var manufacturersRemoteService: IManufacturersRemoteService<JSONObject>
+    private lateinit var manufacturersRemoteDataService: IManufacturersRemoteDataService
     private lateinit var manufacturersRepo: ManufacturersRepo
 
     @RelaxedMockK
-    private lateinit var jsonToDomainManufacturersMapper: JsonToDomainManufacturersMapper
+    private lateinit var dtoToDomainManufacturersMapper: DtoToDomainManufacturersMapper
 
     @Before
     override fun setup() {
         super.setup()
         manufacturersRepo =
-            ManufacturersRepo(manufacturersRemoteService, jsonToDomainManufacturersMapper)
+            ManufacturersRepo(manufacturersRemoteDataService, dtoToDomainManufacturersMapper)
     }
 
     @Test
     fun notAlterError() = runTest{
         val errorMessage = "###"
-        coEvery { manufacturersRemoteService.fetchManufacturers() } answers {
+        coEvery { manufacturersRemoteDataService.fetchManufacturers() } answers {
             Result.failure(
                 Throwable(
                     errorMessage
@@ -44,14 +44,14 @@ class ManufacturersRepoShould : BaseTest() {
 
     @Test
     fun fetchDomainManufacturers() = runTest{
-        val manufacturersJson = TestDataProvider.getManufacturersAsJsonStrings()
+        val manufacturersDto = TestDataProvider.getManufacturersAsDto()
         val manufacturerDomain = TestDataProvider.getManufacturersAsDomainModels()
-        coEvery { manufacturersRemoteService.fetchManufacturers() } answers {
+        coEvery { manufacturersRemoteDataService.fetchManufacturers() } answers {
             Result.success(
-                JSONObject(manufacturersJson)
+                manufacturersDto
             )
         }
-        every { jsonToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
+        every { dtoToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
         assertThat(manufacturersRepo.fetchManufacturers()).isEqualTo(
             Result.success(
                 manufacturerDomain
@@ -61,12 +61,12 @@ class ManufacturersRepoShould : BaseTest() {
 
     @Test
     fun returnErrorOnZeroManufacturers()= runTest {
-        val manufacturersJson = "{}"
+        val manufacturersDtos = emptyList<ManufacturerDto>()
         val manufacturerDomain = emptyList<Manufacturer>()
-        coEvery { manufacturersRemoteService.fetchManufacturers() } answers {
-            Result.success(JSONObject(manufacturersJson))
+        coEvery { manufacturersRemoteDataService.fetchManufacturers() } answers {
+            Result.success(manufacturersDtos)
         }
-        every { jsonToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
+        every { dtoToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
         val actual =
             isFailureWithMessage(manufacturersRepo.fetchManufacturers(), "No Manufacturer Found")
             assertThat(actual).isTrue()

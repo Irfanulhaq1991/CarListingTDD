@@ -27,7 +27,7 @@ class ManufacturersListFeatureShould {
     private lateinit var  uiController: ManufacturersSpyUiController
 
     private val remoteAPI = object :ManufacturersRemoteAPI{
-        override suspend fun getManufacturers(): Response<ResponseBody> {
+        override suspend fun getManufacturers(nextPage: Int, pageSize: Int): Response<ResponseBody> {
             val jsonData = TestDataProvider.getManufacturersResponseJson()
             val contentType = "application/json; charset=utf-8".toMediaType()
             return Response.success(jsonData.toResponseBody(contentType))
@@ -38,8 +38,9 @@ class ManufacturersListFeatureShould {
 
     @Before
    fun setup(){
-        val remoteService = ManufacturersRemoteService(remoteAPI)
-        val manufacturersRepo = ManufacturersRepo(remoteService,JsonToDomainManufacturersMapper())
+        val pagingManager = PagingManager()
+        val remoteService = ManufacturersRemoteDataDataService(remoteAPI, pagingManager)
+        val manufacturersRepo = ManufacturersRepo(remoteService,DtoToDomainManufacturersMapper())
         val fetchManufacturersUseCase = FetchManufacturersUseCase(manufacturersRepo)
         val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)
        uiController = ManufacturersSpyUiController().apply { viewModel = manufacturersViewModel }

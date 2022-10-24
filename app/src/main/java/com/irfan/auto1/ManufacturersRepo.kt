@@ -2,24 +2,23 @@ package com.irfan.auto1
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
 
 class ManufacturersRepo(
-    private val manufacturersRemoteService: IManufacturersRemoteService<JSONObject>,
-    private val jsonToDomainManufacturersMapper: IMapper<JSONObject, List<Manufacturer>>
+    private val manufacturersRemoteDataService: IManufacturersRemoteDataService,
+    private val dtoToDomainManufacturersMapper: IMapper<List<ManufacturerDto>, List<Manufacturer>>
 
 ) {
 
     suspend fun fetchManufacturers(): Result<List<Manufacturer>> = withContext(Dispatchers.IO) {
-        manufacturersRemoteService
+        manufacturersRemoteDataService
             .fetchManufacturers()
             .fold({
-                val mappedData = jsonToDomainManufacturersMapper.map(it)
+                val mappedData = dtoToDomainManufacturersMapper.map(it)
 
                 if (mappedData.isEmpty())
                     Result.failure(Throwable("No Manufacturer Found"))
                 else
-                    Result.success(jsonToDomainManufacturersMapper.map(it))
+                    Result.success(dtoToDomainManufacturersMapper.map(it))
 
             }, { Result.failure(it) })
     }

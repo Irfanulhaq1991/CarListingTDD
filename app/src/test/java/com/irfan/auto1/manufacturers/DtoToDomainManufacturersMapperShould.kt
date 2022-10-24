@@ -2,37 +2,38 @@ package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
-import com.irfan.auto1.JsonToDomainManufacturersMapper
+import com.irfan.auto1.DtoToDomainManufacturersMapper
+import com.irfan.auto1.ManufacturerDto
 import com.irfan.auto1.TestDataProvider
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
 
-class JsonToDomainManufacturersMapperShould : BaseTest(){
-    private lateinit var manufacturersMapper: JsonToDomainManufacturersMapper
+class DtoToDomainManufacturersMapperShould : BaseTest(){
+    private lateinit var manufacturersMapper: DtoToDomainManufacturersMapper
 
     @Before
     override fun setup() {
         super.setup()
-        manufacturersMapper = JsonToDomainManufacturersMapper()
+        manufacturersMapper = DtoToDomainManufacturersMapper()
     }
 
 
     @Test
     fun returnNoManufacturers(){
-        val data = JSONObject("{}")
+        val data = emptyList<ManufacturerDto>()
         val actual = manufacturersMapper.map(data)
         assertThat(actual).isEmpty()
     }
     @Test
     fun returnOneManufacturer(){
-        val data = JSONObject(TestDataProvider.getManufacturersAsJsonStrings())
+        val data = TestDataProvider.getManufacturersAsDto()
         val actual = manufacturersMapper.map(data)
         assertThat(actual).contains(TestDataProvider.getManufacturersAsDomainModels().first())
     }
     @Test
     fun returnManyManufacturers(){
-        val data = JSONObject(TestDataProvider.getManufacturersAsJsonStrings())
+        val data = TestDataProvider.getManufacturersAsDto()
         val actual = manufacturersMapper.map(data)
         assertThat(actual).containsExactlyElementsIn(TestDataProvider.getManufacturersAsDomainModels())
     }

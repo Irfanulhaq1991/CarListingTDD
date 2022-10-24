@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface ManufacturersRemoteAPI {
     @GET("##")
-    suspend fun getManufacturers():Response<ResponseBody>
+    suspend fun getManufacturers(nextPage: Int, pageSize: Int):Response<ResponseBody>
 }
