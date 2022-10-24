@@ -20,12 +20,13 @@ class ManufacturersRepoShould : BaseTest() {
     @Before
     override fun setup() {
         super.setup()
-        manufacturersRepo = ManufacturersRepo(manufacturersRemoteService, jsonToDomainManufacturersMapper)
+        manufacturersRepo =
+            ManufacturersRepo(manufacturersRemoteService, jsonToDomainManufacturersMapper)
     }
 
     @Test
     fun notAlterError() {
-        val errorMessage = "Any Message"
+        val errorMessage = "###"
         every { manufacturersRemoteService.fetchManufacturers() } answers {
             Result.failure(
                 Throwable(
@@ -34,7 +35,8 @@ class ManufacturersRepoShould : BaseTest() {
             )
         }
         val fetchManufacturers = manufacturersRepo.fetchManufacturers()
-        isFailureWithMessage(fetchManufacturers, errorMessage)
+        val actual = isFailureWithMessage(fetchManufacturers, errorMessage)
+        assertThat(actual).isTrue()
     }
 
     @Test
@@ -47,17 +49,24 @@ class ManufacturersRepoShould : BaseTest() {
             )
         }
         every { jsonToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
-        assertThat(manufacturersRepo.fetchManufacturers()).isEqualTo(Result.success(manufacturerDomain))
+        assertThat(manufacturersRepo.fetchManufacturers()).isEqualTo(
+            Result.success(
+                manufacturerDomain
+            )
+        )
     }
 
     @Test
-    fun returnErrorOnZero(){
+    fun returnErrorOnZeroManufacturers() {
         val manufacturersJson = "{}"
         val manufacturerDomain = emptyList<Manufacturer>()
-        every { manufacturersRemoteService.fetchManufacturers() }answers {
+        every { manufacturersRemoteService.fetchManufacturers() } answers {
             Result.success(JSONObject(manufacturersJson))
         }
         every { jsonToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
-        isFailureWithMessage(manufacturersRepo.fetchManufacturers(),"No Manufacturer Found")
+        val actual =
+            isFailureWithMessage(manufacturersRepo.fetchManufacturers(), "No Manufacturer Found")
+            assertThat(actual).isTrue()
+
     }
 }
