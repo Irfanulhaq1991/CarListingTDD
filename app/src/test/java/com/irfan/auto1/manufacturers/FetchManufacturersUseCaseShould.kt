@@ -1,8 +1,12 @@
-package com.irfan.auto1
+package com.irfan.auto1.manufacturers
 
+import com.irfan.auto1.BaseTest
+import com.irfan.auto1.FetchManufacturersUseCase
+import com.irfan.auto1.ManufacturersRepo
+import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
-import junit.framework.TestCase
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -20,8 +24,8 @@ class FetchManufacturersUseCaseShould : BaseTest() {
     }
 
     @Test
-    fun fetchManufacturers() {
+    fun fetchManufacturers() = runTest{
         fetchManufacturersUseCase()
-        verify { manufacturersRepo.fetchManufacturers() }
+        coVerify { manufacturersRepo.fetchManufacturers() }
     }
 }

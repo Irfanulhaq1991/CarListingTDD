@@ -2,8 +2,8 @@ package com.irfan.auto1
 
 class FetchManufacturersUseCase(private val  manufacturersRepo: ManufacturersRepo) {
 
-    operator fun invoke(){
-        manufacturersRepo.fetchManufacturers()
+    suspend operator fun invoke():Result<List<Manufacturer>>{
+       return manufacturersRepo.fetchManufacturers()
     }
 
 }

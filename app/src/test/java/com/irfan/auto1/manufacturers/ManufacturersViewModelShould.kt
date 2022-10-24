@@ -1,18 +1,29 @@
 package com.irfan.auto1.manufacturers
 
-import com.irfan.auto1.BaseTest
-import com.irfan.auto1.FetchManufacturersUseCase
-import com.irfan.auto1.ManufacturersViewModel
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.irfan.auto1.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class ManufacturersViewModelShould : BaseTest() {
 
-    @RelaxedMockK
+    @MockK
     private lateinit var fetchManufactureUseCase: FetchManufacturersUseCase
     private lateinit var viewModel: ManufacturersViewModel
+
+    @get:Rule
+    val liveDataRule = InstantTaskExecutorRule()
+    @get:Rule
+    val coroutineRul = CoroutineTestRule()
+
 
     @Before
     override fun setup() {
@@ -21,8 +32,9 @@ class ManufacturersViewModelShould : BaseTest() {
     }
 
     @Test
-    fun fetchManufacturers() {
+    fun fetchManufacturers() = runTest{
+        coEvery { fetchManufactureUseCase() } answers { Result.success(TestDataProvider.getManufacturersAsDomainModels())}
         viewModel.fetchManufacturers()
-        verify { fetchManufactureUseCase() }
+        coVerify { fetchManufactureUseCase() }
     }
 }

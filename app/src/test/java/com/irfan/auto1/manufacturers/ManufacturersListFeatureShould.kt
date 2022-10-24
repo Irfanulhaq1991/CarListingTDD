@@ -5,9 +5,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -21,9 +26,19 @@ class ManufacturersListFeatureShould {
 
     private lateinit var  uiController: ManufacturersSpyUiController
 
+    private val remoteAPI = object :ManufacturersRemoteAPI{
+        override suspend fun getManufacturers(): Response<ResponseBody> {
+            val jsonData = TestDataProvider.getManufacturersResponseJson()
+            val contentType = "application/json; charset=utf-8".toMediaType()
+            return Response.success(jsonData.toResponseBody(contentType))
+        }
+
+    }
+
+
     @Before
    fun setup(){
-        val remoteService = ManufacturersRemoteService()
+        val remoteService = ManufacturersRemoteService(remoteAPI)
         val manufacturersRepo = ManufacturersRepo(remoteService,JsonToDomainManufacturersMapper())
         val fetchManufacturersUseCase = FetchManufacturersUseCase(manufacturersRepo)
         val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)
@@ -33,8 +48,8 @@ class ManufacturersListFeatureShould {
 
 
     @Test
-    fun fetchManufacturersList(){
-        val actual = listOf("StatLoading","Success")
+    fun fetchManufacturersList()= runTest{
+        val actual = listOf(ManufacturerUiState(showLoading = true),ManufacturerUiState(manufacturers = TestDataProvider.getManufacturersAsDomainModels()))
         uiController.fetchManufacturers()
         val result = uiController.uiStates
         assertThat(result).isEqualTo(actual)
@@ -44,7 +59,7 @@ class ManufacturersListFeatureShould {
 class ManufacturersSpyUiController:LifecycleOwner {
 
     lateinit var viewModel: ManufacturersViewModel
-    val uiStates = mutableListOf<String>()
+    val uiStates = mutableListOf<ManufacturerUiState>()
     private val countDownLatch: CountDownLatch = CountDownLatch(1)
 
 
@@ -64,7 +79,7 @@ class ManufacturersSpyUiController:LifecycleOwner {
 
     fun fetchManufacturers() {
         viewModel.fetchManufacturers()
-        countDownLatch.await(100, TimeUnit.MILLISECONDS)
+        countDownLatch.await(500, TimeUnit.MILLISECONDS)
 
     }
 

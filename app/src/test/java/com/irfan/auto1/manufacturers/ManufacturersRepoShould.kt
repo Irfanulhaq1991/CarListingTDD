@@ -1,8 +1,11 @@
-package com.irfan.auto1
+package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
+import com.irfan.auto1.*
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import kotlinx.coroutines.test.runTest
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Test
@@ -11,7 +14,7 @@ class ManufacturersRepoShould : BaseTest() {
 
 
     @RelaxedMockK
-    private lateinit var manufacturersRemoteService: ManufacturersRemoteService
+    private lateinit var manufacturersRemoteService: IManufacturersRemoteService<JSONObject>
     private lateinit var manufacturersRepo: ManufacturersRepo
 
     @RelaxedMockK
@@ -25,9 +28,9 @@ class ManufacturersRepoShould : BaseTest() {
     }
 
     @Test
-    fun notAlterError() {
+    fun notAlterError() = runTest{
         val errorMessage = "###"
-        every { manufacturersRemoteService.fetchManufacturers() } answers {
+        coEvery { manufacturersRemoteService.fetchManufacturers() } answers {
             Result.failure(
                 Throwable(
                     errorMessage
@@ -40,10 +43,10 @@ class ManufacturersRepoShould : BaseTest() {
     }
 
     @Test
-    fun fetchDomainManufacturers() {
+    fun fetchDomainManufacturers() = runTest{
         val manufacturersJson = TestDataProvider.getManufacturersAsJsonStrings()
         val manufacturerDomain = TestDataProvider.getManufacturersAsDomainModels()
-        every { manufacturersRemoteService.fetchManufacturers() } answers {
+        coEvery { manufacturersRemoteService.fetchManufacturers() } answers {
             Result.success(
                 JSONObject(manufacturersJson)
             )
@@ -57,10 +60,10 @@ class ManufacturersRepoShould : BaseTest() {
     }
 
     @Test
-    fun returnErrorOnZeroManufacturers() {
+    fun returnErrorOnZeroManufacturers()= runTest {
         val manufacturersJson = "{}"
         val manufacturerDomain = emptyList<Manufacturer>()
-        every { manufacturersRemoteService.fetchManufacturers() } answers {
+        coEvery { manufacturersRemoteService.fetchManufacturers() } answers {
             Result.success(JSONObject(manufacturersJson))
         }
         every { jsonToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
