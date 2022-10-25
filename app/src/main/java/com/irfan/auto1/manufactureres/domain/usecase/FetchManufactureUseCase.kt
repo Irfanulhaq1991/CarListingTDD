@@ -1,4 +1,7 @@
-package com.irfan.auto1
+package com.irfan.auto1.manufactureres
+
+import com.irfan.auto1.manufactureres.data.repository.ManufacturersRepo
+import com.irfan.auto1.manufactureres.domain.model.Manufacturer
 
 class FetchManufacturersUseCase(private val  manufacturersRepo: ManufacturersRepo) {
 

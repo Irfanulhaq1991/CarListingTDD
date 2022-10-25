@@ -1,4 +1,7 @@
-package com.irfan.auto1
+package com.irfan.auto1.manufactureres.domain.mapper
+
+import com.irfan.auto1.manufactureres.data.remote.model.ManufacturerDto
+import com.irfan.auto1.manufactureres.domain.model.Manufacturer
 
 
 class DtoToDomainManufacturersMapper : IMapper<List<ManufacturerDto>, List<Manufacturer>> {

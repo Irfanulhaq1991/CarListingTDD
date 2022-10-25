@@ -5,6 +5,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
+import com.irfan.auto1.manufactureres.*
+import com.irfan.auto1.manufactureres.data.remote.api.ManufacturersRemoteAPI
+import com.irfan.auto1.manufactureres.data.remote.datasource.ManufacturersRemoteDataDataSource
+import com.irfan.auto1.manufactureres.data.repository.ManufacturersRepo
+import com.irfan.auto1.manufactureres.data.remote.api.PagingManager
+import com.irfan.auto1.manufactureres.domain.mapper.DtoToDomainManufacturersMapper
+import com.irfan.auto1.manufactureres.ui.ManufacturerUiState
+import com.irfan.auto1.manufactureres.ui.ManufacturersViewModel
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
@@ -26,7 +34,7 @@ class ManufacturersListFeatureShould {
 
     private lateinit var  uiController: ManufacturersSpyUiController
 
-    private val remoteAPI = object :ManufacturersRemoteAPI{
+    private val remoteAPI = object : ManufacturersRemoteAPI {
         override suspend fun getManufacturers(nextPage: Int, pageSize: Int): Response<ResponseBody> {
             val jsonData = TestDataProvider.getManufacturersResponseJson()
             val contentType = "application/json; charset=utf-8".toMediaType()
@@ -39,8 +47,8 @@ class ManufacturersListFeatureShould {
     @Before
    fun setup(){
         val pagingManager = PagingManager()
-        val remoteService = ManufacturersRemoteDataDataService(remoteAPI, pagingManager)
-        val manufacturersRepo = ManufacturersRepo(remoteService,DtoToDomainManufacturersMapper())
+        val remoteService = ManufacturersRemoteDataDataSource(remoteAPI, pagingManager)
+        val manufacturersRepo = ManufacturersRepo(remoteService, DtoToDomainManufacturersMapper())
         val fetchManufacturersUseCase = FetchManufacturersUseCase(manufacturersRepo)
         val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)
        uiController = ManufacturersSpyUiController().apply { viewModel = manufacturersViewModel }
@@ -50,7 +58,10 @@ class ManufacturersListFeatureShould {
 
     @Test
     fun fetchManufacturersList()= runTest{
-        val actual = listOf(ManufacturerUiState(showLoading = true),ManufacturerUiState(manufacturers = TestDataProvider.getManufacturersAsDomainModels()))
+        val actual = listOf(
+            ManufacturerUiState(showLoading = true),
+            ManufacturerUiState(manufacturers = TestDataProvider.getManufacturersAsDomainModels())
+        )
         uiController.fetchManufacturers()
         val result = uiController.uiStates
         assertThat(result).isEqualTo(actual)

@@ -1,10 +1,11 @@
-package com.irfan.auto1
+package com.irfan.auto1.manufactureres.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Job
+import com.irfan.auto1.manufactureres.FetchManufacturersUseCase
+import com.irfan.auto1.manufactureres.domain.model.Manufacturer
 import kotlinx.coroutines.launch
 
 class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) : ViewModel() {

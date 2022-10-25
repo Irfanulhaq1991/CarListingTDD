@@ -2,6 +2,10 @@ package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.*
+import com.irfan.auto1.manufactureres.data.remote.datasource.IManufacturersRemoteDataSource
+import com.irfan.auto1.manufactureres.data.remote.api.ManufacturersRemoteAPI
+import com.irfan.auto1.manufactureres.data.remote.datasource.ManufacturersRemoteDataDataSource
+import com.irfan.auto1.manufactureres.data.remote.api.PagingManager
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest
@@ -88,7 +92,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     private fun withDataSuccess(
         jsonString: String,
         pagingManager: PagingManager
-    ): IManufacturersRemoteDataService {
+    ): IManufacturersRemoteDataSource {
 
         val api = object : ManufacturersRemoteAPI {
             override suspend fun getManufacturers(
@@ -99,11 +103,11 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
                 return Response.success(jsonString.toResponseBody(contentType))
             }
         }
-        return ManufacturersRemoteDataDataService(api, pagingManager)
+        return ManufacturersRemoteDataDataSource(api, pagingManager)
     }
 
 
-    private fun withNetworkError(): IManufacturersRemoteDataService {
+    private fun withNetworkError(): IManufacturersRemoteDataSource {
         val api = object : ManufacturersRemoteAPI {
             override suspend fun getManufacturers(
                 nextPage: Int,
@@ -112,6 +116,6 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
                 throw IOException()
             }
         }
-        return ManufacturersRemoteDataDataService(api, pagingManager)
+        return ManufacturersRemoteDataDataSource(api, pagingManager)
     }
 }

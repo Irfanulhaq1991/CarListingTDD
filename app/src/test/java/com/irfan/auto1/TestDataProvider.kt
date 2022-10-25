@@ -1,5 +1,8 @@
 package com.irfan.auto1
 
+import com.irfan.auto1.manufactureres.domain.model.Manufacturer
+import com.irfan.auto1.manufactureres.data.remote.model.ManufacturerDto
+
 object TestDataProvider {
   
     fun getManufacturersResponseJson(): String {
@@ -52,12 +55,14 @@ object TestDataProvider {
             ManufacturerDto("57", "Aston Martin"),
             ManufacturerDto("157", "Caterham"),
             ManufacturerDto("125", "Borgward"),
-            ManufacturerDto("107", "Bentley"))
+            ManufacturerDto("107", "Bentley")
+       )
     }
 
     fun getManufacturersAsDomainModels(): List<Manufacturer> {
 
-        return listOf(Manufacturer(60, "Audi"),
+        return listOf(
+            Manufacturer(60, "Audi"),
             Manufacturer(160, "Chevrolet"),
             Manufacturer(150, "Cadillac"),
             Manufacturer(40, "Alfa Romeo"),
@@ -71,6 +76,7 @@ object TestDataProvider {
             Manufacturer(57, "Aston Martin"),
             Manufacturer(157, "Caterham"),
             Manufacturer(125, "Borgward"),
-            Manufacturer(107, "Bentley"))
+            Manufacturer(107, "Bentley")
+        )
     }
 }

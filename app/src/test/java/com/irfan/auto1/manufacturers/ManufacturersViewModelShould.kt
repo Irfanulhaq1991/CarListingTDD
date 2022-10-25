@@ -2,12 +2,11 @@ package com.irfan.auto1.manufacturers
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.irfan.auto1.*
+import com.irfan.auto1.manufactureres.FetchManufacturersUseCase
+import com.irfan.auto1.manufactureres.ui.ManufacturersViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule

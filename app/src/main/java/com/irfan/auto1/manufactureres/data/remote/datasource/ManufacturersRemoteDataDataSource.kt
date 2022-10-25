@@ -1,13 +1,16 @@
-package com.irfan.auto1
+package com.irfan.auto1.manufactureres.data.remote.datasource
 
+import com.irfan.auto1.manufactureres.data.remote.model.ManufacturerDto
+import com.irfan.auto1.manufactureres.data.remote.api.ManufacturersRemoteAPI
+import com.irfan.auto1.manufactureres.data.remote.api.PagingManager
 import org.json.JSONObject
 import java.io.IOException
 
-class ManufacturersRemoteDataDataService(
+class ManufacturersRemoteDataDataSource(
     private val remoteAPiImp: ManufacturersRemoteAPI,
     private val pagingManager: PagingManager
 ) :
-    IManufacturersRemoteDataService {
+    IManufacturersRemoteDataSource {
     override suspend fun fetchManufacturers(): Result<List<ManufacturerDto>> {
         return try {
             val nextPage= pagingManager.page()
