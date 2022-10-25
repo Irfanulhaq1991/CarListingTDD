@@ -1,7 +1,7 @@
 package com.irfan.auto1
 
-import com.irfan.auto1.manufactureres.domain.model.Manufacturer
-import com.irfan.auto1.manufactureres.data.remote.model.ManufacturerDto
+import com.irfan.auto1.manufacturers.domain.model.Manufacturer
+import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
 
 object TestDataProvider {
   

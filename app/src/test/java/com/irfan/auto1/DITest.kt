@@ -1,7 +1,7 @@
 package com.irfan.auto1
 
 import com.irfan.auto1.common.networkModule
-import com.irfan.auto1.manufactureres.di.manufacturerModule
+import com.irfan.auto1.manufacturers.di.manufacturerModule
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.KoinTest

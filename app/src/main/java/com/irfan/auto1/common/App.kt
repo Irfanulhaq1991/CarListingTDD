@@ -1,7 +1,7 @@
 package com.irfan.auto1.common
 
 import android.app.Application
-import com.irfan.auto1.manufactureres.di.manufacturerModule
+import com.irfan.auto1.manufacturers.di.manufacturerModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

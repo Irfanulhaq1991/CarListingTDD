@@ -5,14 +5,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.manufactureres.*
-import com.irfan.auto1.manufactureres.data.remote.api.ManufacturersRemoteAPI
-import com.irfan.auto1.manufactureres.data.remote.datasource.ManufacturersRemoteDataDataSource
-import com.irfan.auto1.manufactureres.data.repository.ManufacturersRepo
-import com.irfan.auto1.manufactureres.data.remote.api.PagingManager
-import com.irfan.auto1.manufactureres.domain.mapper.DtoToDomainManufacturersMapper
-import com.irfan.auto1.manufactureres.ui.ManufacturerUiState
-import com.irfan.auto1.manufactureres.ui.ManufacturersViewModel
+import com.irfan.auto1.manufacturers.*
+import com.irfan.auto1.manufacturers.data.remote.api.ManufacturersRemoteAPI
+import com.irfan.auto1.manufacturers.data.remote.datasource.ManufacturersRemoteDataDataSource
+import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
+import com.irfan.auto1.manufacturers.data.remote.api.PagingManager
+import com.irfan.auto1.manufacturers.domain.mapper.DtoToDomainManufacturersMapper
+import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
+import com.irfan.auto1.manufacturers.ui.ManufacturersViewModel
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
@@ -80,7 +80,7 @@ class ManufacturersSpyUiController:LifecycleOwner {
 
     fun onCreate(){
         registry.currentState = Lifecycle.State.STARTED
-        viewModel.uiState.observe(this) {
+        viewModel.uiStateUpdater.observe(this) {
             uiStates.add(it)
             if (uiStates.size == 2) {
                 countDownLatch.countDown()

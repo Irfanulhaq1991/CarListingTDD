@@ -2,11 +2,11 @@ package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.*
-import com.irfan.auto1.manufactureres.data.remote.datasource.IManufacturersRemoteDataSource
-import com.irfan.auto1.manufactureres.data.remote.model.ManufacturerDto
-import com.irfan.auto1.manufactureres.data.repository.ManufacturersRepo
-import com.irfan.auto1.manufactureres.domain.mapper.DtoToDomainManufacturersMapper
-import com.irfan.auto1.manufactureres.domain.model.Manufacturer
+import com.irfan.auto1.manufacturers.data.remote.datasource.IManufacturersRemoteDataSource
+import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
+import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
+import com.irfan.auto1.manufacturers.domain.mapper.DtoToDomainManufacturersMapper
+import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK

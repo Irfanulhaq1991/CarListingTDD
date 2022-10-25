@@ -2,8 +2,7 @@ package com.irfan.auto1.manufacturers
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.irfan.auto1.*
-import com.irfan.auto1.manufactureres.FetchManufacturersUseCase
-import com.irfan.auto1.manufactureres.ui.ManufacturersViewModel
+import com.irfan.auto1.manufacturers.ui.ManufacturersViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK

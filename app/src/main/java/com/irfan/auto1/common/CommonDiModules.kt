@@ -1,6 +1,6 @@
 package com.irfan.auto1.common
 
-import com.irfan.auto1.manufactureres.data.remote.Networking
+import com.irfan.auto1.manufacturers.data.remote.Networking
 import org.koin.dsl.module
 
 val networkModule = module {

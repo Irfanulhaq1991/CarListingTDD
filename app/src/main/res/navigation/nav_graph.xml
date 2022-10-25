@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/manufacturersFragment"
+    >
+
+    <fragment
+        android:id="@+id/manufacturersFragment"
+        android:name="com.irfan.auto1.manufacturers.ui.ManufacturersFragment"
+        android:label="fragment_manufacturers"
+        tools:layout="@layout/fragment_manufacturers" >
+        <action
+            android:id="@+id/action_manufacturersFragment_to_modelFragment"
+            app:destination="@id/modelFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modelFragment"
+        android:name="com.irfan.auto1.model.ModelFragment"
+        android:label="fragment_model"
+        tools:layout="@layout/fragment_model" >
+    <argument
+        android:name="Manufacturer"
+        app:argType="com.irfan.auto1.manufacturers.domain.model.Manufacturer" />
+    </fragment>
+</navigation>

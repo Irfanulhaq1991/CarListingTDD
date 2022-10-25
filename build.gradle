@@ -14,6 +14,7 @@ buildscript {
     ext.rxAndroid_version = '2.1.1'
     ext.retrofit_version = '2.9.0'
     ext.moshi_version = '1.12.0'
+    ext.nav_version = "2.5.1"
 
     repositories {
         google()
@@ -22,7 +23,8 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.2"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
 
 
