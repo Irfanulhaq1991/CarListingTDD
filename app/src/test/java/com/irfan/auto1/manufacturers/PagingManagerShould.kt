@@ -11,40 +11,39 @@ class PagingManagerShould {
     fun returnFirstPage() {
         val pageSize = 2
         val pageManager = PagingManager(pageSize)
-        assertThat(pageManager.page()).isEqualTo(0)
+        assertThat(pageManager.nextPage()).isEqualTo(0)
     }
 
     @Test
     fun returnSecondPage() {
         val pageSize = 2
         val pageManager = PagingManager(pageSize)
-        pageManager.page()
-        assertThat(pageManager.page()).isEqualTo(2)
+        pageManager.updateNextPage()
+        assertThat(pageManager.nextPage()).isEqualTo(1)
     }
 
     @Test
     fun returnThirdPage() {
         val pageSize = 2
         val pageManager = PagingManager(pageSize)
-        pageManager.page()
-        pageManager.page()
-        assertThat(pageManager.page()).isEqualTo(4)
+        pageManager.updateNextPage()
+        pageManager.updateNextPage()
+        assertThat(pageManager.nextPage()).isEqualTo(2)
     }
 
     @Test
     fun returnLastPage() {
         val pageCount = 4
         val pageSize = 15
-        val lasPage = (pageCount - 1) * pageSize
         val pageManager = PagingManager(pageSize)
         pageManager.setTotalPages(pageCount)
-        pageManager.page()
-        pageManager.page()
-        pageManager.page()
+        pageManager.updateNextPage()
+        pageManager.updateNextPage()
+        pageManager.updateNextPage()
 
         assertThat(
-            pageManager.page()
-        ).isEqualTo(lasPage)
+            pageManager.nextPage()
+        ).isEqualTo(pageCount-1)
     }
 
     @Test
@@ -53,12 +52,12 @@ class PagingManagerShould {
         val pageSize = 2
         val pageManager = PagingManager(pageSize)
         pageManager.setTotalPages(pageCount)
-
+        pageManager.updateNextPage()
+        pageManager.updateNextPage()
+        pageManager.updateNextPage()
 
         assertFails("No more pages greater than total pages are allowed"){
-            pageManager.page()
-            pageManager.page()
-            pageManager.page()
+            pageManager.nextPage()
         }
     }
 }

@@ -19,7 +19,7 @@ class ModelFragment : Fragment() {
         args.manufacturer
     }
 
-    val binding:FragmentModelBinding by lazy {
+    private val binding:FragmentModelBinding by lazy {
         FragmentModelBinding.inflate(requireActivity().layoutInflater)
     }
 

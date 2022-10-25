@@ -5,12 +5,14 @@ import com.irfan.auto1.manufacturers.data.remote.api.ManufacturersRemoteAPI
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import okhttp3.logging.HttpLoggingInterceptor
 
-class Networking private constructor(){
-    companion object{
+
+class Networking private constructor() {
+    companion object {
         private lateinit var instance: Networking
         fun getInstance(): Networking {
-            if(!Companion::instance.isInitialized){
+            if (!Companion::instance.isInitialized) {
                 instance = Networking()
             }
             return instance
@@ -18,8 +20,7 @@ class Networking private constructor(){
     }
 
 
-
-    fun provideRetrofit(basUrl: String,okHttpClient: OkHttpClient): Retrofit {
+    fun provideRetrofit(basUrl: String, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(basUrl)
             .client(okHttpClient)
@@ -27,10 +28,14 @@ class Networking private constructor(){
     }
 
     fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
-        return OkHttpClient().newBuilder().addInterceptor(interceptor).build()
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+        return OkHttpClient().newBuilder()
+            .addInterceptor(logging)
+            .addInterceptor(interceptor).build()
     }
 
-    fun provideBasUrl():String{
+    fun provideBasUrl(): String {
         return BuildConfig.BAS_URL
     }
 
@@ -41,7 +46,7 @@ class Networking private constructor(){
         return Interceptor { chain ->
 
             val original = chain.request()
-            val originalHttpUrl = original.url()
+            val originalHttpUrl = original.url
 
             val url = originalHttpUrl.newBuilder()
                 .addQueryParameter("wa_key", BuildConfig.URL_TOKEN)

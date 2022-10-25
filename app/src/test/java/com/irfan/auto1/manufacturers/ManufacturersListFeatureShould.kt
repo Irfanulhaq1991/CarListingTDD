@@ -59,7 +59,7 @@ class ManufacturersListFeatureShould {
     @Test
     fun fetchManufacturersList()= runTest{
         val actual = listOf(
-            ManufacturerUiState(showLoading = true),
+            ManufacturerUiState(loading = true),
             ManufacturerUiState(manufacturers = TestDataProvider.getManufacturersAsDomainModels())
         )
         uiController.fetchManufacturers()

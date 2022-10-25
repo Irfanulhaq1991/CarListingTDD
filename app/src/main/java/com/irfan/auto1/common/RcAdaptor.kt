@@ -1,4 +1,4 @@
-package com.example.citysearch.view
+package com.irfan.auto1.common
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -10,9 +10,13 @@ class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
     RecyclerView.Adapter<RcAdaptor.AppViewHolder<T>>() {
     private var itemList = ArrayList<T>()
 
-    fun bindRecyclerView(recyclerview: RecyclerView) {
+    fun bindRecyclerView(
+        recyclerview: RecyclerView,
+        rcScrollListener: RecyclerView.OnScrollListener? = null
+    ) {
         recyclerview.adapter = this
         itemLayoutManger.onRcAdapterReady()
+        rcScrollListener?.let { recyclerview.addOnScrollListener(it) }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -22,7 +26,11 @@ class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
         notifyDataSetChanged()
     }
 
-    fun getItem(position: Int): T {
+    fun getItems(): List<T> {
+        return this.itemList
+    }
+
+    fun getItems(position: Int): T {
         if (position > itemList.size || position < 0) throw IllegalArgumentException()
         return this.itemList[position]
     }
@@ -34,7 +42,7 @@ class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
     }
 
     override fun onBindViewHolder(holder: AppViewHolder<T>, position: Int) {
-        holder.bind(position, getItem(position))
+        holder.bind(position, getItems(position))
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -8,18 +8,24 @@ import com.irfan.auto1.manufacturers.FetchManufacturersUseCase
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import kotlinx.coroutines.launch
 
-class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) : ViewModel() {
+class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) :
+    ViewModel() {
+    private var shouldRestoreOdlState = false
     private val _uiState = MutableLiveData<ManufacturerUiState>()
     val uiStateUpdater: LiveData<ManufacturerUiState> = _uiState
 
     fun fetchManufacturers() {
-        proceed()
+        if (shouldRestoreOdlState) {
+            shouldRestoreOdlState = false
+            _uiState.value = _uiState.value!!.copy()
+        } else
+            proceed()
 
     }
 
-    private fun proceed(){
+    private fun proceed() {
         viewModelScope.launch {
-            _uiState.value = (uiStateUpdater.value?: ManufacturerUiState()).copy(showLoading = true)
+            _uiState.value = (uiStateUpdater.value ?: ManufacturerUiState()).copy(loading = true, isError = false)
             fetchManufacturersUseCase().run {
                 reduceState(this)
             }
@@ -31,14 +37,16 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
             _uiState.value = uiStateUpdater.value!!
                 .copy(
                     manufacturers = it,
-                    showLoading = false
+                    loading = false,
+                    isError =  false
                 )
 
         }, {
             _uiState.value = uiStateUpdater.value!!
                 .copy(
                     errorMessage = it.message!!,
-                    showLoading = false
+                    isError = true,
+                    loading = false
                 )
 
         })
@@ -47,6 +55,11 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
 
     fun stateRendered() {
         _uiState.value = _uiState.value!!.copy(errorMessage = null)
+    }
+
+    fun onDestroy(manufacturers: List<Manufacturer>) {
+        shouldRestoreOdlState = true
+        _uiState.value = _uiState.value!!.copy(manufacturers = manufacturers)
     }
 
 }

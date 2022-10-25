@@ -5,5 +5,6 @@ import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 data class ManufacturerUiState(
     val manufacturers: List<Manufacturer> = emptyList(),
     val errorMessage: String? = null,
-    val showLoading: Boolean = false,
+    val isError:Boolean = false,
+    val loading: Boolean = false,
 )

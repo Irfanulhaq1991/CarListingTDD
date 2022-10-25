@@ -64,7 +64,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     @Test
     fun returnNoInternetError() = runTest {
         val manufacturer = withNetworkError().fetchManufacturers()
-        val actual = isFailureWithMessage(manufacturer, "No Internet")
+        val actual = isFailureWithMessage(manufacturer, "Please check your internet connection")
         assertThat(actual).isTrue()
     }
 
@@ -81,7 +81,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
         val remoteDataService =
             withDataSuccess(TestDataProvider.getManufacturersResponseJson("{}"), pagingManager)
         remoteDataService.fetchManufacturers()
-        coVerify { pagingManager.page() }
+        coVerify { pagingManager.nextPage() }
         coVerify { pagingManager.setTotalPages(any()) }
         coVerify { pagingManager.pagSize }
     }

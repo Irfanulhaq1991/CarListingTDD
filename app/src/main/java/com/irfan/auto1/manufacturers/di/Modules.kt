@@ -15,7 +15,7 @@ import org.koin.dsl.module
 
 
 val manufacturerModule = module {
-    factory { PagingManager() }
+    factory { PagingManager(15) }
     factory<IMapper<List<ManufacturerDto>, List<Manufacturer>>> { DtoToDomainManufacturersMapper() }
     factory<IManufacturersRemoteDataSource> { ManufacturersRemoteDataDataSource(get(), get()) }
 
