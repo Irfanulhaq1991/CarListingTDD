@@ -2,9 +2,11 @@ package com.irfan.auto1
 
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
+import com.irfan.auto1.model.Model
 
 object TestDataProvider {
-  
+
+    //manufacturer data
     fun getManufacturersResponseJson(): String {
         return """{
       "page": 0,
@@ -29,6 +31,7 @@ object TestDataProvider {
       }
     }""".trim()
     }
+
 
     fun getManufacturersResponseJson(jsonObj:String): String {
         return """{
@@ -77,6 +80,66 @@ object TestDataProvider {
             Manufacturer(157, "Caterham"),
             Manufacturer(125, "Borgward"),
             Manufacturer(107, "Bentley")
+        )
+    }
+
+    // Model data
+
+    fun getModelResponseJson(): String {
+        return """{
+          "page": 0,
+          "pageSize": 2147483647,
+          "totalPageCount": 1,
+          "wkda": {
+            "1er": "1er",
+            "2er": "2er",
+            "3er": "3er",
+            "4er": "4er",
+            "5er": "5er",
+            "6er": "6er",
+            "7er": "7er",
+            "8er": "8er",
+            "i3": "i3",
+            "i8": "i8",
+            "X1": "X1",
+           "X2": "X2",
+            "X3": "X3",
+            "X4": "X4",
+            "X5": "X5",
+            "X6": "X6",
+            "X7": "X7",
+            "Z1": "Z1",
+            "Z3": "Z3",
+            "Z4": "Z4",
+            "Z8": "Z8"
+          }
+        }""".trim()
+    }
+
+
+    fun getModelAsDomainModels(): List<Model> {
+
+        return listOf(
+            Model("1er", "1er"),
+            Model( "2er", "2er"),
+            Model("3er", "3er"),
+            Model(   "4er", "4er"),
+            Model("5er", "5er"),
+            Model("6er", "6er"),
+            Model("8er", "8er"),
+            Model("i3","i3"),
+            Model( "i8", "i8"),
+            Model("X1","X1"),
+            Model("X2", "X2"),
+            Model("X3", "X3"),
+            Model("X4", "X4"),
+            Model("X5", "X5"),
+            Model("X6", "X6"),
+            Model("X7","X7"),
+            Model("Z1", "Z1",),
+            Model("Z2", "Z3"),
+            Model("Z4", "Z4",),
+            Model("Z8", "Z8",)
         )
     }
 }

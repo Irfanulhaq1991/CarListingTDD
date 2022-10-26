@@ -17,11 +17,6 @@ class ManufacturersViewModelShould : BaseTest() {
     private lateinit var fetchManufactureUseCase: FetchManufacturersUseCase
     private lateinit var viewModel: ManufacturersViewModel
 
-    @get:Rule
-    val liveDataRule = InstantTaskExecutorRule()
-    @get:Rule
-    val coroutineRul = CoroutineTestRule()
-
 
     @Before
     override fun setup() {

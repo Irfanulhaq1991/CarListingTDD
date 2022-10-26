@@ -1,6 +1,7 @@
 package com.irfan.auto1.common
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
