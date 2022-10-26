@@ -1,4 +1,4 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.fetch
 
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase

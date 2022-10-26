@@ -1,8 +1,9 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.fetch
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
+import com.irfan.auto1.model.AppCache
 import com.irfan.auto1.model.data.remote.ModelDto
 import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
 import com.irfan.auto1.model.data.ModelsRepository
@@ -18,7 +19,7 @@ import org.mockito.kotlin.any
 class ModelsRepositoryShould : BaseTest() {
 
     @RelaxedMockK
-    private lateinit var cache: AppCache<String,List<Model>>
+    private lateinit var cache: AppCache<String, List<Model>>
 
     @RelaxedMockK
     private lateinit var modelsRemoteDataSource: ModelsRemoteDataSource
