@@ -10,7 +10,7 @@ import com.irfan.auto1.manufacturers.data.remote.api.ManufacturersRemoteAPI
 import com.irfan.auto1.manufacturers.data.remote.datasource.ManufacturersRemoteDataDataSource
 import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
 import com.irfan.auto1.manufacturers.data.remote.api.PagingManager
-import com.irfan.auto1.manufacturers.domain.mapper.DtoToDomainManufacturersMapper
+import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
 import com.irfan.auto1.manufacturers.ui.ManufacturersViewModel
 import kotlinx.coroutines.test.runTest
@@ -36,7 +36,7 @@ class ManufacturersListFeatureShould {
 
     private val remoteAPI = object : ManufacturersRemoteAPI {
         override suspend fun getManufacturers(nextPage: Int, pageSize: Int): Response<ResponseBody> {
-            val jsonData = TestDataProvider.getManufacturersResponseJson()
+            val jsonData = TestDataProvider.getManuFacturerResponseJson()
             val contentType = "application/json; charset=utf-8".toMediaType()
             return Response.success(jsonData.toResponseBody(contentType))
         }
@@ -48,7 +48,7 @@ class ManufacturersListFeatureShould {
    fun setup(){
         val pagingManager = PagingManager()
         val remoteService = ManufacturersRemoteDataDataSource(remoteAPI, pagingManager)
-        val manufacturersRepo = ManufacturersRepo(remoteService, DtoToDomainManufacturersMapper())
+        val manufacturersRepo = ManufacturersRepo(remoteService, ManufacturersMapper())
         val fetchManufacturersUseCase = FetchManufacturersUseCase(manufacturersRepo)
         val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)
        uiController = ManufacturersSpyUiController().apply { viewModel = manufacturersViewModel }

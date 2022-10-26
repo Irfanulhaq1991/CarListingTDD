@@ -6,7 +6,7 @@ import com.irfan.auto1.manufacturers.data.remote.datasource.IManufacturersRemote
 import com.irfan.auto1.manufacturers.data.remote.datasource.ManufacturersRemoteDataDataSource
 import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
 import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
-import com.irfan.auto1.manufacturers.domain.mapper.DtoToDomainManufacturersMapper
+import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import com.irfan.auto1.manufacturers.ui.ManufacturersViewModel
@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val manufacturerModule = module {
     factory { PagingManager(15) }
-    factory<IMapper<List<ManufacturerDto>, List<Manufacturer>>> { DtoToDomainManufacturersMapper() }
+    factory<IMapper<List<ManufacturerDto>, List<Manufacturer>>> { ManufacturersMapper() }
     factory<IManufacturersRemoteDataSource> { ManufacturersRemoteDataDataSource(get(), get()) }
 
 

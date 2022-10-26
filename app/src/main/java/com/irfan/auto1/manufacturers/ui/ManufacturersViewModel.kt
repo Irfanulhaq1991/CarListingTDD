@@ -11,13 +11,13 @@ import kotlinx.coroutines.launch
 class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) :
     ViewModel() {
     private var shouldRestoreOdlState = false
-    private val _uiState = MutableLiveData<ManufacturerUiState>()
-    val uiStateUpdater: LiveData<ManufacturerUiState> = _uiState
+    private val _uiStateUpdater = MutableLiveData<ManufacturerUiState>()
+    val uiStateUpdater: LiveData<ManufacturerUiState> = _uiStateUpdater
 
     fun fetchManufacturers() {
         if (shouldRestoreOdlState) {
             shouldRestoreOdlState = false
-            _uiState.value = _uiState.value!!.copy()
+            _uiStateUpdater.value = _uiStateUpdater.value!!.copy()
         } else
             proceed()
 
@@ -25,7 +25,7 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
 
     private fun proceed() {
         viewModelScope.launch {
-            _uiState.value = (uiStateUpdater.value ?: ManufacturerUiState()).copy(loading = true, isError = false)
+            _uiStateUpdater.value = (uiStateUpdater.value ?: ManufacturerUiState()).copy(loading = true, isError = false)
             fetchManufacturersUseCase().run {
                 reduceState(this)
             }
@@ -34,7 +34,7 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
 
     private fun reduceState(result: Result<List<Manufacturer>>) {
         result.fold({
-            _uiState.value = uiStateUpdater.value!!
+            _uiStateUpdater.value = uiStateUpdater.value!!
                 .copy(
                     manufacturers = it,
                     loading = false,
@@ -42,7 +42,7 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
                 )
 
         }, {
-            _uiState.value = uiStateUpdater.value!!
+            _uiStateUpdater.value = uiStateUpdater.value!!
                 .copy(
                     errorMessage = it.message!!,
                     isError = true,
@@ -54,12 +54,12 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
 
 
     fun stateRendered() {
-        _uiState.value = _uiState.value!!.copy(errorMessage = null)
+        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(errorMessage = null)
     }
 
     fun onDestroy(manufacturers: List<Manufacturer>) {
         shouldRestoreOdlState = true
-        _uiState.value = _uiState.value!!.copy(manufacturers = manufacturers)
+        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(manufacturers = manufacturers)
     }
 
 }

@@ -8,8 +8,12 @@ import com.irfan.auto1.BaseTest
 import com.irfan.auto1.TestDataProvider
 import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Before
 import org.junit.Test
+import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -17,11 +21,23 @@ class ModelListFeatureShould : BaseTest() {
 
 
     private lateinit var uiController: ModelListSpyUiController
+    private val remoteApi = object : ModelRemoteApi {
+        override fun fetchModels(): Response<ResponseBody> {
+            val contentType = "application/json; charset=utf-8".toMediaType()
 
+            return Response.success(
+                TestDataProvider.getModelResponseJson().toResponseBody(contentType)
+            )
+        }
+
+    }
 
     @Before
     override fun setup() {
-        val useCase = FetchModelsUseCase()
+        val mapper = ModelsMapper()
+        val remoteDataSource = ModelsRemoteDataSource(remoteApi)
+        val repo = FetchModelsRepository(mapper, remoteDataSource)
+        val useCase = FetchModelsUseCase(repo)
         val modelsViewModel = ModelsViewModel(useCase)
         uiController = ModelListSpyUiController().apply { viewModel = modelsViewModel }
         uiController.onCreate()
@@ -31,8 +47,8 @@ class ModelListFeatureShould : BaseTest() {
     @Test
     fun fetchModelsList() = runTest {
         val actual = listOf(
-            ManufacturerUiState(loading = true),
-            ModelUiState(manufacturers = TestDataProvider.getModelAsDomainModels())
+            ModelUiState(loading = true),
+            ModelUiState(models = TestDataProvider.getModelAsDomainModels())
         )
         uiController.fetchModel()
         val result = uiController.uiStates

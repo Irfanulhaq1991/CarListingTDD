@@ -2,19 +2,19 @@ package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
-import com.irfan.auto1.manufacturers.domain.mapper.DtoToDomainManufacturersMapper
+import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
 import com.irfan.auto1.TestDataProvider
 import org.junit.Before
 import org.junit.Test
 
-class DtoToDomainManufacturersMapperShould : BaseTest(){
-    private lateinit var manufacturersMapper: DtoToDomainManufacturersMapper
+class ManufacturersMapperShould : BaseTest(){
+    private lateinit var manufacturersMapper: ManufacturersMapper
 
     @Before
     override fun setup() {
         super.setup()
-        manufacturersMapper = DtoToDomainManufacturersMapper()
+        manufacturersMapper = ManufacturersMapper()
     }
 
 

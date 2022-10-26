@@ -5,7 +5,7 @@ import com.irfan.auto1.*
 import com.irfan.auto1.manufacturers.data.remote.datasource.IManufacturersRemoteDataSource
 import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
 import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
-import com.irfan.auto1.manufacturers.domain.mapper.DtoToDomainManufacturersMapper
+import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import io.mockk.coEvery
 import io.mockk.every
@@ -22,13 +22,13 @@ class ManufacturersRepoShould : BaseTest() {
     private lateinit var manufacturersRepo: ManufacturersRepo
 
     @RelaxedMockK
-    private lateinit var dtoToDomainManufacturersMapper: DtoToDomainManufacturersMapper
+    private lateinit var manufacturersMapper: ManufacturersMapper
 
     @Before
     override fun setup() {
         super.setup()
         manufacturersRepo =
-            ManufacturersRepo(manufacturersRemoteDataSource, dtoToDomainManufacturersMapper)
+            ManufacturersRepo(manufacturersRemoteDataSource, manufacturersMapper)
     }
 
     @Test
@@ -55,7 +55,7 @@ class ManufacturersRepoShould : BaseTest() {
                 manufacturersDto
             )
         }
-        every { dtoToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
+        every { manufacturersMapper.map(any()) } answers { manufacturerDomain }
         assertThat(manufacturersRepo.fetchManufacturers()).isEqualTo(
             Result.success(
                 manufacturerDomain
@@ -70,7 +70,7 @@ class ManufacturersRepoShould : BaseTest() {
         coEvery { manufacturersRemoteDataSource.fetchManufacturers() } answers {
             Result.success(manufacturersDtos)
         }
-        every { dtoToDomainManufacturersMapper.map(any()) } answers { manufacturerDomain }
+        every { manufacturersMapper.map(any()) } answers { manufacturerDomain }
         val actual =
             isFailureWithMessage(manufacturersRepo.fetchManufacturers(), "No Manufacturer Found")
             assertThat(actual).isTrue()

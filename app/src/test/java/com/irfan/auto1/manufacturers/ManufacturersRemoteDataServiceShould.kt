@@ -31,7 +31,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     fun returnZeroManufacturerJson() = runTest {
         val actual =
             withDataSuccess(
-                TestDataProvider.getManufacturersResponseJson("{}"),
+                TestDataProvider.getResponseJson("{}"),
                 pagingManager
             ).fetchManufacturers().getOrThrow().size
 
@@ -42,7 +42,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     @Test
     fun returnOneManufacturerJson() = runTest {
         val actual = withDataSuccess(
-            TestDataProvider.getManufacturersResponseJson("{abc:def}"),
+            TestDataProvider.getResponseJson("{abc:def}"),
             pagingManager
         ).fetchManufacturers()
             .getOrThrow().size
@@ -53,7 +53,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     @Test
     fun returnManyManufacturerJson() = runTest {
         val actual = withDataSuccess(
-            TestDataProvider.getManufacturersResponseJson(),
+            TestDataProvider.getManuFacturerResponseJson(),
             pagingManager
         ).fetchManufacturers().getOrThrow().size
         assertThat(actual)
@@ -71,15 +71,15 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
 
     @Test
     fun returnErrorOnInvalidJson() = runTest {
-        val manufacturer = withDataSuccess("{", pagingManager).fetchManufacturers()
-        val actual = isFailureWithMessage(manufacturer, "Error Occurred")
+        val manufacturer = withDataSuccess("{}", pagingManager).fetchManufacturers()
+        val actual = isFailureWithMessage(manufacturer, "Request for manufacturers is failed")
         assertThat(actual).isTrue()
     }
 
     @Test
     fun executePageManager() = runTest {
         val remoteDataService =
-            withDataSuccess(TestDataProvider.getManufacturersResponseJson("{}"), pagingManager)
+            withDataSuccess(TestDataProvider.getResponseJson("{}"), pagingManager)
         remoteDataService.fetchManufacturers()
         coVerify { pagingManager.nextPage() }
         coVerify { pagingManager.setTotalPages(any()) }

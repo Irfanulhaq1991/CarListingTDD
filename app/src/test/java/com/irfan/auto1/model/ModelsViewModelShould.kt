@@ -2,7 +2,9 @@ package com.irfan.auto1.model
 
 import com.irfan.auto1.BaseTest
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 
@@ -22,9 +24,10 @@ class ModelsViewModelShould : BaseTest(){
 
 
     @Test
-    fun shouldCallFetchModelsUseCase(){
+    fun callFetchModelsUseCase(){
+        every { useCase() } answers { Result.success(emptyList())}
         viewModel.fetchModels()
-        coVerify { useCase.invoke()}
+        verify { useCase.invoke()}
     }
 
 }
