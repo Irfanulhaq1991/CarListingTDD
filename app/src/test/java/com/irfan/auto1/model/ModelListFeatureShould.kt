@@ -11,6 +11,7 @@ import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
 import com.irfan.auto1.model.data.ModelsRepository
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import com.irfan.auto1.model.domain.mapper.ModelsMapper
+import com.irfan.auto1.model.domain.model.Model
 import com.irfan.auto1.model.ui.ModelUiState
 import com.irfan.auto1.model.ui.ModelsViewModel
 import kotlinx.coroutines.test.runTest
@@ -42,7 +43,8 @@ class ModelListFeatureShould : BaseTest() {
     override fun setup() {
         val mapper = ModelsMapper()
         val remoteDataSource = ModelsRemoteDataSource(remoteApi)
-        val repo = ModelsRepository(mapper, remoteDataSource)
+        val cache = AppCache<String,List<Model>>()
+        val repo = ModelsRepository(mapper, remoteDataSource, cache)
         val useCase = FetchModelsUseCase(repo)
         val modelsViewModel = ModelsViewModel(useCase)
         uiController = ModelListSpyUiController().apply { viewModel = modelsViewModel }

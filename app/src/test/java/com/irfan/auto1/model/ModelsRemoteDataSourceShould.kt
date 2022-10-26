@@ -27,7 +27,6 @@ class ModelsRemoteDataSourceShould : BaseTest() {
 
     @Test
     fun returnMany() = runTest{
-        val data = TestDataProvider.getModelAsDtos()
         val modelsRemoteDataSource = withData(TestDataProvider.getModelResponseJson())
 
         val actual = modelsRemoteDataSource.fetchModels(0).getOrThrow().size
@@ -64,8 +63,5 @@ class ModelsRemoteDataSourceShould : BaseTest() {
         }
         return ModelsRemoteDataSource(remoteApi)
     }
-
-
-
 
 }

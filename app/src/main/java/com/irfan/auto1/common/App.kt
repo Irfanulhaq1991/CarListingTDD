@@ -3,6 +3,7 @@ package com.irfan.auto1.common
 import android.app.Application
 import com.irfan.auto1.manufacturers.di.manufacturerModule
 import com.irfan.auto1.model.di.modelModule
+import com.irfan.auto1.model.di.modelScopedModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -18,7 +19,7 @@ class App : Application() {
             //inject Android context
             androidContext(this@App)
             // use modules
-            modules( manufacturerModule, modelModule, networkModule)
+            modules( manufacturerModule, modelModule,modelScopedModule, networkModule)
         }
     }
 

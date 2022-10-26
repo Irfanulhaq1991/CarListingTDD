@@ -13,8 +13,12 @@ import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.any
 
 class ModelsRepositoryShould : BaseTest() {
+
+    @RelaxedMockK
+    private lateinit var cache: AppCache<String,List<Model>>
 
     @RelaxedMockK
     private lateinit var modelsRemoteDataSource: ModelsRemoteDataSource
@@ -26,7 +30,7 @@ class ModelsRepositoryShould : BaseTest() {
     @Before
     override fun setup() {
         super.setup()
-        repo = ModelsRepository(mapper, modelsRemoteDataSource)
+        repo = ModelsRepository(mapper, modelsRemoteDataSource,cache)
     }
 
     @Test
@@ -60,5 +64,14 @@ class ModelsRepositoryShould : BaseTest() {
         coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.failure(Throwable(errorMessage)) }
         val actual = isFailureWithMessage(repo.fetchModels(0), errorMessage)
         assertThat(actual).isTrue()
+    }
+
+    @Test
+    fun cacheData()= runTest{
+        coEvery { mapper.map(any()) } answers { emptyList()}
+        coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList())}
+
+        repo.fetchModels(any())
+        coVerify { cache.put(any(),any()) }
     }
 }
