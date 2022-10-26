@@ -1,4 +1,4 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.domain.model
 
 import java.io.Serializable
 

@@ -1,7 +1,6 @@
-package com.irfan.auto1.manufacturers.data.remote
+package com.irfan.auto1.common
 
 import com.irfan.auto1.BuildConfig
-import com.irfan.auto1.manufacturers.data.remote.api.ManufacturersRemoteAPI
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -39,8 +38,7 @@ class Networking private constructor() {
         return BuildConfig.BAS_URL
     }
 
-    fun provideMoviesApi(retrofit: Retrofit): ManufacturersRemoteAPI =
-        retrofit.create(ManufacturersRemoteAPI::class.java)
+
 
     fun provideInterceptor(): Interceptor {
         return Interceptor { chain ->

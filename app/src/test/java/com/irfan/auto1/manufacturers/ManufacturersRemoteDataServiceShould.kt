@@ -2,10 +2,10 @@ package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.*
-import com.irfan.auto1.manufacturers.data.remote.datasource.IManufacturersRemoteDataSource
-import com.irfan.auto1.manufacturers.data.remote.api.ManufacturersRemoteAPI
-import com.irfan.auto1.manufacturers.data.remote.datasource.ManufacturersRemoteDataDataSource
-import com.irfan.auto1.manufacturers.data.remote.api.PagingManager
+import com.irfan.auto1.manufacturers.data.remote.IManufacturersRemoteDataSource
+import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteAPI
+import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteDataDataSource
+import com.irfan.auto1.manufacturers.data.remote.PagingManager
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest

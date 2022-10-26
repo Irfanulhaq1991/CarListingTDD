@@ -1,9 +1,9 @@
 package com.irfan.auto1
 
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
-import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
-import com.irfan.auto1.model.Model
-import com.irfan.auto1.model.ModelDto
+import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
+import com.irfan.auto1.model.domain.model.Model
+import com.irfan.auto1.model.data.remote.ModelDto
 
 object TestDataProvider {
     fun getResponseJson(jsonObj: String): String {

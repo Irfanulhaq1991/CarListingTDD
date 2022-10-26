@@ -1,11 +1,11 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.irfan.auto1.manufacturers.domain.model.Manufacturer
-import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
+import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
+import com.irfan.auto1.model.domain.model.Model
 import kotlinx.coroutines.launch
 
 class ModelsViewModel(private val fetchModelsUseCase: FetchModelsUseCase) : ViewModel() {
@@ -13,18 +13,18 @@ class ModelsViewModel(private val fetchModelsUseCase: FetchModelsUseCase) : View
     val uiStateUpdater: LiveData<ModelUiState> = _uiStateUpdater
 
 
-    fun fetchModels() {
-        proceed()
+    fun fetchModels(manufacturerId:Int) {
+        proceed(manufacturerId)
 
     }
 
-    private fun proceed() {
+    private fun proceed(manufacturerId:Int) {
         viewModelScope.launch {
             _uiStateUpdater.value = (uiStateUpdater.value ?: ModelUiState()).copy(
                 loading = true,
                 isError = false
             )
-            fetchModelsUseCase().run {
+            fetchModelsUseCase(manufacturerId).run {
                 reduceState(this)
             }
         }

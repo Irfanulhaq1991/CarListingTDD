@@ -1,7 +1,7 @@
 package com.irfan.auto1.manufacturers
 
 import com.irfan.auto1.BaseTest
-import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
+import com.irfan.auto1.manufacturers.data.ManufacturersRepo
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest

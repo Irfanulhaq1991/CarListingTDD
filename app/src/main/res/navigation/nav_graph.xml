@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/modelFragment"
-        android:name="com.irfan.auto1.model.ModelFragment"
+        android:name="com.irfan.auto1.model.ui.ModelFragment"
         android:label="fragment_model"
         tools:layout="@layout/fragment_model" >
     <argument

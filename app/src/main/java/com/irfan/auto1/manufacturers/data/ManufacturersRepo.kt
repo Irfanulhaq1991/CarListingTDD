@@ -1,7 +1,7 @@
-package com.irfan.auto1.manufacturers.data.repository
+package com.irfan.auto1.manufacturers.data
 
-import com.irfan.auto1.manufacturers.data.remote.datasource.IManufacturersRemoteDataSource
-import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
+import com.irfan.auto1.manufacturers.data.remote.IManufacturersRemoteDataSource
+import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import kotlinx.coroutines.Dispatchers

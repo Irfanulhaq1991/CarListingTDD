@@ -3,8 +3,9 @@ package com.irfan.auto1.manufacturers
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
-import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
+import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
 import com.irfan.auto1.TestDataProvider
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -19,19 +20,19 @@ class ManufacturersMapperShould : BaseTest(){
 
 
     @Test
-    fun returnNoManufacturers(){
+    fun returnNoManufacturers()= runTest{
         val data = emptyList<ManufacturerDto>()
         val actual = manufacturersMapper.map(data)
         assertThat(actual).isEmpty()
     }
     @Test
-    fun returnOneManufacturer(){
+    fun returnOneManufacturer()= runTest{
         val data = TestDataProvider.getManufacturersAsDto()
         val actual = manufacturersMapper.map(data)
         assertThat(actual).contains(TestDataProvider.getManufacturersAsDomainModels().first())
     }
     @Test
-    fun returnManyManufacturers(){
+    fun returnManyManufacturers()= runTest{
         val data = TestDataProvider.getManufacturersAsDto()
         val actual = manufacturersMapper.map(data)
         assertThat(actual).containsExactlyElementsIn(TestDataProvider.getManufacturersAsDomainModels())

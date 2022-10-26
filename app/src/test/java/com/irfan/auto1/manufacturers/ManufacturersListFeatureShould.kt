@@ -6,10 +6,10 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.manufacturers.*
-import com.irfan.auto1.manufacturers.data.remote.api.ManufacturersRemoteAPI
-import com.irfan.auto1.manufacturers.data.remote.datasource.ManufacturersRemoteDataDataSource
-import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
-import com.irfan.auto1.manufacturers.data.remote.api.PagingManager
+import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteAPI
+import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteDataDataSource
+import com.irfan.auto1.manufacturers.data.ManufacturersRepo
+import com.irfan.auto1.manufacturers.data.remote.PagingManager
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
 import com.irfan.auto1.manufacturers.ui.ManufacturersViewModel

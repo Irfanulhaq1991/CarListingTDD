@@ -1,14 +1,13 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.data.remote
 
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.IllegalStateException
 
-class ModelsRemoteDataSource(private val remoteApi: ModelRemoteApi) {
-    fun fetchModels(): Result<List<ModelDto>> {
+class ModelsRemoteDataSource(private val remoteApi: ModelRemoteApi) : IModelsRemoteDataSource {
+    override suspend fun fetchModels(manufacturerId:Int): Result<List<ModelDto>> {
         return try {
-            val response = remoteApi.fetchModels()
+            val response = remoteApi.fetchModels(manufacturerId)
             if (response.isSuccessful) {
                 val modelDtoDTOs = deserializeJsonBody(response.body()!!.string())
                 if (modelDtoDTOs.isEmpty())

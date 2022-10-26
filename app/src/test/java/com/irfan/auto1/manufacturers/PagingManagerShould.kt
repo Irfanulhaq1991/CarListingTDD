@@ -1,7 +1,7 @@
 package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.manufacturers.data.remote.api.PagingManager
+import com.irfan.auto1.manufacturers.data.remote.PagingManager
 import org.junit.Test
 import kotlin.test.assertFails
 

@@ -1,10 +1,12 @@
 package com.irfan.auto1.model
 
 import com.irfan.auto1.BaseTest
+import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
+import com.irfan.auto1.model.ui.ModelsViewModel
+import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -24,10 +26,10 @@ class ModelsViewModelShould : BaseTest(){
 
 
     @Test
-    fun callFetchModelsUseCase(){
-        every { useCase() } answers { Result.success(emptyList())}
-        viewModel.fetchModels()
-        verify { useCase.invoke()}
+    fun callFetchModelsUseCase()= runTest{
+        coEvery { useCase(any()) } answers { Result.success(emptyList())}
+        viewModel.fetchModels(0)
+        coVerify { useCase.invoke(any())}
     }
 
 }

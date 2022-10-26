@@ -1,6 +1,6 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.ui
 
-import com.irfan.auto1.manufacturers.domain.model.Manufacturer
+import com.irfan.auto1.model.domain.model.Model
 
 data class ModelUiState(
     val models: List<Model> = emptyList(),

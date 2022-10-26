@@ -1,8 +1,5 @@
-package com.irfan.auto1.manufacturers.data.remote.datasource
+package com.irfan.auto1.manufacturers.data.remote
 
-import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
-import com.irfan.auto1.manufacturers.data.remote.api.ManufacturersRemoteAPI
-import com.irfan.auto1.manufacturers.data.remote.api.PagingManager
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException

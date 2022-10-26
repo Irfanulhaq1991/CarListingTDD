@@ -1,4 +1,4 @@
-package com.irfan.auto1.manufacturers.data.remote.api
+package com.irfan.auto1.manufacturers.data.remote
 
 import java.lang.IllegalStateException
 

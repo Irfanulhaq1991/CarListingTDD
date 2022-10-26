@@ -2,13 +2,12 @@ package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.*
-import com.irfan.auto1.manufacturers.data.remote.datasource.IManufacturersRemoteDataSource
-import com.irfan.auto1.manufacturers.data.remote.model.ManufacturerDto
-import com.irfan.auto1.manufacturers.data.repository.ManufacturersRepo
+import com.irfan.auto1.manufacturers.data.remote.IManufacturersRemoteDataSource
+import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
+import com.irfan.auto1.manufacturers.data.ManufacturersRepo
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -55,7 +54,7 @@ class ManufacturersRepoShould : BaseTest() {
                 manufacturersDto
             )
         }
-        every { manufacturersMapper.map(any()) } answers { manufacturerDomain }
+        coEvery { manufacturersMapper.map(any()) } answers { manufacturerDomain }
         assertThat(manufacturersRepo.fetchManufacturers()).isEqualTo(
             Result.success(
                 manufacturerDomain
@@ -70,7 +69,7 @@ class ManufacturersRepoShould : BaseTest() {
         coEvery { manufacturersRemoteDataSource.fetchManufacturers() } answers {
             Result.success(manufacturersDtos)
         }
-        every { manufacturersMapper.map(any()) } answers { manufacturerDomain }
+        coEvery { manufacturersMapper.map(any()) } answers { manufacturerDomain }
         val actual =
             isFailureWithMessage(manufacturersRepo.fetchManufacturers(), "No Manufacturer Found")
             assertThat(actual).isTrue()

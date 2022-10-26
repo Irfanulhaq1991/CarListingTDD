@@ -6,7 +6,13 @@ import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.TestDataProvider
-import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
+import com.irfan.auto1.model.data.remote.ModelRemoteApi
+import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
+import com.irfan.auto1.model.data.ModelsRepository
+import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
+import com.irfan.auto1.model.domain.mapper.ModelsMapper
+import com.irfan.auto1.model.ui.ModelUiState
+import com.irfan.auto1.model.ui.ModelsViewModel
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
@@ -22,7 +28,7 @@ class ModelListFeatureShould : BaseTest() {
 
     private lateinit var uiController: ModelListSpyUiController
     private val remoteApi = object : ModelRemoteApi {
-        override fun fetchModels(): Response<ResponseBody> {
+        override suspend fun fetchModels(manufacturerId:Int): Response<ResponseBody> {
             val contentType = "application/json; charset=utf-8".toMediaType()
 
             return Response.success(
@@ -36,7 +42,7 @@ class ModelListFeatureShould : BaseTest() {
     override fun setup() {
         val mapper = ModelsMapper()
         val remoteDataSource = ModelsRemoteDataSource(remoteApi)
-        val repo = FetchModelsRepository(mapper, remoteDataSource)
+        val repo = ModelsRepository(mapper, remoteDataSource)
         val useCase = FetchModelsUseCase(repo)
         val modelsViewModel = ModelsViewModel(useCase)
         uiController = ModelListSpyUiController().apply { viewModel = modelsViewModel }
@@ -78,7 +84,7 @@ class ModelListSpyUiController : LifecycleOwner {
 
 
     fun fetchModel() {
-        viewModel.fetchModels()
+        viewModel.fetchModels(0)
         countDownLatch.await(500, TimeUnit.MILLISECONDS)
 
     }

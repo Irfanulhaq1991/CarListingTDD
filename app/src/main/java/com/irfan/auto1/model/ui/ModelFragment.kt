@@ -1,4 +1,4 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,17 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.irfan.auto1.R
-import com.irfan.auto1.databinding.FragmentManufacturersBinding
 import com.irfan.auto1.databinding.FragmentModelBinding
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 
 
 class ModelFragment : Fragment() {
-    private val args: ModelFragmentArgs by navArgs()
-
-    private val manufacturer: Manufacturer by lazy {
-        args.manufacturer
-    }
+//    private val args: com.irfan.auto1.model.ModelFragmentArgs by navArgs()
+//
+//    private val manufacturer: Manufacturer by lazy {
+//        args.manufacturer
+//    }
 
     private val binding:FragmentModelBinding by lazy {
         FragmentModelBinding.inflate(requireActivity().layoutInflater)
