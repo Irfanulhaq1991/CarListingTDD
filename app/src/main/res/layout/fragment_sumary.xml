@@ -5,7 +5,7 @@
 
         <variable
             name="carInfo"
-            type="com.irfan.auto1.year.domain.model.CarInfo" />
+            type="com.irfan.auto1.common.CarInfo" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -36,7 +36,7 @@
                 app:tint="@color/black" />
 
             <TextView
-                android:id="@+id/manufacturer_name"
+                android:id="@+id/tile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

@@ -1,7 +1,7 @@
 package com.irfan.auto1.year
 
 import com.irfan.auto1.BaseTest
-import com.irfan.auto1.year.domain.model.CarInfo
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.year.domain.usecase.FetchCarYearsUseCase
 import com.irfan.auto1.year.ui.CarYearsViewModel
 import io.mockk.coEvery

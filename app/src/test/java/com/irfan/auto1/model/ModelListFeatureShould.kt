@@ -67,7 +67,7 @@ class ModelListFeatureShould {
     fun fetchModelsList() {
         val expected = listOf(
             ModelUiState(loading = true),
-            ModelUiState(models = TestDataProvider.getModelAsDomainModels())
+            ModelUiState(data = TestDataProvider.getModelAsDomainModels())
         )
         uiController.fetchModel()
         val actual = uiController.uiStates
@@ -77,7 +77,7 @@ class ModelListFeatureShould {
     @Test
     fun search() {
         val expected = listOf(
-            ModelUiState(update = true, models = TestDataProvider.getModelAsDomainModels()
+            ModelUiState(update = true, data = TestDataProvider.getModelAsDomainModels()
                     .filter { it.name.contains("e") }))
 
         modelFilter.setSearchData(TestDataProvider.getModelAsDomainModels())

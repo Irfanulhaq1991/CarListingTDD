@@ -25,7 +25,10 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
 
     private fun proceed() {
         viewModelScope.launch {
-            _uiStateUpdater.value = (uiStateUpdater.value ?: ManufacturerUiState()).copy(loading = true, isError = false)
+            _uiStateUpdater.value = (uiStateUpdater.value ?: ManufacturerUiState()).copy(
+                loading = true,
+                isError = false
+            )
             fetchManufacturersUseCase().run {
                 reduceState(this)
             }
@@ -36,9 +39,9 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
         result.fold({
             _uiStateUpdater.value = uiStateUpdater.value!!
                 .copy(
-                    manufacturers = it,
+                    data = it,
                     loading = false,
-                    isError =  false
+                    isError = false
                 )
 
         }, {
@@ -59,7 +62,7 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
 
     fun onDestroy(manufacturers: List<Manufacturer>) {
         shouldRestoreOdlState = true
-        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(manufacturers = manufacturers)
+        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(data = manufacturers)
     }
 
 }

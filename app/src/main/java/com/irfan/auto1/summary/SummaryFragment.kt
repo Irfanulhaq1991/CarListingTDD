@@ -18,7 +18,7 @@ class SummaryFragment : Fragment() {
     private val binding:FragmentSumaryBinding by lazy {
         FragmentSumaryBinding.inflate(requireActivity().layoutInflater)
     }
-    val args:SummaryFragmentArgs by navArgs()
+    private val args:SummaryFragmentArgs by navArgs()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

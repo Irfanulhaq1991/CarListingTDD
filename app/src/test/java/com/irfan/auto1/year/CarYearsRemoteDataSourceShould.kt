@@ -5,7 +5,7 @@ import com.irfan.auto1.BaseTest
 import com.irfan.auto1.TestDataProvider
 import com.irfan.auto1.year.data.remote.CarYearsRemoteDataSource
 import com.irfan.auto1.year.data.remote.CarYearsRemoteApi
-import com.irfan.auto1.year.domain.model.CarInfo
+import com.irfan.auto1.common.CarInfo
 
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType

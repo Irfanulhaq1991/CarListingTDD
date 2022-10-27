@@ -54,7 +54,7 @@ class ModelsViewModel(
         result.fold({
             _uiStateUpdater.value = modelUiState
                 .copy(
-                    models = it,
+                    data = it,
                     loading = false,
                     isError = false,
                 )

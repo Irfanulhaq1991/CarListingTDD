@@ -7,91 +7,38 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.irfan.auto1.R
-import com.irfan.auto1.common.ItemLayoutManger
-import com.irfan.auto1.common.RcAdaptor
+import com.irfan.auto1.common.*
 import com.irfan.auto1.databinding.FragmentModelBinding
 import com.irfan.auto1.databinding.RowLayoutBinding
 import com.irfan.auto1.model.domain.model.Model
-import com.irfan.auto1.year.domain.model.CarInfo
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class ModelFragment : Fragment(), ItemLayoutManger<Model>, Observer<ModelUiState> {
+class ModelFragment : BaseFragment<Model>() {
 
-    private val binding: FragmentModelBinding by lazy {
-        FragmentModelBinding.inflate(requireActivity().layoutInflater)
-    }
 
     private val viewModel: ModelsViewModel by viewModel()
 
-    private val adaptor: RcAdaptor<Model> by lazy {
-        RcAdaptor(this).apply {
-            bindRecyclerView(binding.recyclerView)
-        }
-    }
 
     private val args: ModelFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return binding.root
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        init()
-    }
+    override fun init() {
+        super.init()
 
-    private fun init() {
-        viewModel
-            .uiStateUpdater
+        viewModel.uiStateUpdater
             .apply { adaptor }
             .observe(viewLifecycleOwner, this)
-
-        binding.retry.setOnClickListener {
-            viewModel.fetchModels(args.manufacturer.id)
-        }
-
-        binding
-            .searchView
-            .doOnTextChanged { query, _, _, _ ->
-                viewModel
-                    .search(query.toString())
-            }
-
-        binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.manufacturerName.text =
-            "Manufacturer : ${args.manufacturer.name}"
     }
 
-
-    override fun onRcAdapterReady() {
-        viewModel.fetchModels(args.manufacturer.id)
-    }
-
-    override fun getLayoutId(position: Int): Int {
-        return R.layout.row_layout
-    }
-
-    override fun bindView(view: View, position: Int, item: Model) {
-        val binding = DataBindingUtil.bind<RowLayoutBinding>(view)!!
-        binding.txtTitle.text = item.name
-        binding.root.tag = item
-        binding.root.setOnClickListener(::navigateToYear)
-    }
-
-    private fun navigateToYear(view: View) {
+    override fun navigate(view: View) {
         val model = view.tag as Model
         val manufacturer = args.manufacturer
         val action =
@@ -100,24 +47,21 @@ class ModelFragment : Fragment(), ItemLayoutManger<Model>, Observer<ModelUiState
         findNavController().navigate(action)
     }
 
-    override fun onChanged(state: ModelUiState) {
-        adaptor.setData(state.models, state.update)
-        handleMessageAndProgressBar(state)
-        stateRendered(state)
+    override fun doFetching() {
+        viewModel.fetchModels(args.manufacturer.id)
     }
 
-    private fun handleMessageAndProgressBar(state: ModelUiState) {
-        state.errorMessage?.let {
-            Snackbar.make(requireContext(), binding.root.rootView, it, Snackbar.LENGTH_SHORT).show()
-        }
-        binding.searchView.visibility =
-            if (state.isError || state.loading) View.GONE else View.VISIBLE
-        binding.mainProgressBar.visibility = if (state.loading) View.VISIBLE else View.GONE
-        binding.retry.visibility = if (state.isError) View.VISIBLE else View.GONE
+
+    override fun statRendered() {
+        viewModel.stateRendered()
     }
 
-    private fun stateRendered(state: ModelUiState) {
-        if (state.errorMessage != null)
-            viewModel.stateRendered()
+    override fun getFragmentBinding(): ViewDataBinding {
+        return FragmentModelBinding.inflate(requireActivity().layoutInflater)
+
+    }
+
+    override fun getTitle(): String {
+       return "Manufacturer : ${args.manufacturer.name}"
     }
 }

@@ -33,7 +33,7 @@
         android:label="CarYearFragment" >
         <argument
             android:name="CarInfo"
-            app:argType="com.irfan.auto1.year.domain.model.CarInfo" />
+            app:argType="com.irfan.auto1.common.CarInfo" />
         <action
             android:id="@+id/action_carYearFragment_to_summaryFragment"
             app:destination="@id/summaryFragment" />
@@ -44,7 +44,7 @@
         android:label="SummaryFragment" >
         <argument
             android:name="carInfo"
-            app:argType="com.irfan.auto1.year.domain.model.CarInfo" />
+            app:argType="com.irfan.auto1.common.CarInfo" />
         <action
             android:id="@+id/action_summaryFragment_to_manufacturersFragment"
             app:destination="@id/manufacturersFragment"

@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.irfan.auto1.year.domain.model.CarInfo
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.year.domain.usecase.FetchCarYearsUseCase
 import com.irfan.auto1.year.domain.model.CarYear
 import kotlinx.coroutines.launch
@@ -13,11 +13,11 @@ class CarYearsViewModel(private val fetchCarYearsUseCase: FetchCarYearsUseCase) 
     private val _uiStateUpdater = MutableLiveData<CarYearsUiState>()
     val uiStateUpdater: LiveData<CarYearsUiState> = _uiStateUpdater
 
-    fun fetchCarYears(carInfo:CarInfo) {
+    fun fetchCarYears(carInfo: CarInfo) {
         proceedFetching(carInfo)
     }
 
-    private fun proceedFetching(carInfo:CarInfo) {
+    private fun proceedFetching(carInfo: CarInfo) {
         viewModelScope.launch {
             _uiStateUpdater.value = (uiStateUpdater.value ?: CarYearsUiState()).copy(
                 loading = true,
@@ -33,7 +33,7 @@ class CarYearsViewModel(private val fetchCarYearsUseCase: FetchCarYearsUseCase) 
         result.fold({
             _uiStateUpdater.value = modelUiState
                 .copy(
-                    carYears = it,
+                    data = it,
                     loading = false,
                     isError = false,
                 )
