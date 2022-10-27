@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 
 class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
@@ -21,8 +22,9 @@ class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun update(itemList: List<T>) {
-        if (this.itemList.containsAll(itemList)) return
+    fun setData(itemList: List<T>, update: Boolean = false) {
+        if (update) this.itemList.clear()
+        if (itemList.isNotEmpty() && this.itemList.containsAll(itemList)) return
         this.itemList.addAll(itemList)
         notifyDataSetChanged()
     }

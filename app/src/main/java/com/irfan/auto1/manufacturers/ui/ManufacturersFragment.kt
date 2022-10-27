@@ -99,7 +99,7 @@ class ManufacturersFragment : Fragment(), ItemLayoutManger<Manufacturer>,
 
     override fun onChanged(state: ManufacturerUiState) {
 
-        adaptor.update(state.manufacturers)
+        adaptor.setData(state.manufacturers)
         handleMessageAndProgressBar(state)
         stateRendered(state)
     }

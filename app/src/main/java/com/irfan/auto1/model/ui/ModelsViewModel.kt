@@ -6,37 +6,57 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import com.irfan.auto1.model.domain.model.Model
+import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ModelsViewModel(private val fetchModelsUseCase: FetchModelsUseCase) : ViewModel() {
+class ModelsViewModel(
+    private val fetchModelsUseCase: FetchModelsUseCase,
+    private val searchModelsUseCase: SearchModelsUseCase
+
+) : ViewModel() {
+
     private val _uiStateUpdater = MutableLiveData<ModelUiState>()
     val uiStateUpdater: LiveData<ModelUiState> = _uiStateUpdater
+    private var job: Job = Job()
 
-
-    fun fetchModels(manufacturerId:Int) {
-        proceed(manufacturerId)
+    fun fetchModels(manufacturerId: Int) {
+        proceedFetching(manufacturerId)
 
     }
 
-    private fun proceed(manufacturerId:Int) {
+    fun search(query: String) {
+        proceedSearching(query)
+    }
+
+    private fun proceedSearching(query: String) {
+        job.cancel()
+        job = viewModelScope.launch {
+            searchModelsUseCase(query).run {
+                reduceState(this,(uiStateUpdater.value?:ModelUiState()).copy(update = true))
+            }
+        }
+    }
+
+    private fun proceedFetching(manufacturerId: Int) {
         viewModelScope.launch {
             _uiStateUpdater.value = (uiStateUpdater.value ?: ModelUiState()).copy(
                 loading = true,
                 isError = false
             )
             fetchModelsUseCase(manufacturerId).run {
-                reduceState(this)
+                reduceState(this, uiStateUpdater.value!!)
             }
         }
     }
 
-    private fun reduceState(result: Result<List<Model>>) {
+    private fun reduceState(result: Result<List<Model>>, modelUiState: ModelUiState) {
         result.fold({
-            _uiStateUpdater.value = uiStateUpdater.value!!
+            _uiStateUpdater.value = modelUiState
                 .copy(
                     models = it,
                     loading = false,
-                    isError = false
+                    isError = false,
                 )
 
         }, {
@@ -52,6 +72,7 @@ class ModelsViewModel(private val fetchModelsUseCase: FetchModelsUseCase) : View
 
 
     fun stateRendered() {
-        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(errorMessage = null)
+        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(errorMessage = null, update = false)
     }
+
 }

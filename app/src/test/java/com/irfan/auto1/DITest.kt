@@ -3,7 +3,6 @@ package com.irfan.auto1
 import com.irfan.auto1.common.networkModule
 import com.irfan.auto1.manufacturers.di.manufacturerModule
 import com.irfan.auto1.model.di.modelModule
-import com.irfan.auto1.model.di.modelTestModule
 import org.junit.Rule
 import org.junit.Test
 import org.koin.test.KoinTest
@@ -22,6 +21,6 @@ class DITest : KoinTest {
     // verify the Koin configuration
     @Test
     fun checkAllModules() = checkModules {
-        modules(manufacturerModule,modelModule, modelTestModule, networkModule)
+        modules(manufacturerModule,modelModule, networkModule)
     }
 }

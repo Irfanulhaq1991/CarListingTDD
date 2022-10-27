@@ -1,8 +1,31 @@
-package com.irfan.auto1.model.domain.usecase
+package com.irfan.auto1.model.search
 
-import junit.framework.TestCase
+import com.irfan.auto1.BaseTest
+import com.irfan.auto1.model.data.ModelsRepository
+import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
+import io.mockk.coVerify
+import io.mockk.impl.annotations.RelaxedMockK
+import io.mockk.verify
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
+import org.junit.Test
+import org.mockito.kotlin.any
 
-class SearchModelsUseCaseShould : TestCase() {
+class SearchModelsUseCaseShould : BaseTest() {
 
-    fun testInvoke() {}
+    @RelaxedMockK
+    private lateinit var repo: ModelsRepository
+
+    private lateinit var searchModelsUseCase: SearchModelsUseCase
+
+    @Before
+    override fun setup() {
+        super.setup()
+        searchModelsUseCase = SearchModelsUseCase(repo)
+    }
+    @Test
+    fun callRepository() = runTest{
+        searchModelsUseCase(any())
+        coVerify { repo.search(any()) }
+    }
 }

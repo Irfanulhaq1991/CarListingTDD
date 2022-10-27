@@ -7,4 +7,5 @@ data class ModelUiState(
     val errorMessage: String? = null,
     val isError:Boolean = false,
     val loading: Boolean = false,
+    val update: Boolean = false
 )

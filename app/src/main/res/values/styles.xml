@@ -9,5 +9,7 @@
 
         <item name="android:windowContentTransitions">true</item>
     </style>
-
+    <style name="Theme.input" parent="AppTheme">
+        <item name="android:background">@drawable/ed_bg_day</item>
+    </style>
 </resources>

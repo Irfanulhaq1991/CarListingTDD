@@ -1,4 +1,4 @@
-package com.irfan.auto1.model
+package com.irfan.auto1.model.fetch
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
