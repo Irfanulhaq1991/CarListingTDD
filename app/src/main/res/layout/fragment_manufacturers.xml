@@ -81,11 +81,12 @@
             android:text="Retry"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:padding="15dp"
+            style="@style/Theme.input"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:visibility="gone"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

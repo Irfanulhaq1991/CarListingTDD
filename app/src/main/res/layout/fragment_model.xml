@@ -28,8 +28,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="@drawable/ed_bg_day"
-
-                android:padding="10dp"
+                android:padding="5dp"
                 app:tint="@color/black"
                 />
             <TextView
