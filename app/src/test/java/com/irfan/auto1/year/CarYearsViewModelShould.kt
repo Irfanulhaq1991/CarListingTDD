@@ -1,9 +1,13 @@
 package com.irfan.auto1.year
 
 import com.irfan.auto1.BaseTest
+import com.irfan.auto1.year.domain.model.CarInfo
+import com.irfan.auto1.year.domain.usecase.FetchCarYearsUseCase
+import com.irfan.auto1.year.ui.CarYearsViewModel
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
-import junit.framework.TestCase
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
@@ -22,8 +26,9 @@ class CarYearsViewModelShould : BaseTest() {
 
 
     @Test
-    fun callFetchCarYearsUseCase() {
-        viewModel.fetchCarYears()
-        verify { fetchCarYearsUseCase() }
+    fun callFetchCarYearsUseCase() = runTest {
+        coEvery { fetchCarYearsUseCase(any()) } answers { Result.success(emptyList())}
+        viewModel.fetchCarYears(CarInfo())
+        coVerify { fetchCarYearsUseCase(any()) }
     }
 }

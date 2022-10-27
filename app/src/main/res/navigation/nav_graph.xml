@@ -23,5 +23,32 @@
     <argument
         android:name="Manufacturer"
         app:argType="com.irfan.auto1.manufacturers.domain.model.Manufacturer" />
+        <action
+            android:id="@+id/action_modelFragment_to_carYearFragment"
+            app:destination="@id/carYearFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/carYearFragment"
+        android:name="com.irfan.auto1.year.ui.CarYearFragment"
+        android:label="CarYearFragment" >
+        <argument
+            android:name="CarInfo"
+            app:argType="com.irfan.auto1.year.domain.model.CarInfo" />
+        <action
+            android:id="@+id/action_carYearFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.irfan.auto1.summary.SummaryFragment"
+        android:label="SummaryFragment" >
+        <argument
+            android:name="carInfo"
+            app:argType="com.irfan.auto1.year.domain.model.CarInfo" />
+        <action
+            android:id="@+id/action_summaryFragment_to_manufacturersFragment"
+            app:destination="@id/manufacturersFragment"
+            app:popUpTo="@id/manufacturersFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

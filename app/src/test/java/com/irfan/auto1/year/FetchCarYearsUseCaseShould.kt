@@ -1,10 +1,14 @@
 package com.irfan.auto1.year
 
 import com.irfan.auto1.BaseTest
+import com.irfan.auto1.year.data.CarYearsRepository
+import com.irfan.auto1.year.domain.usecase.FetchCarYearsUseCase
+import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
-import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
+import org.mockito.kotlin.any
 
 class FetchCarYearsUseCaseShould : BaseTest() {
 
@@ -20,8 +24,8 @@ class FetchCarYearsUseCaseShould : BaseTest() {
     }
 
     @Test
-    fun callCarYearsRepository() {
-        fetchCarYearsUseCase()
-        verify { repo.fetchCarYears() }
+    fun callCarYearsRepository() = runTest{
+        fetchCarYearsUseCase(any())
+        coVerify { repo.fetchCarYears(any()) }
     }
 }

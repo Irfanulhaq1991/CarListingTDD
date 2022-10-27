@@ -1,11 +1,10 @@
-package com.irfan.auto1.model.ui
+package com.irfan.auto1.year.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -14,36 +13,37 @@ import com.google.android.material.snackbar.Snackbar
 import com.irfan.auto1.R
 import com.irfan.auto1.common.ItemLayoutManger
 import com.irfan.auto1.common.RcAdaptor
-import com.irfan.auto1.databinding.FragmentModelBinding
+import com.irfan.auto1.databinding.FragmentCarYearBinding
 import com.irfan.auto1.databinding.RowLayoutBinding
-import com.irfan.auto1.model.domain.model.Model
-import com.irfan.auto1.year.domain.model.CarInfo
+import com.irfan.auto1.year.domain.model.CarYear
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class ModelFragment : Fragment(), ItemLayoutManger<Model>, Observer<ModelUiState> {
-
-    private val binding: FragmentModelBinding by lazy {
-        FragmentModelBinding.inflate(requireActivity().layoutInflater)
+class CarYearFragment : Fragment(),ItemLayoutManger<CarYear>,Observer<CarYearsUiState> {
+    private val binding: FragmentCarYearBinding by lazy {
+        FragmentCarYearBinding.inflate(requireActivity().layoutInflater)
     }
+    private val viewModel: CarYearsViewModel by viewModel()
 
-    private val viewModel: ModelsViewModel by viewModel()
-
-    private val adaptor: RcAdaptor<Model> by lazy {
+    private val adaptor: RcAdaptor<CarYear> by lazy {
         RcAdaptor(this).apply {
             bindRecyclerView(binding.recyclerView)
         }
     }
 
-    private val args: ModelFragmentArgs by navArgs()
+    private val args: CarYearFragmentArgs by navArgs()
 
+    private val title:String by lazy {
+        "Manufacturer: ${args.carInfo.manufacturer.name}  Model: ${args.carInfo.model.name}"
+    }
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,66 +57,55 @@ class ModelFragment : Fragment(), ItemLayoutManger<Model>, Observer<ModelUiState
             .observe(viewLifecycleOwner, this)
 
         binding.retry.setOnClickListener {
-            viewModel.fetchModels(args.manufacturer.id)
+            viewModel.fetchCarYears(args.carInfo)
         }
 
-        binding
-            .searchView
-            .doOnTextChanged { query, _, _, _ ->
-                viewModel
-                    .search(query.toString())
-            }
 
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        binding.manufacturerName.text =
-            "Manufacturer : ${args.manufacturer.name}"
+        binding.manufacturerName.text = title
+
     }
 
-
     override fun onRcAdapterReady() {
-        viewModel.fetchModels(args.manufacturer.id)
+       viewModel.fetchCarYears(args.carInfo)
     }
 
     override fun getLayoutId(position: Int): Int {
         return R.layout.row_layout
     }
 
-    override fun bindView(view: View, position: Int, item: Model) {
+    override fun bindView(view: View, position: Int, item: CarYear) {
         val binding = DataBindingUtil.bind<RowLayoutBinding>(view)!!
         binding.txtTitle.text = item.name
         binding.root.tag = item
-        binding.root.setOnClickListener(::navigateToYear)
+        binding.root.setOnClickListener(::navigateToSummery)
     }
 
-    private fun navigateToYear(view: View) {
-        val model = view.tag as Model
-        val manufacturer = args.manufacturer
-        val action =
-            ModelFragmentDirections
-                .actionModelFragmentToCarYearFragment(CarInfo(manufacturer, model))
+    private fun navigateToSummery(view: View) {
+        val carYear = view.tag as CarYear
+        val carInfo = args.carInfo.copy(year = carYear)
+        val action = CarYearFragmentDirections.actionCarYearFragmentToSummaryFragment(carInfo)
         findNavController().navigate(action)
     }
 
-    override fun onChanged(state: ModelUiState) {
-        adaptor.setData(state.models, state.update)
+
+    override fun onChanged(state: CarYearsUiState) {
+        adaptor.setData(state.carYears,state.update)
         handleMessageAndProgressBar(state)
         stateRendered(state)
     }
-
-    private fun handleMessageAndProgressBar(state: ModelUiState) {
+    private fun handleMessageAndProgressBar(state: CarYearsUiState) {
         state.errorMessage?.let {
             Snackbar.make(requireContext(), binding.root.rootView, it, Snackbar.LENGTH_SHORT).show()
         }
-        binding.searchView.visibility =
-            if (state.isError || state.loading) View.GONE else View.VISIBLE
         binding.mainProgressBar.visibility = if (state.loading) View.VISIBLE else View.GONE
         binding.retry.visibility = if (state.isError) View.VISIBLE else View.GONE
     }
 
-    private fun stateRendered(state: ModelUiState) {
+    private fun stateRendered(state: CarYearsUiState) {
         if (state.errorMessage != null)
             viewModel.stateRendered()
     }

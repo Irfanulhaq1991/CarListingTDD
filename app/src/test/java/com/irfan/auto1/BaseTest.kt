@@ -34,8 +34,8 @@ abstract class BaseTest {
      * Check where a failure is with input message
      * */
     fun <T> isFailureWithMessage(result: Result<T>, message: String): Boolean {
-        var errorMessage: String? = "#-#"
-        result.onFailure { errorMessage = it.message }
-        return result.isFailure && errorMessage == message
+        var errorMessage: String = "#-#"
+        result.onFailure { errorMessage = it.message!! }
+        return result.isFailure && errorMessage.contains(message)
     }
 }

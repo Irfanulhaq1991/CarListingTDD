@@ -1,7 +1,6 @@
-package com.irfan.auto1.year
+package com.irfan.auto1.year.ui
 
-import com.irfan.auto1.model.domain.model.Model
-import com.irfan.auto1.year.CarYear
+import com.irfan.auto1.year.domain.model.CarYear
 
 data class CarYearsUiState(
     val carYears: List<CarYear> = emptyList(),

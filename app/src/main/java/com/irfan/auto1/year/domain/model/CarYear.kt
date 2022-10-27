@@ -1,4 +1,4 @@
-package com.irfan.auto1.year
+package com.irfan.auto1.year.domain.model
 
 import java.io.Serializable
 

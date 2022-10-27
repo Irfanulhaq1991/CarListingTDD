@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
+import com.irfan.auto1.year.domain.model.CarYear
 
 class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
     RecyclerView.Adapter<RcAdaptor.AppViewHolder<T>>() {

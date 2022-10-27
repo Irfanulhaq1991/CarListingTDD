@@ -4,8 +4,8 @@ import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
 import com.irfan.auto1.model.domain.model.Model
 import com.irfan.auto1.model.data.remote.ModelDto
-import com.irfan.auto1.year.CarYear
-import com.irfan.auto1.year.CarYearDto
+import com.irfan.auto1.year.domain.model.CarYear
+import com.irfan.auto1.year.data.remote.CarYearDto
 
 object TestDataProvider {
     fun getResponseJson(jsonObj: String): String {
@@ -177,7 +177,7 @@ object TestDataProvider {
 
     // Year
 
-    fun getYearResponseJson(): String {
+    fun getCarYearResponseJson(): String {
         return """{
   "wkda": {
             "2014": "2014",
@@ -194,12 +194,13 @@ object TestDataProvider {
     fun getYearsAsDomainModels(): List<CarYear> {
 
         return listOf(
-            CarYear(2014, "2014"),
-            CarYear(2015, "2015"),
-            CarYear(2016, "2016"),
-            CarYear(2017, "2017"),
+            CarYear(2019, "2019"),
             CarYear(2018, "2018"),
-            CarYear(2019, "2019")
+            CarYear(2017, "2017"),
+            CarYear(2016, "2016"),
+            CarYear(2015, "2015"),
+            CarYear(2014, "2014")
+
         )
     }
 
@@ -207,12 +208,12 @@ object TestDataProvider {
     fun getYearsAsDto(): List<CarYearDto> {
 
         return listOf(
-            CarYearDto("2014", "2014"),
-            CarYearDto("2015", "2015"),
-            CarYearDto("2016", "2016"),
-            CarYearDto("2017", "2017"),
+            CarYearDto("2019", "2019"),
             CarYearDto("2018", "2018"),
-            CarYearDto("2019", "2019")
+            CarYearDto("2017", "2017"),
+            CarYearDto("2016", "2016"),
+            CarYearDto("2015", "2015"),
+            CarYearDto("2014", "2014")
         )
     }
 }

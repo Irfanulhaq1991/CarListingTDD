@@ -29,9 +29,10 @@ import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-class ModelListFeatureShould  {
+class ModelListFeatureShould {
     @get:Rule
     val liveDataRule = InstantTaskExecutorRule()
+
     @get:Rule
     val coroutineRul = CoroutineTestRule()
 
@@ -74,11 +75,11 @@ class ModelListFeatureShould  {
     }
 
     @Test
-    fun search()  {
+    fun search() {
         val expected = listOf(
-            ModelUiState(
-                models = TestDataProvider.getModelAsDomainModels().filter { it.name.contains("e") })
-        )
+            ModelUiState(update = true, models = TestDataProvider.getModelAsDomainModels()
+                    .filter { it.name.contains("e") }))
+
         modelFilter.setSearchData(TestDataProvider.getModelAsDomainModels())
         uiController.search("e")
         val actual = uiController.uiStates
