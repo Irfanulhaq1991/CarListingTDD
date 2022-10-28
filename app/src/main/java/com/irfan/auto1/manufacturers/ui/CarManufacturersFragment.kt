@@ -11,10 +11,10 @@ import com.irfan.auto1.databinding.FragmentManufacturersBinding
 import com.irfan.auto1.manufacturers.domain.model.CarManufacturer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ManufacturersFragment : BaseFragment<CarManufacturer>() {
+class CarManufacturersFragment : BaseFragment<CarManufacturer>() {
 
 
-    private val viewModel: ManufacturersViewModel by viewModel()
+    private val viewModelCar: CarManufacturersViewModel by viewModel()
 
 
     private val rcScrollListener = object : RecyclerView.OnScrollListener() {
@@ -24,7 +24,7 @@ class ManufacturersFragment : BaseFragment<CarManufacturer>() {
             with(recyclerView.layoutManager as LinearLayoutManager) {
                 findLastVisibleItemPosition()
                 if (dy > 0 && findLastVisibleItemPosition() == adaptor.itemCount - 1)
-                    viewModel.fetchManufacturers()
+                    viewModelCar.fetchManufacturers()
             }
 
         }
@@ -33,14 +33,14 @@ class ManufacturersFragment : BaseFragment<CarManufacturer>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onDestroy(adaptor.getItems())
+        viewModelCar.onDestroy(adaptor.getItems())
     }
 
 
 
     override fun init() {
         super.init()
-        viewModel.uiStateUpdater
+        viewModelCar.uiStateUpdater
             .apply { adaptor }
             .observe(viewLifecycleOwner, this)
 
@@ -69,16 +69,16 @@ class ManufacturersFragment : BaseFragment<CarManufacturer>() {
     override fun navigate(view: View) {
         val manufacturer = view.tag as CarManufacturer
         val action =
-            ManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(CarInfo(carManufacturer = manufacturer))
+            CarManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(CarInfo(carManufacturer = manufacturer))
         findNavController().navigate(action)
     }
 
     override fun doFetching() {
-        viewModel.fetchManufacturers()
+        viewModelCar.fetchManufacturers()
     }
 
     override fun statRendered() {
-        viewModel.renderingFinished()
+        viewModelCar.renderingFinished()
     }
 
     override fun getFragmentBinding(): ViewDataBinding {

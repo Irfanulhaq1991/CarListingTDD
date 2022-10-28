@@ -13,8 +13,8 @@ import com.irfan.auto1.manufacturers.data.ManufacturersRepo
 import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteDataSource
 import com.irfan.auto1.manufacturers.data.remote.PagingManager
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
-import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
-import com.irfan.auto1.manufacturers.ui.ManufacturersViewModel
+import com.irfan.auto1.manufacturers.ui.CarManufacturerUiState
+import com.irfan.auto1.manufacturers.ui.CarManufacturersViewModel
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
@@ -52,8 +52,8 @@ class ManufacturersListFeatureShould {
         val remoteService = ManufacturersRemoteDataSource(remoteAPI, pagingManager)
         val manufacturersRepo = ManufacturersRepo(remoteService, ManufacturersMapper())
         val fetchManufacturersUseCase = FetchManufacturersUseCase(manufacturersRepo)
-        val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)
-       uiController = ManufacturersSpyUiController().apply { viewModel = manufacturersViewModel }
+        val manufacturersViewModel = CarManufacturersViewModel(fetchManufacturersUseCase)
+       uiController = ManufacturersSpyUiController().apply { viewModelCar = manufacturersViewModel }
        uiController.onCreate()
    }
 
@@ -61,8 +61,8 @@ class ManufacturersListFeatureShould {
     @Test
     fun fetchManufacturersList()= runTest{
         val actual = listOf(
-            ManufacturerUiState(loading = true),
-            ManufacturerUiState(data = TestDataProvider.getManufacturersAsDomainModels())
+            CarManufacturerUiState(loading = true),
+            CarManufacturerUiState(data = TestDataProvider.getManufacturersAsDomainModels())
         )
         uiController.fetchManufacturers()
         val result = uiController.uiStates
@@ -72,8 +72,8 @@ class ManufacturersListFeatureShould {
 
 class ManufacturersSpyUiController:LifecycleOwner {
 
-    lateinit var viewModel: ManufacturersViewModel
-    val uiStates = mutableListOf<ManufacturerUiState>()
+    lateinit var viewModelCar: CarManufacturersViewModel
+    val uiStates = mutableListOf<CarManufacturerUiState>()
     private val countDownLatch: CountDownLatch = CountDownLatch(1)
 
 
@@ -82,7 +82,7 @@ class ManufacturersSpyUiController:LifecycleOwner {
 
     fun onCreate(){
         registry.currentState = Lifecycle.State.STARTED
-        viewModel.uiStateUpdater.observe(this) {
+        viewModelCar.uiStateUpdater.observe(this) {
             uiStates.add(it)
             if (uiStates.size == 2) {
                 countDownLatch.countDown()
@@ -92,7 +92,7 @@ class ManufacturersSpyUiController:LifecycleOwner {
 
 
     fun fetchManufacturers() {
-        viewModel.fetchManufacturers()
+        viewModelCar.fetchManufacturers()
         countDownLatch.await(500, TimeUnit.MILLISECONDS)
 
     }

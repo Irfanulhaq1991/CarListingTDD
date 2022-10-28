@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/manufacturersFragment"
-        android:name="com.irfan.auto1.manufacturers.ui.ManufacturersFragment"
+        android:name="com.irfan.auto1.manufacturers.ui.CarManufacturersFragment"
         android:label="fragment_manufacturers"
         tools:layout="@layout/fragment_manufacturers" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/modelFragment"
-        android:name="com.irfan.auto1.model.ui.ModelFragment"
+        android:name="com.irfan.auto1.model.ui.CarModelFragment"
         android:label="fragment_model"
         tools:layout="@layout/fragment_model" >
     <argument

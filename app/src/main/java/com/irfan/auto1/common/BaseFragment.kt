@@ -8,16 +8,12 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.irfan.auto1.BR
 import com.irfan.auto1.R
 import com.irfan.auto1.databinding.RowLayoutBinding
-import com.irfan.auto1.model.ui.ModelsViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 abstract class BaseFragment<T>() :

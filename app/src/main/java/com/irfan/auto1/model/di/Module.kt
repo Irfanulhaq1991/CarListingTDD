@@ -10,7 +10,7 @@ import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import com.irfan.auto1.model.domain.model.CarModel
 import com.irfan.auto1.model.domain.mapper.ModelsMapper
 import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
-import com.irfan.auto1.model.ui.ModelsViewModel
+import com.irfan.auto1.model.ui.CarModelsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -29,7 +29,7 @@ val modelModule = module {
     factory { FetchModelsUseCase(get()) }
     factory { SearchModelsUseCase(get()) }
 
-    viewModel { ModelsViewModel(get(),get()) }
+    viewModel { CarModelsViewModel(get(),get()) }
 }
 
 

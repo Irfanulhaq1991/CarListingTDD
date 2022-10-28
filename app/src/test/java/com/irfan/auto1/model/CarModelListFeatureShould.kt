@@ -15,8 +15,8 @@ import com.irfan.auto1.model.data.ModelsRepository
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import com.irfan.auto1.model.domain.mapper.ModelsMapper
 import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
-import com.irfan.auto1.model.ui.ModelUiState
-import com.irfan.auto1.model.ui.ModelsViewModel
+import com.irfan.auto1.model.ui.CarModelUiState
+import com.irfan.auto1.model.ui.CarModelsViewModel
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -55,8 +55,8 @@ class CarModelListFeatureShould {
         val repo = ModelsRepository(mapper, remoteDataSource, modelFilter)
         val fetchModelsUseCase = FetchModelsUseCase(repo)
         val searchModelsUseCase = SearchModelsUseCase(repo)
-        val modelsViewModel = ModelsViewModel(fetchModelsUseCase, searchModelsUseCase)
-        uiController = ModelListSpyUiController().apply { viewModel = modelsViewModel }
+        val modelsViewModel = CarModelsViewModel(fetchModelsUseCase, searchModelsUseCase)
+        uiController = ModelListSpyUiController().apply { viewModelCar = modelsViewModel }
         uiController.onCreate()
     }
 
@@ -64,8 +64,8 @@ class CarModelListFeatureShould {
     @Test
     fun fetchModelsList() {
         val expected = listOf(
-            ModelUiState(loading = true),
-            ModelUiState(data = TestDataProvider.getModelAsDomainModels())
+            CarModelUiState(loading = true),
+            CarModelUiState(data = TestDataProvider.getModelAsDomainModels())
         )
         uiController.fetchModel()
         val actual = uiController.uiStates
@@ -75,7 +75,7 @@ class CarModelListFeatureShould {
     @Test
     fun search() {
         val expected = listOf(
-            ModelUiState(update = true, data = TestDataProvider.getModelAsDomainModels()
+            CarModelUiState(update = true, data = TestDataProvider.getModelAsDomainModels()
                     .filter { it.name.contains("e") }))
 
         modelFilter.setSearchData(TestDataProvider.getModelAsDomainModels())
@@ -87,8 +87,8 @@ class CarModelListFeatureShould {
 
 class ModelListSpyUiController : LifecycleOwner {
 
-    lateinit var viewModel: ModelsViewModel
-    val uiStates = mutableListOf<ModelUiState>()
+    lateinit var viewModelCar: CarModelsViewModel
+    val uiStates = mutableListOf<CarModelUiState>()
     private val countDownLatch: CountDownLatch = CountDownLatch(1)
 
 
@@ -97,7 +97,7 @@ class ModelListSpyUiController : LifecycleOwner {
 
     fun onCreate() {
         registry.currentState = Lifecycle.State.STARTED
-        viewModel.uiStateUpdater.observe(this) {
+        viewModelCar.uiStateUpdater.observe(this) {
             uiStates.add(it)
             if (uiStates.size == 2) {
                 countDownLatch.countDown()
@@ -107,13 +107,13 @@ class ModelListSpyUiController : LifecycleOwner {
 
 
     fun fetchModel() {
-        viewModel.doFetching(CarInfo())
+        viewModelCar.doFetching(CarInfo())
         countDownLatch.await(500, TimeUnit.MILLISECONDS)
 
     }
 
     fun search(query: String) {
-        viewModel.search(query)
+        viewModelCar.search(query)
         countDownLatch.await(500, TimeUnit.MILLISECONDS)
     }
 

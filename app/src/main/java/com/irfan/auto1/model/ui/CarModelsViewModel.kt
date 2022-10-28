@@ -9,11 +9,11 @@ import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class ModelsViewModel(
+class CarModelsViewModel(
     private val fetchModelsUseCase: FetchModelsUseCase,
     private val searchModelsUseCase: SearchModelsUseCase
 
-) : BaseViewModel<CarModel, ModelUiState, CarInfo>() {
+) : BaseViewModel<CarModel, CarModelUiState, CarInfo>() {
 
     private var isSearch = false
     private var job: Job = Job()
@@ -45,8 +45,8 @@ class ModelsViewModel(
 
 
 
-    override fun onSuccess(result: List<CarModel>, state: ModelUiState?) {
-        val newState = (state ?: ModelUiState())
+    override fun onSuccess(result: List<CarModel>, stateCar: CarModelUiState?) {
+        val newState = (stateCar ?: CarModelUiState())
             .copy(
                 data = result,
                 loading = false,
@@ -57,8 +57,8 @@ class ModelsViewModel(
     }
 
 
-    override fun onError(errorMessage: String, state: ModelUiState?) {
-        val newState = (state ?: ModelUiState())
+    override fun onError(errorMessage: String, stateCar: CarModelUiState?) {
+        val newState = (stateCar ?: CarModelUiState())
             .copy(
                 errorMessage = errorMessage,
                 isError = true,
@@ -67,22 +67,22 @@ class ModelsViewModel(
         update(newState)
     }
 
-    override fun onLoading(state: ModelUiState?) {
-        val newState = (state ?: ModelUiState()).copy(
+    override fun onLoading(stateCar: CarModelUiState?) {
+        val newState = (stateCar ?: CarModelUiState()).copy(
             loading = true,
             isError = false
         )
         update(newState)
     }
 
-    override fun onRendered(state: ModelUiState) {
+    override fun onRendered(stateCar: CarModelUiState) {
         isSearch = false
-        val newState = state
+        val newState = stateCar
             .copy(errorMessage = null, update = false)
         update(newState)
     }
 
-    private fun update(newState: ModelUiState) {
-        _uiStateUpdater.value = newState
+    private fun update(newStateCar: CarModelUiState) {
+        _uiStateUpdater.value = newStateCar
     }
 }

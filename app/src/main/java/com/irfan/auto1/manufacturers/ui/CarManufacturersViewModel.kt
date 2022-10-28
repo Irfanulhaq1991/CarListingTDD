@@ -6,8 +6,8 @@ import com.irfan.auto1.manufacturers.FetchManufacturersUseCase
 import com.irfan.auto1.manufacturers.domain.model.CarManufacturer
 import kotlinx.coroutines.launch
 
-class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) :
-    BaseViewModel<CarManufacturer, ManufacturerUiState, Any>() {
+class CarManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) :
+    BaseViewModel<CarManufacturer, CarManufacturerUiState, Any>() {
     private var shouldRestoreOdlState = false
 
 
@@ -27,8 +27,8 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
         }
     }
 
-    override fun onSuccess(result: List<CarManufacturer>, state: ManufacturerUiState?) {
-        val newState = (state ?: ManufacturerUiState())
+    override fun onSuccess(result: List<CarManufacturer>, stateCar: CarManufacturerUiState?) {
+        val newState = (stateCar ?: CarManufacturerUiState())
             .copy(
                 data = result,
                 loading = false,
@@ -37,8 +37,8 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
         update(newState)
     }
 
-    override fun onError(errorMessage: String, state: ManufacturerUiState?) {
-        val newState = (state ?: ManufacturerUiState())
+    override fun onError(errorMessage: String, stateCar: CarManufacturerUiState?) {
+        val newState = (stateCar ?: CarManufacturerUiState())
             .copy(
                 errorMessage = errorMessage,
                 isError = true,
@@ -47,16 +47,16 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
         update(newState)
     }
 
-    override fun onLoading(state: ManufacturerUiState?) {
-        val newState = (state ?: ManufacturerUiState()).copy(
+    override fun onLoading(stateCar: CarManufacturerUiState?) {
+        val newState = (stateCar ?: CarManufacturerUiState()).copy(
             loading = true,
             isError = false
         )
         update(newState)
     }
 
-    override fun onRendered(state: ManufacturerUiState) {
-        val newState = state
+    override fun onRendered(stateCar: CarManufacturerUiState) {
+        val newState = stateCar
             .copy(errorMessage = null, update = false)
         update(newState)
     }
@@ -67,8 +67,8 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
         update(newState)
     }
 
-    private fun update(newState: ManufacturerUiState) {
-        _uiStateUpdater.value = newState
+    private fun update(newStateCar: CarManufacturerUiState) {
+        _uiStateUpdater.value = newStateCar
     }
 
     private fun restore() {
