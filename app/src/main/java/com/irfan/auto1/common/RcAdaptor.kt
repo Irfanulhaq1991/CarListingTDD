@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AdapterListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
+import com.irfan.auto1.R
 import com.irfan.auto1.year.domain.model.CarYear
 
 class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
@@ -63,6 +64,9 @@ class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
     ) :
         RecyclerView.ViewHolder(view) {
         fun bind(position: Int, item: T) {
+            view.findViewById<View>(R.id.card_view).setBackgroundColor(Color.WHITE)
+            if (position % 2 == 0)
+                view.findViewById<View>(R.id.card_view).setBackgroundColor(Color.LTGRAY)
             itemLayoutManger.bindView(view, position, item)
         }
     }
