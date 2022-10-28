@@ -105,7 +105,7 @@ abstract class BaseFragment<T>() :
        }
     }
     override fun onChanged(state: BaseUIState<T>) {
-        adaptor.setData(state.data)
+        adaptor.setData(state.data,state.update)
         handleProgressBar(state)
         handleErrorMessage(state)
         stateRendered(state)
