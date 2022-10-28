@@ -1,7 +1,7 @@
 package com.irfan.auto1.model
 
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper

@@ -1,4 +1,4 @@
-package com.irfan.auto1
+package com.irfan.auto1.common
 
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
@@ -19,7 +19,7 @@ object TestDataProvider {
 
 
     //manufacturer data
-    fun getManuFacturerResponseJson(): String {
+    fun getManufacturerResponseJson(): String {
         return """{
       "page": 0,
       "pageSize": 15,

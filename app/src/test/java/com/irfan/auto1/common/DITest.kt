@@ -1,6 +1,5 @@
-package com.irfan.auto1
+package com.irfan.auto1.common
 
-import com.irfan.auto1.common.networkModule
 import com.irfan.auto1.manufacturers.di.manufacturerModule
 import com.irfan.auto1.model.di.modelModule
 import com.irfan.auto1.year.di.carYearModule

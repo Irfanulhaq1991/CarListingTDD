@@ -1,6 +1,6 @@
 package com.irfan.auto1.manufacturers
 
-import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.manufacturers.data.ManufacturersRepo
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK

@@ -1,7 +1,7 @@
 package com.irfan.auto1.year
 
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.year.data.CarYearsRepository
 import com.irfan.auto1.year.data.remote.CarYearDto

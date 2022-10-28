@@ -5,9 +5,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
+import com.irfan.auto1.common.CoroutineTestRule
+import com.irfan.auto1.common.TestDataProvider
 import com.irfan.auto1.manufacturers.*
 import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteAPI
-import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.data.ManufacturersRepo
 import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteDataSource
 import com.irfan.auto1.manufacturers.data.remote.PagingManager
@@ -37,7 +38,7 @@ class ManufacturersListFeatureShould {
 
     private val remoteAPI = object : ManufacturersRemoteAPI {
         override suspend fun getManufacturers(nextPage: Int, pageSize: Int): Response<ResponseBody> {
-            val jsonData = TestDataProvider.getManuFacturerResponseJson()
+            val jsonData = TestDataProvider.getManufacturerResponseJson()
             val contentType = "application/json; charset=utf-8".toMediaType()
             return Response.success(jsonData.toResponseBody(contentType))
         }

@@ -1,13 +1,7 @@
-package com.irfan.auto1
+package com.irfan.auto1.common
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.google.common.truth.Truth
-import com.ibm.icu.impl.number.PatternStringUtils
 import io.mockk.MockKAnnotations
-import io.mockk.stackTracesAlignmentValueOf
 import org.junit.Rule
-import org.junit.Test
-import org.mockito.internal.util.StringUtil
-import java.text.Normalizer
 
 
 abstract class BaseTest {

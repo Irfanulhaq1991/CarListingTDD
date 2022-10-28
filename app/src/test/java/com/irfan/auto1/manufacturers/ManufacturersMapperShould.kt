@@ -1,10 +1,10 @@
 package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
-import com.irfan.auto1.TestDataProvider
+import com.irfan.auto1.common.TestDataProvider
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test

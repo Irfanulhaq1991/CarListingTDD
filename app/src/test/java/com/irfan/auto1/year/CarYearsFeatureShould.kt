@@ -10,6 +10,8 @@ import com.irfan.auto1.year.data.CarYearsRepository
 import com.irfan.auto1.year.data.remote.CarYearsRemoteApi
 import com.irfan.auto1.year.domain.mapper.CarYearsMapper
 import com.irfan.auto1.common.CarInfo
+import com.irfan.auto1.common.CoroutineTestRule
+import com.irfan.auto1.common.TestDataProvider
 import com.irfan.auto1.year.domain.usecase.FetchCarYearsUseCase
 import com.irfan.auto1.year.ui.CarYearsUiState
 import com.irfan.auto1.year.ui.CarYearsViewModel

@@ -1,6 +1,6 @@
 package com.irfan.auto1.model
 
-import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
@@ -11,7 +11,6 @@ import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
-import org.mockito.kotlin.any
 
 class ModelsViewModelShould : BaseTest() {
 

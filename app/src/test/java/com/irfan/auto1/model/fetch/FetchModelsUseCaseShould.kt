@@ -1,6 +1,6 @@
 package com.irfan.auto1.model.fetch
 
-import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.model.data.ModelsRepository
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase

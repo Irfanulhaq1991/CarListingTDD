@@ -1,14 +1,13 @@
 package com.irfan.auto1.manufacturers
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.irfan.auto1.*
+import com.irfan.auto1.common.BaseTest
+import com.irfan.auto1.common.TestDataProvider
 import com.irfan.auto1.manufacturers.ui.ManufacturersViewModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class ManufacturersViewModelShould : BaseTest() {

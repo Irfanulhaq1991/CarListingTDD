@@ -1,4 +1,4 @@
-package com.irfan.auto1
+package com.irfan.auto1.common
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

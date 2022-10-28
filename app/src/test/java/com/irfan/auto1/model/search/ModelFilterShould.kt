@@ -1,12 +1,10 @@
 package com.irfan.auto1.model.search
 
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.BaseTest
-import com.irfan.auto1.TestDataProvider
+import com.irfan.auto1.common.BaseTest
+import com.irfan.auto1.common.TestDataProvider
 import com.irfan.auto1.model.data.ModelFilter
 import com.irfan.auto1.model.domain.model.Model
-import junit.framework.TestCase
-import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 

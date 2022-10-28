@@ -5,8 +5,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.CoroutineTestRule
-import com.irfan.auto1.TestDataProvider
+import com.irfan.auto1.common.CoroutineTestRule
+import com.irfan.auto1.common.TestDataProvider
 import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.model.data.ModelFilter
 import com.irfan.auto1.model.data.remote.ModelRemoteApi
