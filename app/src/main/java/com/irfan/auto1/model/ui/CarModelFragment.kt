@@ -1,9 +1,12 @@
 package com.irfan.auto1.model.ui
 
 import android.view.View
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.irfan.auto1.R
 import com.irfan.auto1.common.*
 import com.irfan.auto1.databinding.FragmentModelBinding
 import com.irfan.auto1.model.domain.model.CarModel
@@ -13,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class CarModelFragment : BaseFragment<CarModel>() {
 
 
-    private val viewModelCar: CarModelsViewModel by viewModel()
+    private val carViewModel: CarModelsViewModel by viewModel()
 
 
     private val args: CarModelFragmentArgs by navArgs()
@@ -22,9 +25,14 @@ class CarModelFragment : BaseFragment<CarModel>() {
     override fun init() {
         super.init()
 
-        viewModelCar.uiStateUpdater
+        carViewModel.uiStateUpdater
             .apply { adaptor }
             .observe(viewLifecycleOwner, this)
+
+        binding.root.findViewById<AppCompatEditText>(R.id.search_view)
+            .doOnTextChanged { query, _, _, _ ->
+                carViewModel.search(query.toString())
+            }
     }
 
     override fun navigate(view: View) {
@@ -37,12 +45,12 @@ class CarModelFragment : BaseFragment<CarModel>() {
     }
 
     override fun doFetching() {
-        viewModelCar.doFetching(args.carInfo)
+        carViewModel.doFetching(args.carInfo)
     }
 
 
     override fun statRendered() {
-        viewModelCar.renderingFinished()
+        carViewModel.renderingFinished()
     }
 
     override fun getFragmentBinding(): ViewDataBinding {

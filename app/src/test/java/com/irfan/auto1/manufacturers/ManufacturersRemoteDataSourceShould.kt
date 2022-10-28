@@ -31,6 +31,7 @@ class ManufacturersRemoteDataSourceShould : RemoteDataSourceContractTests<CarMan
         coVerify { pagingManager.nextPage() }
         coVerify { pagingManager.setTotalPages(any()) }
         coVerify { pagingManager.pagSize }
+        coVerify { pagingManager.updateNextPage() }
     }
 
 

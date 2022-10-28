@@ -17,6 +17,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val modelModule = module {
+
     factory<IMapper<List<CarModelDto>, List<CarModel>>>(named("modelMapper"))
     { ModelsMapper() }
 
@@ -24,12 +25,16 @@ val modelModule = module {
     { ModelsRemoteDataSource(get()) }
 
     factory { provideModelersApi(get()) }
+
     factory<BaseModelFilter> { ModelFilter() }
+
     single { ModelsRepository(get(named("modelMapper")), get(named("modelRemoteDataSource")), get()) }
+
     factory { FetchModelsUseCase(get()) }
+
     factory { SearchModelsUseCase(get()) }
 
-    viewModel { CarModelsViewModel(get(),get()) }
+    viewModel { CarModelsViewModel(get(), get()) }
 }
 
 

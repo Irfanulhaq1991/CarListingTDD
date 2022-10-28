@@ -24,6 +24,7 @@ class ManufacturersRemoteDataSource(
         val jsonObject = JSONObject(jsonString)
         val pageCount = jsonObject.getInt("totalPageCount")
         pagingManager.setTotalPages(pageCount)
+        pagingManager.updateNextPage()
         return super.deserializeJson(jsonString)
     }
 

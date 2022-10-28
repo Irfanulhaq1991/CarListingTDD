@@ -16,6 +16,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 
 val carYearModule = module {
+
     factory<IMapper<List<CarYearDto>, List<CarYear>>>(named("carYearMapper"))
     { CarYearsMapper() }
 
@@ -23,7 +24,9 @@ val carYearModule = module {
 
     factory<RemoteDataSource<CarYearDto>>(named("carYearRemoteDataSource"))
     { CarYearsRemoteDataSource(get()) }
+
     factory {CarYearsRepository(get(named("carYearRemoteDataSource")),get(named("carYearMapper"))) }
+
     factory { FetchCarYearsUseCase(get()) }
 
     viewModel { CarYearsViewModel(get()) }
