@@ -6,6 +6,8 @@ import com.irfan.auto1.TestDataProvider
 import com.irfan.auto1.year.data.remote.CarYearsRemoteDataSource
 import com.irfan.auto1.year.data.remote.CarYearsRemoteApi
 import com.irfan.auto1.common.CarInfo
+import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
+import com.irfan.auto1.year.data.remote.CarYearDto
 
 import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
@@ -27,29 +29,29 @@ class CarYearsRemoteDataSourceShould : BaseTest() {
     @Test
     fun returnErrorOnZero() = runTest {
         val carYearsRemoteDataSource = withData(TestDataProvider.getResponseJson("{}"))
-        val errorMessage = "No Car Year Found"
-        val actual = isFailureWithMessage(carYearsRemoteDataSource.fetchCarYears(CarInfo()), errorMessage)
+        val errorMessage = "No record found"
+        val actual = isFailureWithMessage(carYearsRemoteDataSource.doFetching(CarInfo()), errorMessage)
         assertThat(actual).isTrue()
     }
 
     @Test
     fun returnManyCarYears() = runTest {
         val carYearsRemoteDataSource = withData(TestDataProvider.getCarYearResponseJson())
-        val actual = carYearsRemoteDataSource.fetchCarYears(CarInfo())
+        val actual = carYearsRemoteDataSource.doFetching(CarInfo())
         assertThat(actual).isEqualTo(Result.success(TestDataProvider.getYearsAsDto()))
     }
 
     @Test
     fun returnNoInternetError() = runTest {
         val carYearsRemoteDataSource = withException(IOException())
-        val errorMessage = "Please Check your Internet Connection"
-        val actual = isFailureWithMessage(carYearsRemoteDataSource.fetchCarYears(
+        val errorMessage = "Please check your internet connection"
+        val actual = isFailureWithMessage(carYearsRemoteDataSource.doFetching(
             CarInfo()
         ), errorMessage)
         assertThat(actual).isTrue()
     }
 
-    private fun withData(jsonString: String): CarYearsRemoteDataSource {
+    private fun withData(jsonString: String): RemoteDataSource<CarYearDto> {
         val remoteCarYearsApi = object : CarYearsRemoteApi {
             override suspend fun fetchCarYears(manufacturer:Int, carType:String): Response<ResponseBody> {
                 val contentType = "application/json; charset=utf-8".toMediaType()
@@ -60,7 +62,7 @@ class CarYearsRemoteDataSourceShould : BaseTest() {
        return CarYearsRemoteDataSource(remoteCarYearsApi)
     }
 
-    private fun withException(e: Exception): CarYearsRemoteDataSource {
+    private fun withException(e: Exception): RemoteDataSource<CarYearDto> {
         val remoteCarYearsApi = object : CarYearsRemoteApi {
             override suspend fun fetchCarYears(manufacturer:Int, carType:String): Response<ResponseBody> {
                 throw  e

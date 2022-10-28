@@ -3,10 +3,10 @@ package com.irfan.auto1.model
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.common.CarInfo
+import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
 import com.irfan.auto1.model.data.ModelFilter
 import com.irfan.auto1.model.data.remote.ModelDto
-import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
 import com.irfan.auto1.model.data.ModelsRepository
 import com.irfan.auto1.model.domain.model.Model
 import io.mockk.coEvery
@@ -25,7 +25,7 @@ class ModelsRepositoryShould : BaseTest() {
 
 
     @RelaxedMockK
-    private lateinit var modelsRemoteDataSource: ModelsRemoteDataSource
+    private lateinit var modelsRemoteDataSource: RemoteDataSource<ModelDto>
 
     @RelaxedMockK
     private lateinit var mapper: IMapper<List<ModelDto>, List<Model>>
@@ -40,7 +40,7 @@ class ModelsRepositoryShould : BaseTest() {
     @Test
     fun callMapper() = runTest {
         coEvery { mapper.map(any()) } answers { emptyList() }
-        coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
+        coEvery { modelsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList()) }
         repo.fetchModels(CarInfo())
         coVerify { mapper.map(any()) }
     }
@@ -48,16 +48,16 @@ class ModelsRepositoryShould : BaseTest() {
     @Test
     fun callRepo() = runTest {
         coEvery { mapper.map(any()) } answers { emptyList() }
-        coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
+        coEvery { modelsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList()) }
 
         repo.fetchModels(CarInfo())
-        coVerify { modelsRemoteDataSource.fetchModels(CarInfo()) }
+        coVerify { modelsRemoteDataSource.doFetching(CarInfo()) }
     }
 
     @Test
     fun returnDomainModel() = runTest {
         coEvery { mapper.map(any()) } answers { emptyList() }
-        coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
+        coEvery { modelsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList()) }
         val actual = repo.fetchModels(CarInfo())
         assertThat(actual).isEqualTo(Result.success(emptyList<Model>()))
     }
@@ -65,7 +65,7 @@ class ModelsRepositoryShould : BaseTest() {
     @Test
     fun notAlterErrorMessage() = runTest {
         val errorMessage = "###"
-        coEvery { modelsRemoteDataSource.fetchModels(any()) } answers {
+        coEvery { modelsRemoteDataSource.doFetching(any()) } answers {
             Result.failure(
                 Throwable(
                     errorMessage
@@ -79,7 +79,7 @@ class ModelsRepositoryShould : BaseTest() {
     @Test
     fun cacheData() = runTest {
         coEvery { mapper.map(any()) } answers { emptyList() }
-        coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
+        coEvery { modelsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList()) }
 
         repo.fetchModels(any())
         coVerify { modelFilter.setSearchData(any()) }
@@ -88,7 +88,7 @@ class ModelsRepositoryShould : BaseTest() {
     @Test
     fun callModelFilter() = runTest {
         coEvery { mapper.map(any()) } answers { emptyList() }
-        coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
+        coEvery { modelsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList()) }
 
         repo.search(any())
         coVerify { modelFilter.filter(any()) }

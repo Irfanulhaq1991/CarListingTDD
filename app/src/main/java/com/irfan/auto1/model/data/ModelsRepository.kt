@@ -1,8 +1,8 @@
 package com.irfan.auto1.model.data
 
 import com.irfan.auto1.common.CarInfo
+import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
-import com.irfan.auto1.model.data.remote.IModelsRemoteDataSource
 import com.irfan.auto1.model.data.remote.ModelDto
 import com.irfan.auto1.model.domain.model.Model
 import kotlinx.coroutines.Dispatchers
@@ -12,13 +12,13 @@ const val MODEL_KEY = "modelKey"
 
 class ModelsRepository(
     private val mapper: IMapper<List<ModelDto>, List<Model>>,
-    private val modelsRemoteDataSource: IModelsRemoteDataSource,
+    private val modelsRemoteDataSource: RemoteDataSource<ModelDto>,
     private val modelFilter: BaseModelFilter
 ) {
     suspend fun fetchModels(carInfo: CarInfo): Result<List<Model>> =
         withContext(Dispatchers.IO) {
             modelsRemoteDataSource
-                .fetchModels(carInfo)
+                .doFetching(carInfo)
                 .fold(
                     {
                         Result.success(

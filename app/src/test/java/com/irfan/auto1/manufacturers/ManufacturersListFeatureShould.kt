@@ -7,8 +7,9 @@ import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.manufacturers.*
 import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteAPI
-import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteDataDataSource
+import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.data.ManufacturersRepo
+import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteDataSource
 import com.irfan.auto1.manufacturers.data.remote.PagingManager
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
@@ -47,7 +48,7 @@ class ManufacturersListFeatureShould {
     @Before
    fun setup(){
         val pagingManager = PagingManager()
-        val remoteService = ManufacturersRemoteDataDataSource(remoteAPI, pagingManager)
+        val remoteService = ManufacturersRemoteDataSource(remoteAPI, pagingManager)
         val manufacturersRepo = ManufacturersRepo(remoteService, ManufacturersMapper())
         val fetchManufacturersUseCase = FetchManufacturersUseCase(manufacturersRepo)
         val manufacturersViewModel = ManufacturersViewModel(fetchManufacturersUseCase)

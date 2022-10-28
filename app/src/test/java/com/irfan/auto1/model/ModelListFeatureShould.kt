@@ -5,7 +5,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.BaseTest
 import com.irfan.auto1.CoroutineTestRule
 import com.irfan.auto1.TestDataProvider
 import com.irfan.auto1.common.CarInfo
@@ -15,11 +14,9 @@ import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
 import com.irfan.auto1.model.data.ModelsRepository
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import com.irfan.auto1.model.domain.mapper.ModelsMapper
-import com.irfan.auto1.model.domain.model.Model
 import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
 import com.irfan.auto1.model.ui.ModelUiState
 import com.irfan.auto1.model.ui.ModelsViewModel
-import kotlinx.coroutines.test.runTest
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.ResponseBody
 import okhttp3.ResponseBody.Companion.toResponseBody

@@ -1,12 +1,12 @@
 package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
-import com.irfan.auto1.*
-import com.irfan.auto1.manufacturers.data.remote.IManufacturersRemoteDataSource
-import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
+import com.irfan.auto1.BaseTest
+import com.irfan.auto1.TestDataProvider
 import com.irfan.auto1.manufacturers.data.ManufacturersRepo
+import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
+import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
-import com.irfan.auto1.manufacturers.domain.model.Manufacturer
 import io.mockk.coEvery
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest
@@ -17,7 +17,7 @@ class ManufacturersRepoShould : BaseTest() {
 
 
     @RelaxedMockK
-    private lateinit var manufacturersRemoteDataSource: IManufacturersRemoteDataSource
+    private lateinit var remoteDataSource: RemoteDataSource<ManufacturerDto>
     private lateinit var manufacturersRepo: ManufacturersRepo
 
     @RelaxedMockK
@@ -27,13 +27,13 @@ class ManufacturersRepoShould : BaseTest() {
     override fun setup() {
         super.setup()
         manufacturersRepo =
-            ManufacturersRepo(manufacturersRemoteDataSource, manufacturersMapper)
+            ManufacturersRepo(remoteDataSource, manufacturersMapper)
     }
 
     @Test
     fun notAlterError() = runTest{
         val errorMessage = "###"
-        coEvery { manufacturersRemoteDataSource.fetchManufacturers() } answers {
+        coEvery { remoteDataSource.doFetching() } answers {
             Result.failure(
                 Throwable(
                     errorMessage
@@ -46,10 +46,10 @@ class ManufacturersRepoShould : BaseTest() {
     }
 
     @Test
-    fun fetchDomainManufacturers() = runTest{
+    fun returnDomainManufacturers() = runTest{
         val manufacturersDto = TestDataProvider.getManufacturersAsDto()
         val manufacturerDomain = TestDataProvider.getManufacturersAsDomainModels()
-        coEvery { manufacturersRemoteDataSource.fetchManufacturers() } answers {
+        coEvery { remoteDataSource.doFetching() } answers {
             Result.success(
                 manufacturersDto
             )
@@ -60,19 +60,5 @@ class ManufacturersRepoShould : BaseTest() {
                 manufacturerDomain
             )
         )
-    }
-
-    @Test
-    fun returnErrorOnZeroManufacturers()= runTest {
-        val manufacturersDtos = emptyList<ManufacturerDto>()
-        val manufacturerDomain = emptyList<Manufacturer>()
-        coEvery { manufacturersRemoteDataSource.fetchManufacturers() } answers {
-            Result.success(manufacturersDtos)
-        }
-        coEvery { manufacturersMapper.map(any()) } answers { manufacturerDomain }
-        val actual =
-            isFailureWithMessage(manufacturersRepo.fetchManufacturers(), "No Manufacturer Found")
-            assertThat(actual).isTrue()
-
     }
 }

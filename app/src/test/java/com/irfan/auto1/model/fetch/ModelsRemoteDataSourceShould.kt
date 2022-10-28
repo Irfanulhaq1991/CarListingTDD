@@ -4,7 +4,8 @@ import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.TestDataProvider
 import com.irfan.auto1.common.CarInfo
-import com.irfan.auto1.model.data.remote.IModelsRemoteDataSource
+import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
+import com.irfan.auto1.model.data.remote.ModelDto
 import com.irfan.auto1.model.data.remote.ModelRemoteApi
 import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
 import kotlinx.coroutines.test.runTest
@@ -19,9 +20,9 @@ class ModelsRemoteDataSourceShould : BaseTest() {
 
     @Test
     fun returnErrorOnZero() = runTest{
-        val error = "No Model Found"
+        val error = "No record found"
         val modelsRemoteDataSource = withData(TestDataProvider.getResponseJson("{}"))
-        val actual = isFailureWithMessage(modelsRemoteDataSource.fetchModels(CarInfo()), error)
+        val actual = isFailureWithMessage(modelsRemoteDataSource.doFetching(CarInfo()), error)
         assertThat(actual).isTrue()
     }
 
@@ -30,19 +31,19 @@ class ModelsRemoteDataSourceShould : BaseTest() {
     fun returnMany() = runTest{
         val modelsRemoteDataSource = withData(TestDataProvider.getModelResponseJson())
 
-        val actual = modelsRemoteDataSource.fetchModels(CarInfo()).getOrThrow().size
+        val actual = modelsRemoteDataSource.doFetching(CarInfo()).getOrThrow().size
         assertThat(actual).isGreaterThan(1)
     }
 
     @Test
     fun returnNoInternetError()= runTest {
         val modelsRemoteDataSource = withError(IOException())
-        val error = "Please Check your Internet Connection"
-        val actual = isFailureWithMessage(modelsRemoteDataSource.fetchModels(CarInfo()), error)
+        val error = "Please check your internet connection"
+        val actual = isFailureWithMessage(modelsRemoteDataSource.doFetching(CarInfo()), error)
         assertThat(actual).isTrue()
     }
 
-    private fun withData(jsonString: String): IModelsRemoteDataSource {
+    private fun withData(jsonString: String): RemoteDataSource<ModelDto> {
         val remoteApi = object : ModelRemoteApi {
             override suspend fun fetchModels(manufacturerId:Int): Response<ResponseBody> {
                 val contentType = "application/json; charset=utf-8".toMediaType()
@@ -55,7 +56,7 @@ class ModelsRemoteDataSourceShould : BaseTest() {
 
 
 
-    private fun withError(e:Exception): IModelsRemoteDataSource {
+    private fun withError(e:Exception): RemoteDataSource<ModelDto> {
         val remoteApi = object : ModelRemoteApi {
             override suspend fun fetchModels(manufacturerId:Int): Response<ResponseBody> {
                throw e

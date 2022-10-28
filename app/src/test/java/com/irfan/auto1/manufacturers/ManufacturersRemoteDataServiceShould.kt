@@ -2,10 +2,7 @@ package com.irfan.auto1.manufacturers
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.*
-import com.irfan.auto1.manufacturers.data.remote.IManufacturersRemoteDataSource
-import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteAPI
-import com.irfan.auto1.manufacturers.data.remote.ManufacturersRemoteDataDataSource
-import com.irfan.auto1.manufacturers.data.remote.PagingManager
+import com.irfan.auto1.manufacturers.data.remote.*
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.test.runTest
@@ -28,15 +25,14 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     }
 
     @Test
-    fun returnZeroManufacturerJson() = runTest {
-        val actual =
-            withDataSuccess(
+    fun returnErrorOnZero() = runTest {
+        val dataSource = withDataSuccess(
                 TestDataProvider.getResponseJson("{}"),
                 pagingManager
-            ).fetchManufacturers().getOrThrow().size
+            )
 
-        assertThat(actual)
-            .isEqualTo(0)
+        val actual = isFailureWithMessage(dataSource.doFetching(), "No record found")
+        assertThat(actual).isTrue()
     }
 
     @Test
@@ -44,7 +40,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
         val actual = withDataSuccess(
             TestDataProvider.getResponseJson("{abc:def}"),
             pagingManager
-        ).fetchManufacturers()
+        ).doFetching()
             .getOrThrow().size
         assertThat(actual)
             .isEqualTo(1)
@@ -55,7 +51,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
         val actual = withDataSuccess(
             TestDataProvider.getManuFacturerResponseJson(),
             pagingManager
-        ).fetchManufacturers().getOrThrow().size
+        ).doFetching().getOrThrow().size
         assertThat(actual)
             .isEqualTo(15)
     }
@@ -63,7 +59,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
 
     @Test
     fun returnNoInternetError() = runTest {
-        val manufacturer = withNetworkError().fetchManufacturers()
+        val manufacturer = withNetworkError().doFetching()
         val actual = isFailureWithMessage(manufacturer, "Please check your internet connection")
         assertThat(actual).isTrue()
     }
@@ -71,8 +67,8 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
 
     @Test
     fun returnErrorOnInvalidJson() = runTest {
-        val manufacturer = withDataSuccess("{}", pagingManager).fetchManufacturers()
-        val actual = isFailureWithMessage(manufacturer, "Request for manufacturers is failed")
+        val manufacturer = withDataSuccess("{}", pagingManager).doFetching()
+        val actual = isFailureWithMessage(manufacturer, "Request is failed")
         assertThat(actual).isTrue()
     }
 
@@ -80,7 +76,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     fun executePageManager() = runTest {
         val remoteDataService =
             withDataSuccess(TestDataProvider.getResponseJson("{}"), pagingManager)
-        remoteDataService.fetchManufacturers()
+        remoteDataService.doFetching()
         coVerify { pagingManager.nextPage() }
         coVerify { pagingManager.setTotalPages(any()) }
         coVerify { pagingManager.pagSize }
@@ -92,7 +88,7 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
     private fun withDataSuccess(
         jsonString: String,
         pagingManager: PagingManager
-    ): IManufacturersRemoteDataSource {
+    ): RemoteDataSource<ManufacturerDto> {
 
         val api = object : ManufacturersRemoteAPI {
             override suspend fun getManufacturers(
@@ -103,11 +99,11 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
                 return Response.success(jsonString.toResponseBody(contentType))
             }
         }
-        return ManufacturersRemoteDataDataSource(api, pagingManager)
+        return ManufacturersRemoteDataSource(api, pagingManager)
     }
 
 
-    private fun withNetworkError(): IManufacturersRemoteDataSource {
+    private fun withNetworkError(): RemoteDataSource<ManufacturerDto> {
         val api = object : ManufacturersRemoteAPI {
             override suspend fun getManufacturers(
                 nextPage: Int,
@@ -116,6 +112,6 @@ class ManufacturersRemoteDataServiceShould : BaseTest() {
                 throw IOException()
             }
         }
-        return ManufacturersRemoteDataDataSource(api, pagingManager)
+        return ManufacturersRemoteDataSource(api, pagingManager)
     }
 }

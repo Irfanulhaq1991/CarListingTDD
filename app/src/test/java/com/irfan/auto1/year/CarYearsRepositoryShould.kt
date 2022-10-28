@@ -2,8 +2,9 @@ package com.irfan.auto1.year
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
-import com.irfan.auto1.year.data.remote.CarYearsRemoteDataSource
+import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.year.data.CarYearsRepository
+import com.irfan.auto1.year.data.remote.CarYearDto
 import com.irfan.auto1.year.domain.model.CarYear
 import com.irfan.auto1.year.domain.mapper.CarYearsMapper
 import io.mockk.coEvery
@@ -22,7 +23,7 @@ class CarYearsRepositoryShould : BaseTest() {
     private lateinit var mapper: CarYearsMapper
 
     @RelaxedMockK
-    private lateinit var carYearsRemoteDataSource: CarYearsRemoteDataSource
+    private lateinit var carYearsRemoteDataSource: RemoteDataSource<CarYearDto>
     private lateinit var repository: CarYearsRepository
 
     @Before
@@ -33,15 +34,15 @@ class CarYearsRepositoryShould : BaseTest() {
 
     @Test
     fun callCarYearsRemoteDataSource() = runTest {
-        coEvery { carYearsRemoteDataSource.fetchCarYears(any()) } answers { Result.success(emptyList())}
+        coEvery { carYearsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList())}
         repository.fetchCarYears(any())
-        coVerify { carYearsRemoteDataSource.fetchCarYears(any()) }
+        coVerify { carYearsRemoteDataSource.doFetching(any()) }
 
     }
 
     @Test
     fun callCarYearsMapper() = runTest {
-        coEvery { carYearsRemoteDataSource.fetchCarYears(any()) } answers { Result.success(emptyList())}
+        coEvery { carYearsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList())}
         repository.fetchCarYears(any())
         coVerify { mapper.map(any()) }
 
@@ -49,7 +50,7 @@ class CarYearsRepositoryShould : BaseTest() {
 
     @Test
     fun returnCarYearsDomain() = runTest {
-        coEvery { carYearsRemoteDataSource.fetchCarYears(any()) } answers { Result.success(emptyList())}
+        coEvery { carYearsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList())}
        val actual =  repository.fetchCarYears(any())
         assertThat(actual).isEqualTo(Result.success(emptyList<CarYear>()))
     }
@@ -57,7 +58,7 @@ class CarYearsRepositoryShould : BaseTest() {
     @Test
     fun notAlterErrorMessage() = runTest{
         val errorMessage = "###"
-        coEvery { carYearsRemoteDataSource.fetchCarYears(any()) } answers { Result.failure(Throwable(errorMessage))}
+        coEvery { carYearsRemoteDataSource.doFetching(any()) } answers { Result.failure(Throwable(errorMessage))}
         val actual =  isFailureWithMessage(repository.fetchCarYears(any()),errorMessage)
         assertThat(actual).isTrue()
 
