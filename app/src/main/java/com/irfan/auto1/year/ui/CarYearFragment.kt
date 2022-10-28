@@ -19,6 +19,7 @@ class CarYearFragment : BaseFragment<CarYear>() {
 
 
     override fun init() {
+        super.init()
         viewModel
             .uiStateUpdater
             .apply { adaptor }
@@ -39,6 +40,7 @@ class CarYearFragment : BaseFragment<CarYear>() {
     }
 
     override fun statRendered() {
+
         viewModel.renderingFinished()
     }
 
