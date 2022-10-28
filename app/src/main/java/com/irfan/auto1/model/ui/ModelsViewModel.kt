@@ -1,16 +1,11 @@
 package com.irfan.auto1.model.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.irfan.auto1.common.BaseViewModel
 import com.irfan.auto1.common.CarInfo
-import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
-import com.irfan.auto1.model.domain.model.Model
+import com.irfan.auto1.model.domain.model.CarModel
 import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
-import com.irfan.auto1.year.ui.CarYearsUiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -18,7 +13,7 @@ class ModelsViewModel(
     private val fetchModelsUseCase: FetchModelsUseCase,
     private val searchModelsUseCase: SearchModelsUseCase
 
-) : BaseViewModel<Model, ModelUiState, CarInfo>() {
+) : BaseViewModel<CarModel, ModelUiState, CarInfo>() {
 
     private var isSearch = false
     private var job: Job = Job()
@@ -50,7 +45,7 @@ class ModelsViewModel(
 
 
 
-    override fun onSuccess(result: List<Model>, state: ModelUiState?) {
+    override fun onSuccess(result: List<CarModel>, state: ModelUiState?) {
         val newState = (state ?: ModelUiState())
             .copy(
                 data = result,

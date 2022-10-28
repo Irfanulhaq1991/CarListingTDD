@@ -11,7 +11,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class CarYearsViewModelShould : BaseTest() {
+class CarYearsViewCarModelShould : BaseTest() {
 
     private lateinit var viewModel: CarYearsViewModel
 

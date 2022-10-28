@@ -1,17 +1,13 @@
 package com.irfan.auto1.manufacturers.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.irfan.auto1.common.BaseViewModel
 import com.irfan.auto1.manufacturers.FetchManufacturersUseCase
-import com.irfan.auto1.manufacturers.domain.model.Manufacturer
-import com.irfan.auto1.year.ui.CarYearsUiState
+import com.irfan.auto1.manufacturers.domain.model.CarManufacturer
 import kotlinx.coroutines.launch
 
 class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) :
-    BaseViewModel<Manufacturer, ManufacturerUiState, Any>() {
+    BaseViewModel<CarManufacturer, ManufacturerUiState, Any>() {
     private var shouldRestoreOdlState = false
 
 
@@ -31,7 +27,7 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
         }
     }
 
-    override fun onSuccess(result: List<Manufacturer>, state: ManufacturerUiState?) {
+    override fun onSuccess(result: List<CarManufacturer>, state: ManufacturerUiState?) {
         val newState = (state ?: ManufacturerUiState())
             .copy(
                 data = result,
@@ -65,9 +61,9 @@ class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufac
         update(newState)
     }
 
-    fun onDestroy(manufacturers: List<Manufacturer>) {
+    fun onDestroy(carManufacturers: List<CarManufacturer>) {
         shouldRestoreOdlState = true
-        val newState = _uiStateUpdater.value!!.copy(data = manufacturers)
+        val newState = _uiStateUpdater.value!!.copy(data = carManufacturers)
         update(newState)
     }
 

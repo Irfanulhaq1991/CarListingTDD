@@ -27,7 +27,7 @@ import retrofit2.Response
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-class ModelListFeatureShould {
+class CarModelListFeatureShould {
     @get:Rule
     val liveDataRule = InstantTaskExecutorRule()
 

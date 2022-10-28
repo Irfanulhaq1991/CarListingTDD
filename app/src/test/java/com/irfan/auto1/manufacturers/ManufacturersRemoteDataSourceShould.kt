@@ -13,7 +13,7 @@ import org.junit.Before
 import org.junit.Test
 import retrofit2.Response
 
-class ManufacturersRemoteDataSourceShould : RemoteDataSourceContractTests<ManufacturerDto>() {
+class ManufacturersRemoteDataSourceShould : RemoteDataSourceContractTests<CarManufacturerDto>() {
 
 
     @RelaxedMockK
@@ -34,7 +34,7 @@ class ManufacturersRemoteDataSourceShould : RemoteDataSourceContractTests<Manufa
     }
 
 
-    override fun withNoData(): RemoteDataSource<ManufacturerDto> {
+    override fun withNoData(): RemoteDataSource<CarManufacturerDto> {
         val api = object : ManufacturersRemoteAPI {
             override suspend fun getManufacturers(
                 nextPage: Int,
@@ -49,7 +49,7 @@ class ManufacturersRemoteDataSourceShould : RemoteDataSourceContractTests<Manufa
         return ManufacturersRemoteDataSource(api, pagingManager)
     }
 
-    override fun withData(): RemoteDataSource<ManufacturerDto> {
+    override fun withData(): RemoteDataSource<CarManufacturerDto> {
         val api = object : ManufacturersRemoteAPI {
             override suspend fun getManufacturers(
                 nextPage: Int,
@@ -64,7 +64,7 @@ class ManufacturersRemoteDataSourceShould : RemoteDataSourceContractTests<Manufa
         return ManufacturersRemoteDataSource(api, pagingManager)
     }
 
-    override fun withException(e: Exception): RemoteDataSource<ManufacturerDto> {
+    override fun withException(e: Exception): RemoteDataSource<CarManufacturerDto> {
         val api = object : ManufacturersRemoteAPI {
             override suspend fun getManufacturers(
                 nextPage: Int,

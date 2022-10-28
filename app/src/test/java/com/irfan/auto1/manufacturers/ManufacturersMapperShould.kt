@@ -3,7 +3,7 @@ package com.irfan.auto1.manufacturers
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
-import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
+import com.irfan.auto1.manufacturers.data.remote.CarManufacturerDto
 import com.irfan.auto1.common.TestDataProvider
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -21,7 +21,7 @@ class ManufacturersMapperShould : BaseTest(){
 
     @Test
     fun returnNoManufacturers()= runTest{
-        val data = emptyList<ManufacturerDto>()
+        val data = emptyList<CarManufacturerDto>()
         val actual = manufacturersMapper.map(data)
         assertThat(actual).isEmpty()
     }

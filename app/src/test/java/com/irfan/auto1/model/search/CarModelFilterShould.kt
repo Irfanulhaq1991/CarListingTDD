@@ -4,11 +4,11 @@ import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.common.TestDataProvider
 import com.irfan.auto1.model.data.ModelFilter
-import com.irfan.auto1.model.domain.model.Model
+import com.irfan.auto1.model.domain.model.CarModel
 import org.junit.Before
 import org.junit.Test
 
-class ModelFilterShould : BaseTest(){
+class CarModelFilterShould : BaseTest(){
     private lateinit var modelfilter: ModelFilter
 
     @Before
@@ -19,7 +19,7 @@ class ModelFilterShould : BaseTest(){
 
     @Test
     fun returnZero(){
-        assertThat(modelfilter.filter("")).isEqualTo(emptyList<Model>())
+        assertThat(modelfilter.filter("")).isEqualTo(emptyList<CarModel>())
     }
 
     @Test

@@ -1,12 +1,10 @@
 package com.irfan.auto1.model.domain.usecase
 
-import android.app.DownloadManager
-import android.graphics.ColorSpace
 import com.irfan.auto1.model.data.ModelsRepository
-import com.irfan.auto1.model.domain.model.Model
+import com.irfan.auto1.model.domain.model.CarModel
 
 class SearchModelsUseCase(private val repo: ModelsRepository) {
-    suspend operator fun invoke(query: String): Result<List<Model>> {
+    suspend operator fun invoke(query: String): Result<List<CarModel>> {
         return repo.search(query)
     }
 }

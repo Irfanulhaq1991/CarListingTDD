@@ -10,7 +10,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class ManufacturersViewModelShould : BaseTest() {
+class ManufacturersViewCarModelShould : BaseTest() {
 
     @MockK
     private lateinit var fetchManufactureUseCase: FetchManufacturersUseCase

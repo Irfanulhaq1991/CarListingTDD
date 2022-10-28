@@ -1,9 +1,9 @@
 package com.irfan.auto1.common
 
-import com.irfan.auto1.manufacturers.domain.model.Manufacturer
-import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
-import com.irfan.auto1.model.domain.model.Model
-import com.irfan.auto1.model.data.remote.ModelDto
+import com.irfan.auto1.manufacturers.domain.model.CarManufacturer
+import com.irfan.auto1.manufacturers.data.remote.CarManufacturerDto
+import com.irfan.auto1.model.domain.model.CarModel
+import com.irfan.auto1.model.data.remote.CarModelDto
 import com.irfan.auto1.year.domain.model.CarYear
 import com.irfan.auto1.year.data.remote.CarYearDto
 
@@ -45,44 +45,44 @@ object TestDataProvider {
     }
 
 
-    fun getManufacturersAsDto(): List<ManufacturerDto> {
+    fun getManufacturersAsDto(): List<CarManufacturerDto> {
         return listOf(
-            ManufacturerDto("60", "Audi"),
-            ManufacturerDto("160", "Chevrolet"),
-            ManufacturerDto("150", "Cadillac"),
-            ManufacturerDto("40", "Alfa Romeo"),
-            ManufacturerDto("95", "Barkas"),
-            ManufacturerDto("130", "BMW"),
-            ManufacturerDto("141", "Buick"),
-            ManufacturerDto("20", "Abarth"),
-            ManufacturerDto("42", "Alpina"),
-            ManufacturerDto("43", "Alpine"),
-            ManufacturerDto("145", "Brilliance"),
-            ManufacturerDto("57", "Aston Martin"),
-            ManufacturerDto("157", "Caterham"),
-            ManufacturerDto("125", "Borgward"),
-            ManufacturerDto("107", "Bentley")
+            CarManufacturerDto("60", "Audi"),
+            CarManufacturerDto("160", "Chevrolet"),
+            CarManufacturerDto("150", "Cadillac"),
+            CarManufacturerDto("40", "Alfa Romeo"),
+            CarManufacturerDto("95", "Barkas"),
+            CarManufacturerDto("130", "BMW"),
+            CarManufacturerDto("141", "Buick"),
+            CarManufacturerDto("20", "Abarth"),
+            CarManufacturerDto("42", "Alpina"),
+            CarManufacturerDto("43", "Alpine"),
+            CarManufacturerDto("145", "Brilliance"),
+            CarManufacturerDto("57", "Aston Martin"),
+            CarManufacturerDto("157", "Caterham"),
+            CarManufacturerDto("125", "Borgward"),
+            CarManufacturerDto("107", "Bentley")
         )
     }
 
-    fun getManufacturersAsDomainModels(): List<Manufacturer> {
+    fun getManufacturersAsDomainModels(): List<CarManufacturer> {
 
         return listOf(
-            Manufacturer(60, "Audi"),
-            Manufacturer(160, "Chevrolet"),
-            Manufacturer(150, "Cadillac"),
-            Manufacturer(40, "Alfa Romeo"),
-            Manufacturer(95, "Barkas"),
-            Manufacturer(130, "BMW"),
-            Manufacturer(141, "Buick"),
-            Manufacturer(20, "Abarth"),
-            Manufacturer(42, "Alpina"),
-            Manufacturer(43, "Alpine"),
-            Manufacturer(145, "Brilliance"),
-            Manufacturer(57, "Aston Martin"),
-            Manufacturer(157, "Caterham"),
-            Manufacturer(125, "Borgward"),
-            Manufacturer(107, "Bentley")
+            CarManufacturer(60, "Audi"),
+            CarManufacturer(160, "Chevrolet"),
+            CarManufacturer(150, "Cadillac"),
+            CarManufacturer(40, "Alfa Romeo"),
+            CarManufacturer(95, "Barkas"),
+            CarManufacturer(130, "BMW"),
+            CarManufacturer(141, "Buick"),
+            CarManufacturer(20, "Abarth"),
+            CarManufacturer(42, "Alpina"),
+            CarManufacturer(43, "Alpine"),
+            CarManufacturer(145, "Brilliance"),
+            CarManufacturer(57, "Aston Martin"),
+            CarManufacturer(157, "Caterham"),
+            CarManufacturer(125, "Borgward"),
+            CarManufacturer(107, "Bentley")
         )
     }
 
@@ -120,58 +120,58 @@ object TestDataProvider {
     }
 
 
-    fun getModelAsDomainModels(): List<Model> {
+    fun getModelAsDomainModels(): List<CarModel> {
 
         return listOf(
-            Model("3er", "3er"),
-            Model("4er", "4er"),
-            Model("5er", "5er"),
-            Model("6er", "6er"),
-            Model("7er", "7er"),
-            Model("8er", "8er"),
-            Model("i3", "i3"),
-            Model("i8", "i8"),
-            Model("Z1", "Z1"),
-            Model("X1", "X1"),
-            Model("Z3", "Z3"),
-            Model("X2", "X2"),
-            Model("Z4", "Z4"),
-            Model("X3", "X3"),
-            Model("X4", "X4"),
-            Model("X5", "X5"),
-            Model("1er", "1er"),
-            Model("X6", "X6"),
-            Model("Z8", "Z8"),
-            Model("2er", "2er"),
-            Model("X7", "X7")
+            CarModel("3er", "3er"),
+            CarModel("4er", "4er"),
+            CarModel("5er", "5er"),
+            CarModel("6er", "6er"),
+            CarModel("7er", "7er"),
+            CarModel("8er", "8er"),
+            CarModel("i3", "i3"),
+            CarModel("i8", "i8"),
+            CarModel("Z1", "Z1"),
+            CarModel("X1", "X1"),
+            CarModel("Z3", "Z3"),
+            CarModel("X2", "X2"),
+            CarModel("Z4", "Z4"),
+            CarModel("X3", "X3"),
+            CarModel("X4", "X4"),
+            CarModel("X5", "X5"),
+            CarModel("1er", "1er"),
+            CarModel("X6", "X6"),
+            CarModel("Z8", "Z8"),
+            CarModel("2er", "2er"),
+            CarModel("X7", "X7")
         )
 
 
     }
 
-    fun getModelAsDtos(): List<ModelDto> {
+    fun getModelAsDtos(): List<CarModelDto> {
 
         return listOf(
-            ModelDto("1er", "1er"),
-            ModelDto("2er", "2er"),
-            ModelDto("3er", "3er"),
-            ModelDto("4er", "4er"),
-            ModelDto("5er", "5er"),
-            ModelDto("6er", "6er"),
-            ModelDto("8er", "8er"),
-            ModelDto("i3", "i3"),
-            ModelDto("i8", "i8"),
-            ModelDto("X1", "X1"),
-            ModelDto("X2", "X2"),
-            ModelDto("X3", "X3"),
-            ModelDto("X4", "X4"),
-            ModelDto("X5", "X5"),
-            ModelDto("X6", "X6"),
-            ModelDto("X7", "X7"),
-            ModelDto("Z1", "Z1"),
-            ModelDto("Z2", "Z3"),
-            ModelDto("Z4", "Z4"),
-            ModelDto("Z8", "Z8")
+            CarModelDto("1er", "1er"),
+            CarModelDto("2er", "2er"),
+            CarModelDto("3er", "3er"),
+            CarModelDto("4er", "4er"),
+            CarModelDto("5er", "5er"),
+            CarModelDto("6er", "6er"),
+            CarModelDto("8er", "8er"),
+            CarModelDto("i3", "i3"),
+            CarModelDto("i8", "i8"),
+            CarModelDto("X1", "X1"),
+            CarModelDto("X2", "X2"),
+            CarModelDto("X3", "X3"),
+            CarModelDto("X4", "X4"),
+            CarModelDto("X5", "X5"),
+            CarModelDto("X6", "X6"),
+            CarModelDto("X7", "X7"),
+            CarModelDto("Z1", "Z1"),
+            CarModelDto("Z2", "Z3"),
+            CarModelDto("Z4", "Z4"),
+            CarModelDto("Z8", "Z8")
         )
     }
 

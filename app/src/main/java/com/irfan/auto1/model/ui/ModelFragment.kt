@@ -1,27 +1,16 @@
 package com.irfan.auto1.model.ui
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
-import com.irfan.auto1.R
 import com.irfan.auto1.common.*
 import com.irfan.auto1.databinding.FragmentModelBinding
-import com.irfan.auto1.databinding.RowLayoutBinding
-import com.irfan.auto1.model.domain.model.Model
+import com.irfan.auto1.model.domain.model.CarModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class ModelFragment : BaseFragment<Model>() {
+class ModelFragment : BaseFragment<CarModel>() {
 
 
     private val viewModel: ModelsViewModel by viewModel()
@@ -39,8 +28,8 @@ class ModelFragment : BaseFragment<Model>() {
     }
 
     override fun navigate(view: View) {
-        val model = view.tag as Model
-        val carInfo = args.carInfo.copy(model = model)
+        val model = view.tag as CarModel
+        val carInfo = args.carInfo.copy(carModel = model)
         val action =
             ModelFragmentDirections
                 .actionModelFragmentToCarYearFragment(carInfo)
@@ -62,6 +51,6 @@ class ModelFragment : BaseFragment<Model>() {
     }
 
     override fun getTitle(): String {
-        return "Manufacturer : ${args.carInfo.manufacturer.name}"
+        return "Manufacturer : ${args.carInfo.carManufacturer.name}"
     }
 }

@@ -4,7 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.common.BaseTest
 import com.irfan.auto1.common.TestDataProvider
 import com.irfan.auto1.manufacturers.data.ManufacturersRepo
-import com.irfan.auto1.manufacturers.data.remote.ManufacturerDto
+import com.irfan.auto1.manufacturers.data.remote.CarManufacturerDto
 import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.domain.mapper.ManufacturersMapper
 import io.mockk.coEvery
@@ -17,7 +17,7 @@ class ManufacturersRepoShould : BaseTest() {
 
 
     @RelaxedMockK
-    private lateinit var remoteDataSource: RemoteDataSource<ManufacturerDto>
+    private lateinit var remoteDataSource: RemoteDataSource<CarManufacturerDto>
     private lateinit var manufacturersRepo: ManufacturersRepo
 
     @RelaxedMockK

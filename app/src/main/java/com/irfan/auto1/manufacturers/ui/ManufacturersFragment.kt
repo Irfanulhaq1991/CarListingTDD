@@ -1,25 +1,17 @@
 package com.irfan.auto1.manufacturers.ui
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.irfan.auto1.R
 import com.irfan.auto1.common.*
 import com.irfan.auto1.databinding.FragmentManufacturersBinding
-import com.irfan.auto1.databinding.RowLayoutBinding
-import com.irfan.auto1.manufacturers.domain.model.Manufacturer
+import com.irfan.auto1.manufacturers.domain.model.CarManufacturer
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ManufacturersFragment : BaseFragment<Manufacturer>() {
+class ManufacturersFragment : BaseFragment<CarManufacturer>() {
 
 
     private val viewModel: ManufacturersViewModel by viewModel()
@@ -57,7 +49,7 @@ class ManufacturersFragment : BaseFragment<Manufacturer>() {
     }
 
 
-    override fun handleProgressBar(state: BaseUIState<Manufacturer>) {
+    override fun handleProgressBar(state: BaseUIState<CarManufacturer>) {
 
         if (state.data.isNotEmpty()) {
             binding.root.findViewById<View>(R.id.bottomProgressBar).visibility =
@@ -75,9 +67,9 @@ class ManufacturersFragment : BaseFragment<Manufacturer>() {
 
 
     override fun navigate(view: View) {
-        val manufacturer = view.tag as Manufacturer
+        val manufacturer = view.tag as CarManufacturer
         val action =
-            ManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(CarInfo(manufacturer = manufacturer))
+            ManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(CarInfo(carManufacturer = manufacturer))
         findNavController().navigate(action)
     }
 

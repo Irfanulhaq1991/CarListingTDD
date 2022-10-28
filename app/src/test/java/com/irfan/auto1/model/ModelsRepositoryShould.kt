@@ -6,9 +6,9 @@ import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.manufacturers.data.remote.RemoteDataSource
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
 import com.irfan.auto1.model.data.ModelFilter
-import com.irfan.auto1.model.data.remote.ModelDto
+import com.irfan.auto1.model.data.remote.CarModelDto
 import com.irfan.auto1.model.data.ModelsRepository
-import com.irfan.auto1.model.domain.model.Model
+import com.irfan.auto1.model.domain.model.CarModel
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
@@ -25,10 +25,10 @@ class ModelsRepositoryShould : BaseTest() {
 
 
     @RelaxedMockK
-    private lateinit var modelsRemoteDataSource: RemoteDataSource<ModelDto>
+    private lateinit var modelsRemoteDataSource: RemoteDataSource<CarModelDto>
 
     @RelaxedMockK
-    private lateinit var mapper: IMapper<List<ModelDto>, List<Model>>
+    private lateinit var mapper: IMapper<List<CarModelDto>, List<CarModel>>
     private lateinit var repo: ModelsRepository
 
     @Before
@@ -59,7 +59,7 @@ class ModelsRepositoryShould : BaseTest() {
         coEvery { mapper.map(any()) } answers { emptyList() }
         coEvery { modelsRemoteDataSource.doFetching(any()) } answers { Result.success(emptyList()) }
         val actual = repo.fetchModels(CarInfo())
-        assertThat(actual).isEqualTo(Result.success(emptyList<Model>()))
+        assertThat(actual).isEqualTo(Result.success(emptyList<CarModel>()))
     }
 
     @Test

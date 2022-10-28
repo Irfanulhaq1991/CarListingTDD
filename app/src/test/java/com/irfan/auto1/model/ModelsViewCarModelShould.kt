@@ -12,7 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
-class ModelsViewModelShould : BaseTest() {
+class ModelsViewCarModelShould : BaseTest() {
 
     @RelaxedMockK
     private lateinit var fetchModelsUseCase: FetchModelsUseCase

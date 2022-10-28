@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="@{`Manufacturere is ` + carInfo.manufacturer.name}"
+            android:text="@{`Manufacturere is ` + carInfo.carManufacturer.name}"
             android:textColor="#00000f"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:gravity="center"
-            android:text="@{`Model is ` + carInfo.model.name}"
+            android:text="@{`Model is ` + carInfo.carModel.name}"
             android:textColor="#00000f"
             android:textSize="18sp"
             android:textStyle="bold" />

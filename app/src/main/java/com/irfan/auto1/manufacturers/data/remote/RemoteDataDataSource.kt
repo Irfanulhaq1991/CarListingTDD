@@ -8,7 +8,7 @@ import retrofit2.Response
 class ManufacturersRemoteDataSource(
     private val remoteAPiImp: ManufacturersRemoteAPI,
     private val pagingManager: PagingManager
-) : RemoteDataSource<ManufacturerDto>() {
+) : RemoteDataSource<CarManufacturerDto>() {
 
     override suspend fun onFetching(carInfo: CarInfo?): Response<ResponseBody> {
         val nextPage = pagingManager.nextPage()
@@ -16,11 +16,11 @@ class ManufacturersRemoteDataSource(
         return remoteAPiImp.getManufacturers(nextPage, pageSize)
     }
 
-    override fun getDto(key: String, value: String): ManufacturerDto {
-        return ManufacturerDto(key,value)
+    override fun getDto(key: String, value: String): CarManufacturerDto {
+        return CarManufacturerDto(key,value)
     }
 
-    override fun deserializeJson(jsonString: String): List<ManufacturerDto> {
+    override fun deserializeJson(jsonString: String): List<CarManufacturerDto> {
         val jsonObject = JSONObject(jsonString)
         val pageCount = jsonObject.getInt("totalPageCount")
         pagingManager.setTotalPages(pageCount)
