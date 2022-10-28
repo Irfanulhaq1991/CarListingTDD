@@ -1,6 +1,7 @@
 package com.irfan.auto1.model
 
 import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import com.irfan.auto1.model.ui.ModelsViewModel
@@ -31,7 +32,7 @@ class ModelsViewModelShould : BaseTest() {
     @Test
     fun callFetchModelsUseCase() = runTest {
         coEvery { fetchModelsUseCase(any()) } answers { Result.success(emptyList()) }
-        viewModel.fetchModels(any())
+        viewModel.doFetching(CarInfo())
         coVerify { fetchModelsUseCase.invoke(any()) }
     }
 

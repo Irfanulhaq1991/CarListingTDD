@@ -8,6 +8,7 @@ import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.CoroutineTestRule
 import com.irfan.auto1.TestDataProvider
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.model.data.ModelFilter
 import com.irfan.auto1.model.data.remote.ModelRemoteApi
 import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
@@ -109,7 +110,7 @@ class ModelListSpyUiController : LifecycleOwner {
 
 
     fun fetchModel() {
-        viewModel.fetchModels(0)
+        viewModel.doFetching(CarInfo())
         countDownLatch.await(500, TimeUnit.MILLISECONDS)
 
     }

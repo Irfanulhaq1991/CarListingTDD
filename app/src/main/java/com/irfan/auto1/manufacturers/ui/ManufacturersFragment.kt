@@ -13,10 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.irfan.auto1.R
-import com.irfan.auto1.common.BaseFragment
-import com.irfan.auto1.common.BaseUIState
-import com.irfan.auto1.common.ItemLayoutManger
-import com.irfan.auto1.common.RcAdaptor
+import com.irfan.auto1.common.*
 import com.irfan.auto1.databinding.FragmentManufacturersBinding
 import com.irfan.auto1.databinding.RowLayoutBinding
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
@@ -80,7 +77,7 @@ class ManufacturersFragment : BaseFragment<Manufacturer>() {
     override fun navigate(view: View) {
         val manufacturer = view.tag as Manufacturer
         val action =
-            ManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(manufacturer)
+            ManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(CarInfo(manufacturer = manufacturer))
         findNavController().navigate(action)
     }
 
@@ -89,7 +86,7 @@ class ManufacturersFragment : BaseFragment<Manufacturer>() {
     }
 
     override fun statRendered() {
-        viewModel.stateRendered()
+        viewModel.renderingFinished()
     }
 
     override fun getFragmentBinding(): ViewDataBinding {

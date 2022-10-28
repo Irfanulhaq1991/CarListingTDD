@@ -40,20 +40,20 @@ class ModelFragment : BaseFragment<Model>() {
 
     override fun navigate(view: View) {
         val model = view.tag as Model
-        val manufacturer = args.manufacturer
+        val carInfo = args.carInfo.copy(model = model)
         val action =
             ModelFragmentDirections
-                .actionModelFragmentToCarYearFragment(CarInfo(manufacturer, model))
+                .actionModelFragmentToCarYearFragment(carInfo)
         findNavController().navigate(action)
     }
 
     override fun doFetching() {
-        viewModel.fetchModels(args.manufacturer.id)
+        viewModel.doFetching(args.carInfo)
     }
 
 
     override fun statRendered() {
-        viewModel.stateRendered()
+        viewModel.renderingFinished()
     }
 
     override fun getFragmentBinding(): ViewDataBinding {
@@ -62,6 +62,6 @@ class ModelFragment : BaseFragment<Model>() {
     }
 
     override fun getTitle(): String {
-       return "Manufacturer : ${args.manufacturer.name}"
+        return "Manufacturer : ${args.carInfo.manufacturer.name}"
     }
 }

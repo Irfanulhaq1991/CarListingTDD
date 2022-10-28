@@ -4,9 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.irfan.auto1.common.BaseViewModel
+import com.irfan.auto1.common.CarInfo
+import com.irfan.auto1.manufacturers.ui.ManufacturerUiState
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import com.irfan.auto1.model.domain.model.Model
 import com.irfan.auto1.model.domain.usecase.SearchModelsUseCase
+import com.irfan.auto1.year.ui.CarYearsUiState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -14,65 +18,76 @@ class ModelsViewModel(
     private val fetchModelsUseCase: FetchModelsUseCase,
     private val searchModelsUseCase: SearchModelsUseCase
 
-) : ViewModel() {
+) : BaseViewModel<Model, ModelUiState, CarInfo>() {
 
-    private val _uiStateUpdater = MutableLiveData<ModelUiState>()
-    val uiStateUpdater: LiveData<ModelUiState> = _uiStateUpdater
+    private var isSearch = false
     private var job: Job = Job()
 
-    fun fetchModels(manufacturerId: Int) {
-        proceedFetching(manufacturerId)
 
-    }
 
     fun search(query: String) {
+        job.cancel()
         proceedSearching(query)
     }
 
     private fun proceedSearching(query: String) {
-        job.cancel()
+
         job = viewModelScope.launch {
             searchModelsUseCase(query).run {
-                reduceState(this,(uiStateUpdater.value?:ModelUiState()).copy(update = true))
+                isSearch = true
+                reduceState(this)
             }
         }
     }
 
-    private fun proceedFetching(manufacturerId: Int) {
+    override fun onFetch(param: CarInfo?) {
         viewModelScope.launch {
-            _uiStateUpdater.value = (uiStateUpdater.value ?: ModelUiState()).copy(
-                loading = true,
-                isError = false
-            )
-            fetchModelsUseCase(manufacturerId).run {
-                reduceState(this, uiStateUpdater.value!!)
+            fetchModelsUseCase(param!!).run {
+                reduceState(this)
             }
         }
     }
 
-    private fun reduceState(result: Result<List<Model>>, modelUiState: ModelUiState) {
-        result.fold({
-            _uiStateUpdater.value = modelUiState
-                .copy(
-                    data = it,
-                    loading = false,
-                    isError = false,
-                )
 
-        }, {
-            _uiStateUpdater.value = uiStateUpdater.value!!
-                .copy(
-                    errorMessage = it.message!!,
-                    isError = true,
-                    loading = false
-                )
 
-        })
+    override fun onSuccess(result: List<Model>, state: ModelUiState?) {
+        val newState = (state ?: ModelUiState())
+            .copy(
+                data = result,
+                loading = false,
+                isError = false,
+                update = isSearch
+            )
+        update(newState)
     }
 
 
-    fun stateRendered() {
-        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(errorMessage = null, update = false)
+    override fun onError(errorMessage: String, state: ModelUiState?) {
+        val newState = (state ?: ModelUiState())
+            .copy(
+                errorMessage = errorMessage,
+                isError = true,
+                loading = false
+            )
+        update(newState)
     }
 
+    override fun onLoading(state: ModelUiState?) {
+        val newState = (state ?: ModelUiState()).copy(
+            loading = true,
+            isError = false
+        )
+        update(newState)
+    }
+
+    override fun onRendered(state: ModelUiState) {
+        isSearch = false
+        val newState = state
+            .copy(errorMessage = null, update = false)
+        update(newState)
+    }
+
+    private fun update(newState: ModelUiState) {
+        _uiStateUpdater.value = newState
+    }
 }

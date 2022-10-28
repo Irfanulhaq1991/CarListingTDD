@@ -4,53 +4,63 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.irfan.auto1.common.BaseViewModel
 import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.year.domain.usecase.FetchCarYearsUseCase
 import com.irfan.auto1.year.domain.model.CarYear
 import kotlinx.coroutines.launch
 
-class CarYearsViewModel(private val fetchCarYearsUseCase: FetchCarYearsUseCase) : ViewModel() {
-    private val _uiStateUpdater = MutableLiveData<CarYearsUiState>()
-    val uiStateUpdater: LiveData<CarYearsUiState> = _uiStateUpdater
+class CarYearsViewModel(private val fetchCarYearsUseCase: FetchCarYearsUseCase) :
+    BaseViewModel<CarYear, CarYearsUiState, CarInfo>() {
 
     fun fetchCarYears(carInfo: CarInfo) {
-        proceedFetching(carInfo)
+        doFetching(carInfo)
     }
 
-    private fun proceedFetching(carInfo: CarInfo) {
+    override fun onFetch(param: CarInfo?) {
         viewModelScope.launch {
-            _uiStateUpdater.value = (uiStateUpdater.value ?: CarYearsUiState()).copy(
-                loading = true,
-                isError = false
-            )
-            fetchCarYearsUseCase(carInfo).run {
-                reduceState(this, uiStateUpdater.value!!)
+            fetchCarYearsUseCase(param!!).run {
+                reduceState(this)
             }
         }
     }
 
-    private fun reduceState(result: Result<List<CarYear>>, modelUiState: CarYearsUiState) {
-        result.fold({
-            _uiStateUpdater.value = modelUiState
-                .copy(
-                    data = it,
-                    loading = false,
-                    isError = false,
-                )
+    override fun onSuccess(result: List<CarYear>, state: CarYearsUiState?) {
+        val newState = (state ?: CarYearsUiState())
+            .copy(
+                data = result,
+                loading = false,
+                isError = false,
+            )
+        update(newState)
+    }
 
-        }, {
-            _uiStateUpdater.value = uiStateUpdater.value!!
-                .copy(
-                    errorMessage = it.message!!,
-                    isError = true,
-                    loading = false
-                )
+    override fun onError(errorMessage: String, state: CarYearsUiState?) {
+        val newState = (state ?: CarYearsUiState())
+            .copy(
+                errorMessage = errorMessage,
+                isError = true,
+                loading = false
+            )
+        update(newState)
+    }
 
-        })
+    override fun onLoading(state: CarYearsUiState?) {
+        val newState = (state ?: CarYearsUiState()).copy(
+            loading = true,
+            isError = false
+        )
+        update(newState)
+    }
+
+    override fun onRendered(state: CarYearsUiState) {
+        val newState = state
+            .copy(errorMessage = null, update = false)
+        update(newState)
     }
 
 
-    fun stateRendered() {
-        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(errorMessage = null, update = false)
+    private fun update(newState: CarYearsUiState) {
+        _uiStateUpdater.value = newState
     }
 }

@@ -2,6 +2,7 @@ package com.irfan.auto1.model
 
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
 import com.irfan.auto1.model.data.ModelFilter
 import com.irfan.auto1.model.data.remote.ModelDto
@@ -40,7 +41,7 @@ class ModelsRepositoryShould : BaseTest() {
     fun callMapper() = runTest {
         coEvery { mapper.map(any()) } answers { emptyList() }
         coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
-        repo.fetchModels(0)
+        repo.fetchModels(CarInfo())
         coVerify { mapper.map(any()) }
     }
 
@@ -49,15 +50,15 @@ class ModelsRepositoryShould : BaseTest() {
         coEvery { mapper.map(any()) } answers { emptyList() }
         coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
 
-        repo.fetchModels(0)
-        coVerify { modelsRemoteDataSource.fetchModels(0) }
+        repo.fetchModels(CarInfo())
+        coVerify { modelsRemoteDataSource.fetchModels(CarInfo()) }
     }
 
     @Test
     fun returnDomainModel() = runTest {
         coEvery { mapper.map(any()) } answers { emptyList() }
         coEvery { modelsRemoteDataSource.fetchModels(any()) } answers { Result.success(emptyList()) }
-        val actual = repo.fetchModels(0)
+        val actual = repo.fetchModels(CarInfo())
         assertThat(actual).isEqualTo(Result.success(emptyList<Model>()))
     }
 
@@ -71,7 +72,7 @@ class ModelsRepositoryShould : BaseTest() {
                 )
             )
         }
-        val actual = isFailureWithMessage(repo.fetchModels(0), errorMessage)
+        val actual = isFailureWithMessage(repo.fetchModels(CarInfo()), errorMessage)
         assertThat(actual).isTrue()
     }
 

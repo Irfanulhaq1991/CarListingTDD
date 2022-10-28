@@ -1,13 +1,14 @@
 package com.irfan.auto1.model.data.remote
 
+import com.irfan.auto1.common.CarInfo
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
 class ModelsRemoteDataSource(private val remoteApi: ModelRemoteApi) : IModelsRemoteDataSource {
-    override suspend fun fetchModels(manufacturerId:Int): Result<List<ModelDto>> {
+    override suspend fun fetchModels(carInfo: CarInfo): Result<List<ModelDto>> {
         return try {
-            val response = remoteApi.fetchModels(manufacturerId)
+            val response = remoteApi.fetchModels(carInfo.manufacturer.id)
             if (response.isSuccessful) {
                 val modelDtoDTOs = deserializeJsonBody(response.body()!!.string())
                 if (modelDtoDTOs.isEmpty())

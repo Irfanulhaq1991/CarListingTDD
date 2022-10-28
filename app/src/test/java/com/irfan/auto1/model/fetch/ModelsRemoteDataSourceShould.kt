@@ -3,6 +3,7 @@ package com.irfan.auto1.model.fetch
 import com.google.common.truth.Truth.assertThat
 import com.irfan.auto1.BaseTest
 import com.irfan.auto1.TestDataProvider
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.model.data.remote.IModelsRemoteDataSource
 import com.irfan.auto1.model.data.remote.ModelRemoteApi
 import com.irfan.auto1.model.data.remote.ModelsRemoteDataSource
@@ -20,7 +21,7 @@ class ModelsRemoteDataSourceShould : BaseTest() {
     fun returnErrorOnZero() = runTest{
         val error = "No Model Found"
         val modelsRemoteDataSource = withData(TestDataProvider.getResponseJson("{}"))
-        val actual = isFailureWithMessage(modelsRemoteDataSource.fetchModels(0), error)
+        val actual = isFailureWithMessage(modelsRemoteDataSource.fetchModels(CarInfo()), error)
         assertThat(actual).isTrue()
     }
 
@@ -29,7 +30,7 @@ class ModelsRemoteDataSourceShould : BaseTest() {
     fun returnMany() = runTest{
         val modelsRemoteDataSource = withData(TestDataProvider.getModelResponseJson())
 
-        val actual = modelsRemoteDataSource.fetchModels(0).getOrThrow().size
+        val actual = modelsRemoteDataSource.fetchModels(CarInfo()).getOrThrow().size
         assertThat(actual).isGreaterThan(1)
     }
 
@@ -37,7 +38,7 @@ class ModelsRemoteDataSourceShould : BaseTest() {
     fun returnNoInternetError()= runTest {
         val modelsRemoteDataSource = withError(IOException())
         val error = "Please Check your Internet Connection"
-        val actual = isFailureWithMessage(modelsRemoteDataSource.fetchModels(0), error)
+        val actual = isFailureWithMessage(modelsRemoteDataSource.fetchModels(CarInfo()), error)
         assertThat(actual).isTrue()
     }
 

@@ -4,65 +4,83 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.irfan.auto1.common.BaseViewModel
 import com.irfan.auto1.manufacturers.FetchManufacturersUseCase
 import com.irfan.auto1.manufacturers.domain.model.Manufacturer
+import com.irfan.auto1.year.ui.CarYearsUiState
 import kotlinx.coroutines.launch
 
 class ManufacturersViewModel(private val fetchManufacturersUseCase: FetchManufacturersUseCase) :
-    ViewModel() {
+    BaseViewModel<Manufacturer, ManufacturerUiState, Any>() {
     private var shouldRestoreOdlState = false
-    private val _uiStateUpdater = MutableLiveData<ManufacturerUiState>()
-    val uiStateUpdater: LiveData<ManufacturerUiState> = _uiStateUpdater
+
 
     fun fetchManufacturers() {
         if (shouldRestoreOdlState) {
             shouldRestoreOdlState = false
-            _uiStateUpdater.value = _uiStateUpdater.value!!.copy()
+            restore()
         } else
-            proceed()
-
+            doFetching()
     }
 
-    private fun proceed() {
+    override fun onFetch(param: Any?) {
         viewModelScope.launch {
-            _uiStateUpdater.value = (uiStateUpdater.value ?: ManufacturerUiState()).copy(
-                loading = true,
-                isError = false
-            )
             fetchManufacturersUseCase().run {
                 reduceState(this)
             }
         }
     }
 
-    private fun reduceState(result: Result<List<Manufacturer>>) {
-        result.fold({
-            _uiStateUpdater.value = uiStateUpdater.value!!
-                .copy(
-                    data = it,
-                    loading = false,
-                    isError = false
-                )
-
-        }, {
-            _uiStateUpdater.value = uiStateUpdater.value!!
-                .copy(
-                    errorMessage = it.message!!,
-                    isError = true,
-                    loading = false
-                )
-
-        })
+    override fun onSuccess(result: List<Manufacturer>, state: ManufacturerUiState?) {
+        val newState = (state ?: ManufacturerUiState())
+            .copy(
+                data = result,
+                loading = false,
+                isError = false,
+            )
+        update(newState)
     }
 
+    override fun onError(errorMessage: String, state: ManufacturerUiState?) {
+        val newState = (state ?: ManufacturerUiState())
+            .copy(
+                errorMessage = errorMessage,
+                isError = true,
+                loading = false
+            )
+        update(newState)
+    }
 
-    fun stateRendered() {
-        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(errorMessage = null)
+    override fun onLoading(state: ManufacturerUiState?) {
+        val newState = (state ?: ManufacturerUiState()).copy(
+            loading = true,
+            isError = false
+        )
+        update(newState)
+    }
+
+    override fun onRendered(state: ManufacturerUiState) {
+        val newState = state
+            .copy(errorMessage = null, update = false)
+        update(newState)
     }
 
     fun onDestroy(manufacturers: List<Manufacturer>) {
         shouldRestoreOdlState = true
-        _uiStateUpdater.value = _uiStateUpdater.value!!.copy(data = manufacturers)
+        val newState = _uiStateUpdater.value!!.copy(data = manufacturers)
+        update(newState)
     }
+
+    private fun update(newState: ManufacturerUiState) {
+        _uiStateUpdater.value = newState
+    }
+
+    private fun restore() {
+        shouldRestoreOdlState = false
+        val newState = _uiStateUpdater.value!!.copy()
+        update(newState)
+    }
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.irfan.auto1.model.fetch
 
 import com.irfan.auto1.BaseTest
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.model.data.ModelsRepository
 import com.irfan.auto1.model.domain.usecase.FetchModelsUseCase
 import io.mockk.coVerify
@@ -23,7 +24,7 @@ class FetchModelsUseCaseShould : BaseTest() {
 
     @Test
     fun callRepository() = runTest{
-        useCase(0)
+        useCase(CarInfo())
         coVerify { repo.fetchModels(any()) }
     }
 }

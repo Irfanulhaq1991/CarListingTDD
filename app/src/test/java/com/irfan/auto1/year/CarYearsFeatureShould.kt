@@ -58,7 +58,7 @@ class CarYearsFeatureShould {
     fun fetchCarYearsCarYearsList() = runTest {
         val actual = listOf(
             CarYearsUiState(loading = true),
-            CarYearsUiState(carYears = TestDataProvider.getYearsAsDomainModels())
+            CarYearsUiState(data = TestDataProvider.getYearsAsDomainModels())
         )
         uiController.fetchCarYears()
         val result = uiController.uiStates

@@ -50,7 +50,7 @@ class CarYearFragment : BaseFragment<CarYear>() {
     }
 
     override fun statRendered() {
-        viewModel.stateRendered()
+        viewModel.renderingFinished()
     }
 
     override fun getFragmentBinding(): ViewDataBinding {

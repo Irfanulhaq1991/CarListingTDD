@@ -1,5 +1,6 @@
 package com.irfan.auto1.model.data
 
+import com.irfan.auto1.common.CarInfo
 import com.irfan.auto1.manufacturers.domain.mapper.IMapper
 import com.irfan.auto1.model.data.remote.IModelsRemoteDataSource
 import com.irfan.auto1.model.data.remote.ModelDto
@@ -14,10 +15,10 @@ class ModelsRepository(
     private val modelsRemoteDataSource: IModelsRemoteDataSource,
     private val modelFilter: BaseModelFilter
 ) {
-    suspend fun fetchModels(manufacturerId: Int): Result<List<Model>> =
+    suspend fun fetchModels(carInfo: CarInfo): Result<List<Model>> =
         withContext(Dispatchers.IO) {
             modelsRemoteDataSource
-                .fetchModels(manufacturerId)
+                .fetchModels(carInfo)
                 .fold(
                     {
                         Result.success(
