@@ -14,26 +14,37 @@ class CarModelsViewModel(
     private val searchModelsUseCase: SearchModelsUseCase
 
 ) : BaseViewModel<CarModel, CarModelUiState, CarInfo>() {
-
+    private var shouldRestoreOdlState = false
+    private var shouldEnableSearching = true
     private var isSearch = false
     private var job: Job = Job()
 
 
-
     fun search(query: String) {
         job.cancel()
-        proceedSearching(query)
+        if (shouldEnableSearching)
+            proceedSearching(query)
+        shouldEnableSearching = true
+
     }
 
-    private fun proceedSearching(query: String) {
 
+    fun fetchCarModels(carInfo: CarInfo) {
+        if (!shouldRestoreOdlState)
+            doFetching(carInfo)
+        shouldRestoreOdlState = false
+
+    }
+
+
+    private fun proceedSearching(query: String) {
         job = viewModelScope.launch {
             searchModelsUseCase(query).run {
-                isSearch = true
                 reduceState(this)
             }
         }
     }
+
 
     override fun onFetch(param: CarInfo?) {
         viewModelScope.launch {
@@ -44,14 +55,12 @@ class CarModelsViewModel(
     }
 
 
-
     override fun onSuccess(result: List<CarModel>, stateCar: CarModelUiState?) {
         val newState = (stateCar ?: CarModelUiState())
             .copy(
                 data = result,
                 loading = false,
                 isError = false,
-                update = isSearch
             )
         update(newState)
     }
@@ -85,4 +94,10 @@ class CarModelsViewModel(
     private fun update(newStateCar: CarModelUiState) {
         _uiStateUpdater.value = newStateCar
     }
+
+    override fun onDestroy() {
+        shouldRestoreOdlState = true
+        shouldEnableSearching = false
+    }
+
 }

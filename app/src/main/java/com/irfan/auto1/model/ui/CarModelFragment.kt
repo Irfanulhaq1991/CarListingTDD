@@ -2,6 +2,7 @@ package com.irfan.auto1.model.ui
 
 import android.view.View
 import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.doAfterTextChanged
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.fragment.findNavController
@@ -16,23 +17,27 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class CarModelFragment : BaseFragment<CarModel>() {
 
 
-    private val carViewModel: CarModelsViewModel by viewModel()
+    private val carModelViewModel: CarModelsViewModel by viewModel()
 
 
     private val args: CarModelFragmentArgs by navArgs()
 
+    override fun onDestroy() {
+        super.onDestroy()
+        carModelViewModel.onDestroy()
+    }
 
     override fun init() {
         super.init()
 
-        carViewModel.uiStateUpdater
+        carModelViewModel.uiStateUpdater
             .apply { adaptor }
             .observe(viewLifecycleOwner, this)
 
         binding.root.findViewById<AppCompatEditText>(R.id.search_view)
-            .doOnTextChanged { query, _, _, _ ->
-                carViewModel.search(query.toString())
-            }
+            .doAfterTextChanged {
+                    carModelViewModel.search(it.toString())
+                }
     }
 
     override fun navigate(view: View) {
@@ -45,12 +50,12 @@ class CarModelFragment : BaseFragment<CarModel>() {
     }
 
     override fun doFetching() {
-        carViewModel.doFetching(args.carInfo)
+        carModelViewModel.fetchCarModels(args.carInfo)
     }
 
 
     override fun statRendered() {
-        carViewModel.renderingFinished()
+        carModelViewModel.renderingFinished()
     }
 
     override fun getFragmentBinding(): ViewDataBinding {

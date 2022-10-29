@@ -75,7 +75,7 @@ class CarModelListFeatureShould {
     @Test
     fun search() {
         val expected = listOf(
-            CarModelUiState(update = true, data = TestDataProvider.getModelAsDomainModels()
+            CarModelUiState(data = TestDataProvider.getModelAsDomainModels()
                     .filter { it.name.contains("e") }))
 
         modelFilter.setSearchData(TestDataProvider.getModelAsDomainModels())

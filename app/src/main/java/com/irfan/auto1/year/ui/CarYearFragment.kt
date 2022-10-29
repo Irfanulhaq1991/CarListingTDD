@@ -24,10 +24,12 @@ class CarYearFragment : BaseFragment<CarYear>() {
             .uiStateUpdater
             .apply { adaptor }
             .observe(viewLifecycleOwner, this)
-
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
+    }
     override fun navigate(view: View) {
         val carYear = view.tag as CarYear
         val carInfo = args.carInfo.copy(year = carYear)

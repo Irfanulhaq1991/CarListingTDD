@@ -1,8 +1,5 @@
 package com.irfan.auto1.year.ui
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.irfan.auto1.common.BaseViewModel
 import com.irfan.auto1.common.CarInfo
@@ -12,9 +9,12 @@ import kotlinx.coroutines.launch
 
 class CarYearsViewModel(private val fetchCarYearsUseCase: FetchCarYearsUseCase) :
     BaseViewModel<CarYear, CarYearsUiState, CarInfo>() {
+    private var shouldRestoreOdlState = false
 
     fun fetchCarYears(carInfo: CarInfo) {
-        doFetching(carInfo)
+        if (!shouldRestoreOdlState)
+            doFetching(carInfo)
+        shouldRestoreOdlState = false
     }
 
     override fun onFetch(param: CarInfo?) {
@@ -59,8 +59,11 @@ class CarYearsViewModel(private val fetchCarYearsUseCase: FetchCarYearsUseCase) 
         update(newState)
     }
 
-
     private fun update(newState: CarYearsUiState) {
         _uiStateUpdater.value = newState
+    }
+
+    override fun onDestroy() {
+        shouldRestoreOdlState = true
     }
 }

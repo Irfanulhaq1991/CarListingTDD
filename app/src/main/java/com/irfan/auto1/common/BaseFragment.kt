@@ -25,7 +25,7 @@ abstract class BaseFragment<T>() :
     protected abstract fun doFetching()
     protected abstract fun statRendered()
     protected abstract fun getFragmentBinding(): ViewDataBinding
-    protected abstract fun getTitle(): String
+    abstract fun getTitle(): String
 
 
 

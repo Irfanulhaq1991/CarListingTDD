@@ -10,13 +10,13 @@ class CarManufacturersViewModel(private val fetchManufacturersUseCase: FetchManu
     BaseViewModel<CarManufacturer, CarManufacturerUiState, Any>() {
     private var shouldRestoreOdlState = false
 
+    //Backing Property
+    private val _data = mutableListOf<CarManufacturer>()
 
     fun fetchManufacturers() {
-        if (shouldRestoreOdlState) {
-            shouldRestoreOdlState = false
-            restore()
-        } else
+        if (!shouldRestoreOdlState)
             doFetching()
+        shouldRestoreOdlState = false
     }
 
     override fun onFetch(param: Any?) {
@@ -30,7 +30,7 @@ class CarManufacturersViewModel(private val fetchManufacturersUseCase: FetchManu
     override fun onSuccess(result: List<CarManufacturer>, stateCar: CarManufacturerUiState?) {
         val newState = (stateCar ?: CarManufacturerUiState())
             .copy(
-                data = result,
+                data = _data.apply { addAll(result) },
                 loading = false,
                 isError = false,
             )
@@ -47,23 +47,18 @@ class CarManufacturersViewModel(private val fetchManufacturersUseCase: FetchManu
         update(newState)
     }
 
-    override fun onLoading(stateCar: CarManufacturerUiState?) {
-        val newState = (stateCar ?: CarManufacturerUiState()).copy(
+    override fun onLoading(state: CarManufacturerUiState?) {
+        val newState = (state ?: CarManufacturerUiState()).copy(
             loading = true,
             isError = false
         )
         update(newState)
     }
 
-    override fun onRendered(stateCar: CarManufacturerUiState) {
-        val newState = stateCar
-            .copy(errorMessage = null, update = false)
-        update(newState)
-    }
+    override fun onRendered(state: CarManufacturerUiState) {
 
-    fun onDestroy(carManufacturers: List<CarManufacturer>) {
-        shouldRestoreOdlState = true
-        val newState = _uiStateUpdater.value!!.copy(data = carManufacturers)
+        val newState = state
+            .copy(errorMessage = null, update = false)
         update(newState)
     }
 
@@ -71,12 +66,9 @@ class CarManufacturersViewModel(private val fetchManufacturersUseCase: FetchManu
         _uiStateUpdater.value = newStateCar
     }
 
-    private fun restore() {
-        shouldRestoreOdlState = false
-        val newState = _uiStateUpdater.value!!.copy()
-        update(newState)
+    override fun onDestroy() {
+        shouldRestoreOdlState = true
     }
-
 
 
 }

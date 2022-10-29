@@ -33,9 +33,8 @@ class CarManufacturersFragment : BaseFragment<CarManufacturer>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModelCar.onDestroy(adaptor.getItems())
+        viewModelCar.onDestroy()
     }
-
 
 
     override fun init() {
@@ -61,15 +60,17 @@ class CarManufacturersFragment : BaseFragment<CarManufacturer>() {
             binding.root.findViewById<View>(R.id.retry).visibility =
                 if (state.isError) View.VISIBLE else View.GONE
         }
-
-
     }
 
 
     override fun navigate(view: View) {
         val manufacturer = view.tag as CarManufacturer
         val action =
-            CarManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(CarInfo(carManufacturer = manufacturer))
+            CarManufacturersFragmentDirections.actionManufacturersFragmentToModelFragment(
+                CarInfo(
+                    carManufacturer = manufacturer
+                )
+            )
         findNavController().navigate(action)
     }
 

@@ -15,7 +15,7 @@ abstract class BaseViewModel<T, UI_STATE, PARAM_TYPE> : ViewModel() {
     protected abstract fun onLoading(state: UI_STATE?)
     protected abstract fun onRendered(state: UI_STATE)
     protected abstract fun onFetch(param: PARAM_TYPE? = null)
-   // protected abstract fun init():UI_STATE
+    abstract fun onDestroy()
 
     fun doFetching(param: PARAM_TYPE? = null) {
         onLoading(uiStateUpdater.value)

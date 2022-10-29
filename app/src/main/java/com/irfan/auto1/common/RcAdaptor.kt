@@ -25,8 +25,7 @@ class RcAdaptor<T>(private val itemLayoutManger: ItemLayoutManger<T>) :
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(itemList: List<T>, update: Boolean = false) {
-        if (update) this.itemList.clear()
-        if (itemList.isNotEmpty() && this.itemList.containsAll(itemList)) return
+        this.itemList.clear()
         this.itemList.addAll(itemList)
         notifyDataSetChanged()
     }
